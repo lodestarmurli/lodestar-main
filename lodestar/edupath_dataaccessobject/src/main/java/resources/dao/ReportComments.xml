@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReportComments">
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.reportcomments.ReportCommentsDTO" id="parameterMap"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.reportcomments.ReportCommentsDTO" id="resultMap"/>
+	
+	<!-- Start SASEDEVE edited by Mrutyunjaya on date 06-06-2017 -->
+	
+	<insert id="insertReportComments" parameterMap="parameterMap">
+		INSERT INTO ReportComments (studentId, facilitatorId, comments, challenges, approachtopathway1, approachtopathway2, finalnotes, supplementaryinformation, commentTime) VALUES (#{studentId}, #{facilitatorId}, #{comments}, #{challenges}, #{approachtopathway1}, #{approachtopathway2}, #{finalnotes}, #{supplementaryinformation}, NOW())
+	</insert>	
+	
+	<update id="updateReportComments" parameterMap="parameterMap">
+		UPDATE ReportComments SET facilitatorId = #{facilitatorId}, comments = #{comments}, challenges = #{challenges}, approachtopathway1 = #{approachtopathway1}, approachtopathway2 = #{approachtopathway2}, finalnotes = #{finalnotes}, supplementaryinformation = #{supplementaryinformation}, commentTime = NOW()
+		WHERE studentId = #{studentId} AND id = #{id}
+	</update>
+	
+	
+	<!-- END SASEDEVE edited by Mrutyunjaya on date 06-06-2017 -->
+	
+	
+	
+	<select id="getReportCommentsStudFaciId" parameterMap="parameterMap" resultMap="resultMap">
+		SELECT * FROM ReportComments
+		<where>
+			<if test="studentId > 0">
+				studentId = #{studentId}
+			</if>
+			<if test="facilitatorId > 0">
+				AND facilitatorId = #{facilitatorId}
+			</if>
+		</where>
+	</select>
+</mapper>

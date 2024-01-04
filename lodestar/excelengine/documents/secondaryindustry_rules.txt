@@ -1,0 +1,47 @@
+{
+    "sheets": [
+        {
+            "sheetname": "Industry",
+            "tables": [
+                {
+                    "tablename": "OccupationIndustryMapping",
+                    "uniquecolumnidentifiers": "occupationId,industryid,pathwayId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "industryId",
+                            "excelcolumnname": "industry",
+                            "lookuptablename": "Industry",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "pathwayId",
+                            "excelcolumnname": "Pathway",
+                            "lookuptablename": "Pathway",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "true",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "isPrimary",
+                            "constantvalue": 0,
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

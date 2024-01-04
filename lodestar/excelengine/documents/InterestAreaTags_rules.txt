@@ -1,0 +1,30 @@
+{
+  "sheets": [{
+    "sheetname": "AreaTaging",
+    "tables": [
+      {
+        "tablename": "InterestAreaTagging",
+		"uniquecolumnidentifiers": "areaId,areaTag",
+        "columns": [
+          {
+     		"tablecolumnname": "areaId",
+            "excelcolumnname": "Area",
+            "lookuptablename": "Area",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+          },
+          {
+            "tablecolumnname": "areaTag",
+            "excelcolumnname": "Tags",
+            "allownull": "false",
+            "datatype": "varchar",
+			"isdelimited":"true"
+          }
+        ]
+	  }
+	]
+  }  
+  ]
+}

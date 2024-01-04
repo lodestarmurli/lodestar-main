@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="VarkStudent">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentDTO"></resultMap>
+	
+	 
+	 
+ 
+	<insert id="insertVarkStudent" parameterMap="paramMap">
+	    INSERT INTO VarkStudent (LDid , studentId, token, studentRegisterTime, testTaken ) VALUES 
+	    (#{LDid}, #{studentId}, #{token},  #{studentRegisterTime}, #{testTaken} )
+	</insert>
+	
+	 	
+	 <select id ="getVarkStudentByStudentId" parameterType="int"  resultMap="SelectAllResult"> 
+	 SELECT * FROM VarkStudent WHERE studentId=#{studentId}
+	 </select>
+	 
+	  <select id ="getVarkStudentByToken" parameterType="String"  resultMap="SelectAllResult"> 
+	 SELECT * FROM VarkStudent WHERE token=#{token}
+	 </select>
+	 
+	 <update id="updateVarkStudentByStudentId" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE VarkStudent 
+	    SET
+	    studentTestTime  = #{studentTestTime},testTaken=1 where studentId = #{studentId}
+	</update>
+	 
+	 
+	 
+	 
+</mapper>

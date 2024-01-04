@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShortList">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.student.ShortListDTO" id="shortListResult"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.student.ShortListDTO" id="shortListParam"/>
+	
+	<insert id="insertShortList" parameterMap="shortListParam" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO ShortList (studentId, industryId, occupationId, occIndustryId,orderNo) VALUES (#{studentId}, #{industryId}, #{occupationId}, #{occIndustryId},#{orderNo})
+	</insert>
+
+	<insert id="deleteShortListById" parameterType="int">
+	    DELETE FROM ShortList WHERE id = #{id}
+	</insert>
+	
+	<select id="getShortListDetailsByStudentId" parameterType="int" resultMap="shortListResult">
+		
+		<!--Start Sasedeve Edited by Mrutyunjaya on date 15-05-2017  -->
+		
+		
+		<!--Start Original code  -->
+		<!-- SELECT s.* , i.name AS industryName, o.name As occupationName, o.image AS occupationImage 
+		FROM ShortList s
+		LEFT JOIN Occupation o ON o.id = s.occupationId
+		LEFT JOIN Industry i ON i.id = s.industryId or i.id = s.occIndustryId
+		
+		
+		WHERE s.studentId = #{studentId} ORDER BY s.orderNo, COALESCE(industryName , occupationName) -->
+		<!--end Original code  -->
+		
+		<!--Start change code  -->
+		
+		SELECT s.* , i.name AS industryName, o.name As occupationName, o.image AS occupationImage,CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM ShortList s
+		LEFT JOIN Occupation o ON o.id = s.occupationId
+		LEFT JOIN Industry i ON i.id = s.industryId or i.id = s.occIndustryId
+		LEFT JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		
+		WHERE s.studentId = #{studentId} GROUP BY o.id ORDER BY s.orderNo, COALESCE(industryName , occupationName)
+		
+		<!--end change code  -->
+		
+		<!--END Sasedeve Edited by Mrutyunjaya on date 15-05-2017  -->
+		
+	</select>
+	
+	<update id="updateShortListById" parameterMap="shortListParam"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	  UPDATE ShortList
+	  SET 
+	  orderNo = #{orderNo}
+	  WHERE
+	  id = #{id}
+	</update>
+	
+	<select id="getTopShortListDetailsByStudentId" parameterType="int" resultMap="shortListResult">
+	
+	    <!--Start Sasedeve Edited by Mrutyunjaya on date 19-05-2017  -->
+		
+		
+		<!--Start Original code  -->
+		
+	<!--  	SELECT s.* , i.name AS industryName, o.name As occupationName
+		FROM ShortList s
+		LEFT JOIN Occupation o ON o.id = s.occupationId
+		LEFT JOIN Industry i ON i.id = s.industryId or i.id = s.occIndustryId
+		WHERE s.studentId = #{studentId} ORDER BY s.orderNo, COALESCE(industryName , occupationName) -->
+		
+		
+		
+	    <!--end Original code  -->
+		
+		
+		
+		
+		
+		
+		<!--Start change code  -->
+	
+	
+	
+	    SELECT s.* , i.name AS industryName, o.name As occupationName,CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM ShortList s
+		LEFT JOIN Occupation o ON o.id = s.occupationId
+		LEFT JOIN Industry i ON i.id = s.industryId or i.id = s.occIndustryId
+		LEFT JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE s.studentId = #{studentId} GROUP BY o.id ORDER BY s.orderNo, COALESCE(industryName , occupationName)
+	
+	
+	
+	
+	
+	
+	
+	    <!--end change code  -->
+		
+		<!--END Sasedeve Edited by Mrutyunjaya on date 19-05-2017  -->
+	
+		
+	</select>
+	
+	<select id="getTopTwoShortListDetailsByStudentId" parameterMap="shortListParam" resultMap="shortListResult">
+		SELECT sl.occupationId, sl.orderNo , oc.name AS occupationName
+        FROM 
+        ShortList sl 
+        JOIN Occupation oc 
+        ON oc.id = sl.occupationId 
+        WHERE  sl.studentId = #{studentId} AND sl.occupationId IN
+        
+        <foreach collection="idsList" close=")" open="(" item="item" separator=",">
+	      #{item}
+	   </foreach> 
+          
+         ORDER BY sl.orderNo
+	</select>
+</mapper>

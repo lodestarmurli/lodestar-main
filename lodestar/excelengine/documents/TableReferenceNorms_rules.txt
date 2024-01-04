@@ -1,0 +1,32 @@
+{
+  "sheets": [{
+    "sheetname": "TableReferenceNorms",
+    "tables": [
+      {
+        "tablename": "TableReferenceNorms",
+		"uniquecolumnidentifiers": "aggreementScore,maleScore,femaleScore",
+        "columns": [
+		  {
+            "tablecolumnname": "aggreementScore",
+            "excelcolumnname": "aggreementScore",
+            "allownull": "false",
+            "datatype": "numeric"
+          },
+          {
+            "tablecolumnname": "maleScore",
+            "excelcolumnname": "malescore",
+            "allownull": "false",
+            "datatype": "numeric"
+          },
+		  {
+            "tablecolumnname": "femaleScore",
+            "excelcolumnname": "femalescore",
+            "allownull": "false",
+            "datatype": "numeric"
+          }
+        ]
+	  }
+	]
+  }  
+  ]
+}

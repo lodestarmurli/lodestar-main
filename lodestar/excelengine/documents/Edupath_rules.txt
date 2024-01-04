@@ -1,0 +1,301 @@
+{
+    "sheets": [
+        {
+            "sheetname": "edupath",
+            "tables": [
+                {
+                    "tablename": "EduPath",
+                    "retainid": "true",
+                    "retainidwithName": "eduPathId",
+                    "uniquecolumnidentifiers": "occupationId,industryid,pathwayId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "industryId",
+                            "excelcolumnname": "industry",
+                            "lookuptablename": "Industry",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "pathwayId",
+                            "excelcolumnname": "Pathway",
+                            "lookuptablename": "Pathway",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "true",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPUStreams",
+                    "uniquecolumnidentifiers": "edupathId,type,streamId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "C",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "streamId",
+                            "excelcolumnname": "Compulsory Stream PUC level",
+                            "lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+							"replacevalue": "Any",
+                            "replacewith": -1,                            
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPUStreams",
+                    "uniquecolumnidentifiers": "edupathId,type,streamId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "P",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "streamId",
+                            "excelcolumnname": "Preferable Stream PUC level",
+                            "lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+							"replacevalue": "Any",
+                            "replacewith": -1,                            
+                            "allownull": "false",
+                            "datatype": "numeric",
+                            "isdelimited": "true"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPUElectives",
+                    "uniquecolumnidentifiers": "edupathId,electiveId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "C",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "electiveId",
+                            "excelcolumnname": "Compulsory elective PUC level",
+                            "lookuptablename": "Subject",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "replacevalue": "Any",
+                            "replacewith": -1,
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPUElectives",
+                    "uniquecolumnidentifiers": "edupathId,electiveId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "P",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "electiveId",
+                            "excelcolumnname": "Preferable elective PUC level",
+                            "lookuptablename": "Subject",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "replacevalue": "Any",
+                            "replacewith": -1,
+                            "allownull": "false",
+                            "datatype": "numeric",
+                            "isdelimited": "true"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathDegrees",
+                    "uniquecolumnidentifiers": "edupathId,type,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "C",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Compulsory Degree",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathDegrees",
+                    "uniquecolumnidentifiers": "edupathId,type,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "P",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Most Suited Degree",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathDegreeSpecialization",
+                    "uniquecolumnidentifiers": "edupathId,type,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "C",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Compulsory Degree Specialization",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathDegreeSpecialization",
+                    "uniquecolumnidentifiers": "edupathId,type,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "type",
+                            "constantvalue": "P",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Most Suited Degree Specialization",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPG",
+                    "uniquecolumnidentifiers": "edupathId,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "PG",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "EduPathPGSpecialization",
+                    "uniquecolumnidentifiers": "edupathId,name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "edupathId",
+                            "useretainedidvalue": "true",
+                            "retainedwithname": "eduPathId",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "PG Specialization",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

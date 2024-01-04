@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Documents">
+
+    <parameterMap id="paramMap" type="com.jamochatech.tools.fileupload.dto.DocumentDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.jamochatech.tools.fileupload.dto.DocumentDTO"></resultMap>
+
+	<insert id="insertDocumentPath" parameterMap="paramMap">
+		INSERT INTO Document (industryId, occupationId, subjectId, documentPath) VALUES (#{industryId}, #{occupationId}, #{subjectId}, #{documentPath})
+	</insert>
+	
+	<select id="getAllDocument" resultMap="SelectAllResult">
+		SELECT * FROM Document
+	</select>
+	
+	 <update id="updateDocumentPath" parameterMap="paramMap">
+		UPDATE Document 
+		SET documentPath = #{documentPath}	    
+	    <if test="occupationId != null and occupationId != ''">
+            WHERE occupationId=#{occupationId}
+        </if> 
+		<if test="industryId != null and industryId != ''">
+            WHERE industryId=#{industryId}
+        </if>
+        <if test="subjectId != null and subjectId != ''">
+            WHERE subjectId=#{subjectId}
+        </if>	     	     
+	</update> 
+</mapper>

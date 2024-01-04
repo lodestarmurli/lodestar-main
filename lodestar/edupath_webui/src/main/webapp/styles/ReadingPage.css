@@ -1,0 +1,185 @@
+.hidden
+{
+	display: none;
+}	
+
+.disableselect
+{
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select:none; 
+	user-select:none;
+	-o-user-select:none;
+}
+
+
+ /* Tooltip */
+.meaning + .tooltip > .tooltip-inner {
+    background-color: #caeff5;
+    color: #64757a;
+    font-size: 11px;
+}
+
+/* Tooltip on top */
+.meaning + .tooltip.top > .tooltip-arrow {
+    border-top: 5px solid #caeff5;
+}
+
+/* Tooltip on bottom */
+.meaning + .tooltip.bottom > .tooltip-arrow {
+    border-bottom: 5px solid #caeff5;
+}
+
+/* Tooltip on left */
+.meaning + .tooltip.left > .tooltip-arrow {
+    border-left: 5px solid #caeff5;
+}
+
+/* Tooltip on right */
+.meaning + .tooltip.right > .tooltip-arrow {
+    border-right: 5px solid #caeff5;
+}
+
+#readingContent{
+    height:520px;
+    overflow:hidden;
+	transition:margin-left 1s;
+	-webkit-transition:margin-left 1s;
+	-moz-transition:margin-left 1s;
+	-o-transition:margin-left 1s;
+	-ms-transition:margin-left 1s;
+	-webkit-box-shadow: 1px 2px 2px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 1px 2px 2px 3px rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 2px 2px 3px rgba(0, 0, 0, 0.15);
+	background-color: #cccccc !important;
+}
+
+.crocodoc-page-content
+{
+	background-color: #cccccc !important;
+	/*
+	background-color: #0f75bd !important;*/
+}
+
+.meaning
+{
+   text-decoration:underline;
+   -moz-text-decoration-color: #82c8f7; /* Code for Firefox */
+   text-decoration-color: #82c8f7;
+   text-decoration-style: double;
+   cursor:pointer;
+}
+
+.highlighter
+{
+	background-color:#82da97;
+	opacity:0.30;
+	top:10;
+	right:10;
+	position:absolute;
+	z-index: 1002;
+}
+
+.rpheadingbar
+{
+	color: #ffffff;
+	background-color: #0f75bd;
+	height:50px;
+}
+
+.rppagetile
+{
+	font-size: 11pt;
+	font-weight: 600;
+	padding-left: 15px;
+	display: inline-block;
+	vertical-align: middle;
+	color: #7ec1f0;
+}
+
+.actionitems div
+{
+	font-size: 10pt;
+	cursor: pointer;
+	border-left: 2px solid #0b64a4;
+	padding: 10px 10px 0px 10px;
+	display: inline-block;
+	height: 46px;
+	vertical-align: middle;
+}
+
+.rpsubmenu
+{
+	height: 35px;
+	font-size: 10pt;
+	border-bottom: 1px solid #f1f1f1;
+	display: table;
+}
+
+.rpsubmenu div
+{
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.rpsubmenu div img
+{
+	vertical-align: text-bottom;
+	display: table-cell;
+	padding-right: 1px;
+}
+
+.rprelatedocc
+{
+	font-family: Open Sans Light;
+	font-size: 11pt;
+	font-weight: 600;
+	color: #61656b;
+	white-space: nowrap;
+	padding-left: 15px;
+}
+
+.rpsubmenu.subactionitems div
+{
+	font-family: Open Sans Light;
+	font-size: 10pt;
+	font-weight: 600;
+	cursor: pointer;
+	color: #f0483b;
+}
+
+.rpoccupationname {
+	padding: 4px;
+	font-size: 11pt;
+	color: #3e6293;
+	font-style: normal;
+	line-height: 10.2pt;
+	letter-spacing: 0em;
+}
+
+.rpoccupationnamediv {
+	background-color: #f3f6fb;
+	padding: 4px 6px;
+	display: inline-block !important;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.col-centered{
+    float: none !important;
+    margin: 0 auto;
+}
+
+.subaction_el
+{
+	display: inline-block;
+	vertical-align: middle;
+	
+}
+
+.pagenumber_div
+{
+	color:#3e6293;
+	font-size: 9pt;
+	margin-top: 1px;
+}

@@ -1,0 +1,167 @@
+{
+    "sheets": [
+        {
+            "sheetname": "Industry",
+            "tables": [
+                {
+                    "tablename": "Industry",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Industry",
+                            "allownull": "false",
+                            "allowduplicate": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "Pathway",
+                    "uniquecolumnidentifiers": "name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "pathway",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "industryid",
+                            "excelcolumnname": "industry",
+                            "lookuptablename": "Industry",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "Occupation",
+                    "uniquecolumnidentifiers": "name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "occupation",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "rollOverContent",
+                            "excelcolumnname": "One line description",
+                            "allownull": "false",
+                            "datatype": "varchar",
+                            "maxlength": 500
+                        },
+                        {
+                            "tablecolumnname": "description",
+                            "excelcolumnname": "Description",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "OccupationTagging",
+                    "uniquecolumnidentifiers": "occupationId,occupationTag",
+                    "columns": [
+                        {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "occupationTag",
+                            "excelcolumnname": "OccupationTags",
+                            "allownull": "false",
+                            "datatype": "varchar",
+                            "isdelimited": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sheetname": "Industry",
+            "tables": [
+                {
+                    "tablename": "OccupationRelatedOccupation",
+                    "uniquecolumnidentifiers": "occupationId,relatedOccupationId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "relatedOccupationId",
+                            "excelcolumnname": "RelatedOccupation",
+                            "isdelimited": "true",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sheetname": "Industry",
+            "tables": [
+                {
+                    "tablename": "OccupationIndustryMapping",
+                    "uniquecolumnidentifiers": "occupationId,industryid,pathwayId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "industryId",
+                            "excelcolumnname": "industry",
+                            "lookuptablename": "Industry",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "pathwayId",
+                            "excelcolumnname": "Pathway",
+                            "lookuptablename": "Pathway",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "true",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "isPrimary",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

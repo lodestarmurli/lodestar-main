@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Tags">
+
+	<parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tags.TagsDTO"></parameterMap>
+	<resultMap id="SelectAllTagResult"	type="com.lodestar.edupath.datatransferobject.dto.tags.TagsDTO"></resultMap>
+	<resultMap id="SelectAllResult"	type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="rollOverContent" property="rollOverContent" />
+		<result column="rollOverContent" property="rollOverContent" />
+		<result column="description" property="description" />
+		<result column="requiredAbility" property="requiredAbility" />
+		<result column="requiredRAISEC" property="requiredRAISEC" />
+		<result column="engineeringDegree" property="engineeringDegree" />
+		<result column="engineeringDegreeDescription" property="engineeringDegreeDescription" />
+		<result column="engineeringDegreeSubjects" property="engineeringDegreeSubjects" />
+		<result column="engineeringDegreeCareer" property="engineeringDegreeCareer" />
+		<result column="engineeringDegreeStudyArea" property="engineeringDegreeStudyArea" />
+		<result column="engineeringDegreeSkills" property="engineeringDegreeSkills" />
+		<result column="engineeringRelatedCourses" property="engineeringRelatedCourses" />
+		<result column="favSubject" property="favSubject" />
+		<collection property="industries" ofType="com.lodestar.edupath.datatransferobject.dto.occupation.IndustryDTO" column="industryId">
+			<id column="indusId" property="id"/>
+			<result column="industryName" property="name" />
+			<result column="isPrimary" property="isPrimary" />
+		</collection>
+	</resultMap>
+
+	<select id="getOccupationBasedOnSubject" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM Tags tag
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+	    INNER JOIN Occupation o on o.id = oim.occupationId
+	    INNER JOIN Industry i on i.id = oim.industryId
+	    INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE 
+		(
+			<foreach collection="list" item="item" separator="OR" close=")" open="(">
+			    subjects like '%${item}%'
+			</foreach>
+		)
+		GROUP BY o.id, oim.industryId
+		ORDER BY o.name
+	</select>
+
+	<select id="getOccupationBasedOnStrengths" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Tags tag
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+	    INNER JOIN Occupation o on o.id = oim.occupationId
+	    INNER JOIN Industry i on i.id = oim.industryId
+	    INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		INNER JOIN
+		(
+			SELECT a.id FROM Area a
+			JOIN StrengthsAreaTagging s on s.areaId = a.id
+			WHERE strengthName in 
+			<foreach collection="list" item="item" separator="," open="("  close=")">
+			   TRIM(#{item})
+			</foreach>
+		) area on area.id = tag.areaid
+		GROUP BY o.id, oim.industryId
+		ORDER BY o.name
+	</select>
+
+	<select id="getOccupationBasedOnInterests" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Tags tag
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+	    INNER JOIN Occupation o on o.id = oim.occupationId
+	    INNER JOIN Industry i on i.id = oim.industryId
+		INNER JOIN
+		(
+			SELECT * FROM InterestAreaTagging WHERE
+			<foreach collection="list" item="item" separator="OR" open="(" close=")">
+			    areaTag like '%${item}%'
+			</foreach>
+		) area on area.areaId = tag.areaid
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+	    GROUP BY o.id, oim.industryId
+		ORDER BY o.name
+	</select>
+	
+	<select id="getOccupationBasedOnInterestsByAreaId" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Tags tag
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+	    INNER JOIN Occupation o on o.id = oim.occupationId
+	    INNER JOIN Industry i on i.id = oim.industryId
+	    INNER JOIN Area a on a.id = tag.areaId
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE a.id in
+			<foreach collection="list" item="item" separator="," open="(" close=")">
+			     ${item}
+			</foreach>
+		GROUP BY o.id, oim.industryId	
+		ORDER BY o.name	
+	</select>
+
+	<select id="getOccupationBasedOnAspiration" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct * from (
+			SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+			, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+			, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+			FROM Tags tag
+		    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+		    INNER JOIN Occupation o on o.id = oim.occupationId
+		    INNER JOIN Industry i on i.id = oim.industryId
+			INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+			INNER JOIN
+			(
+				SELECT * FROM InterestAreaTagging WHERE
+				<foreach collection="list" item="item" separator="OR" close=")" open="(">
+				    areaTag like '%${item}%'
+				</foreach>
+			) area on area.areaId = tag.areaId
+			GROUP BY o.id, oim.industryId
+			
+			UNION ALL
+			
+			SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+			, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+			, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+			FROM Occupation o
+		    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		    INNER JOIN Industry i on i.id = oim.industryId
+			INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+	      	INNER JOIN
+	      	(
+	         	SELECT * From OccupationTagging  WHERE
+				<foreach collection="list" item="item" separator="OR" open="(" close=")">
+				    occupationTag = #{item}
+				</foreach>
+			) octag on octag.occupationId = o.id
+			GROUP BY o.id, oim.industryId
+		)x
+		ORDER BY name
+	</select>	
+	
+	<select id="getOccupationByKeyword" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct * from (
+			SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+			, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+			, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+			FROM Tags tag
+		    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+		    INNER JOIN Occupation o on o.id = oim.occupationId
+		    INNER JOIN Industry i on i.id = oim.industryId
+		    INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+			INNER JOIN
+			(
+				SELECT * FROM InterestAreaTagging WHERE
+				<foreach collection="list" item="item" separator="OR" close=")" open="(">
+				    areaTag like '%${item}%'
+				</foreach>
+			) area on area.areaId = tag.areaId
+			GROUP BY o.id, oim.industryId
+			
+			UNION ALL
+			
+			SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+			, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+			, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+			FROM Occupation o
+		    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		    INNER JOIN Industry i on i.id = oim.industryId
+			INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+	      	INNER JOIN
+	      	(
+	         	SELECT * From OccupationTagging  WHERE
+				<foreach collection="list" item="item" separator="OR" open="(" close=")">
+				    occupationTag = #{item}
+				</foreach>
+			) octag on octag.occupationId = o.id
+			GROUP BY o.id, oim.industryId
+			
+			UNION ALL
+			
+			SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+			, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+			, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+			FROM Occupation o
+		    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		    INNER JOIN Industry i on i.id = oim.industryId
+			INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		    WHERE 
+		    <foreach collection="list" item="item" separator="OR" open="(" close=")">
+				o.name Like '%${item}%'
+			</foreach>
+	      	GROUP BY o.id, oim.industryId
+		)x		
+		ORDER BY name
+	</select>	
+	
+	<select id="getOccupationBasedOnOccupationIds" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Occupation o
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+	    INNER JOIN Industry i on i.id = oim.industryId
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE 
+		o.id IN
+		<foreach collection="list" item="item" separator="," close=")" open="(">
+		    #{item}
+		</foreach>
+		GROUP BY o.id, oim.industryId
+		ORDER BY o.name
+	</select>	
+	
+	<select id="getOccupationBasedOnQuery" resultMap="SelectAllResult" parameterType="java.util.Map">
+		SELECT distinct oim.industryId, i.name as industryName, oim.isPrimary, o.id, o.name, o.rollOverContent, o.description, i.id as indusId 
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Tags tag
+	    INNER JOIN OccupationIndustryMapping oim on oim.occupationId = tag.occupationId
+	    INNER JOIN Occupation o on o.id = oim.occupationId
+	    INNER JOIN Industry i on i.id = oim.industryId
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+	    INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE ${query}
+		GROUP BY o.id, oim.industryId
+		ORDER BY o.name
+	</select>
+	
+	
+	<select id="getOccupationBasedOnOccupationIdsForDailyHunt" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct o.id, o.name, o.rollOverContent, o.description,  
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility , 
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Occupation o 
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id 
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id WHERE o.id IN
+		<foreach collection="list" item="item" separator="," close=")" open="(">
+		    #{item}
+		</foreach>
+		GROUP BY o.id ORDER BY o.name  
+	</select>	
+	
+	<select id="getOccupationBasedOnOccupationIdsForEngineeringSelector" resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct o.id, o.name,
+		ed.Degree as engineeringDegree, 
+        ed.description as engineeringDegreeDescription,  
+        ed.subjects as engineeringDegreeSubjects,
+        ed.career as engineeringDegreeCareer,
+        ed.studyArea as engineeringDegreeStudyArea,
+        ed.skills as engineeringDegreeSkills,
+        edm.relatedCourses 	 as engineeringRelatedCourses, 	
+        edm.favSubject as favSubject, o.rollOverContent, o.description,  
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility , 
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC 
+		FROM Occupation o 
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id 
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+        left join EngineeringDegreeOccMapping edm on edm.raisecOccId= rco.id 
+        left join EngineeringDegree ed on ed.id= edm.Degree
+        WHERE rco.id IN (select raisecOccId  from EngineeringDegreeOccMapping )
+        GROUP BY o.id ORDER BY o.name  
+	</select>
+	
+</mapper>

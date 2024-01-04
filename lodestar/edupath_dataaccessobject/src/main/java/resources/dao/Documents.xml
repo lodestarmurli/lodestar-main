@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Documents">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.DocumentDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.DocumentDTO"></resultMap>
+
+	<select id="getDocumentByIndustryId" parameterType="int" resultMap="SelectAllResult">
+	  	SELECT d.* FROM Document d
+		JOIN Industry i on i.id = d.industryId and i.id = #{id}
+	</select>
+
+	<select id="getDocumentByOccId" parameterType="int" resultMap="SelectAllResult">
+	  	SELECT d.* FROM Document d
+		JOIN Occupation o on o.id = d.occupationId and o.id = #{id}
+	</select>
+	
+	<select id="getDocumentBySubjectId" parameterType="int" resultMap="SelectAllResult">
+	  	SELECT d.* FROM Document d
+		JOIN Subject s on s.id = d.subjectId and s.id = #{id}
+	</select>
+
+	<select id="getLastVisitedWishListDocument" parameterType="int" resultMap="SelectAllResult">
+		SELECT d.* FROM Document d
+		JOIN VisitedDocument v on v.documentId = d.id
+		JOIN StudentDetails s on s.id = v.studentId and s.userId = #{id}
+		WHERE d.subjectId is null
+		ORDER BY v.lastVisitedTime desc limit 1	  	
+	</select>		
+
+	<select id="getVisitedOccupationDocument" parameterType="int" resultMap="SelectAllResult">
+		SELECT distinct d.* FROM Document d
+		JOIN VisitedDocument v on v.documentId = d.id
+		JOIN StudentDetails s on s.id = v.studentId and s.userId = #{id}
+		WHERE d.subjectId is null and d.industryId is null
+		ORDER BY v.lastVisitedTime	  	
+	</select>		
+			
+	<insert id="updateLastVisited" parameterType="com.lodestar.edupath.datatransferobject.dto.student.VisitedDocument">
+	    INSERT INTO VisitedDocument (studentId, documentId, pageNumber, lastVisitedTime) values (#{studentId}, #{documentId}, #{pageNumber}, now())
+	    ON DUPLICATE KEY UPDATE pageNumber = #{pageNumber}, lastVisitedTime = now()
+	</insert>
+	
+	<insert id="updateDocumentHighlights" parameterType="com.lodestar.edupath.datatransferobject.dto.student.DocumentHighlightsDTO">
+	    INSERT INTO DocumentHighlights (studentId, documentId, highlights) values (#{studentId}, #{documentId}, #{highlights})
+	    ON DUPLICATE KEY UPDATE highlights = #{highlights}
+	</insert>
+	
+	<select id="getDocumentsHighlights" parameterType="com.lodestar.edupath.datatransferobject.dto.student.DocumentHighlightsDTO" 
+	    								resultType="com.lodestar.edupath.datatransferobject.dto.student.DocumentHighlightsDTO">
+	  	SELECT * FROM DocumentHighlights 
+	  	WHERE studentId = #{studentId} AND documentId = #{documentId}
+	</select>
+
+	<select id="getVisitedDocumentByUserNDocId" parameterType="java.util.Map" resultType="com.lodestar.edupath.datatransferobject.dto.student.VisitedDocument">
+		SELECT * FROM VisitedDocument v WHERE documentId = #{docId} AND studentId = #{studentId}	
+	</select>			
+
+	<select id="getDocumentNShortListIdByIdNUserId" parameterType="java.util.Map" resultMap="SelectAllResult">
+		SELECT d.*, i.name as industryName, o.name as occupationName, o.rollOverContent as occupationSummary, s.id as shortListId
+		FROM Document d
+		LEFT JOIN Industry i on i.id = d.industryId
+		LEFT JOIN Occupation o on o.id = d.occupationId
+		LEFT JOIN ShortList s on (s.occupationId = d.occupationId or s.industryId = d.industryId) and s.studentId = #{studentId}
+		WHERE d.id = #{docId}
+	</select>
+		
+		<insert id="insertDocumentPath" parameterMap="paramMap">
+			INSERT INTO Document (occupationId, documentPath) VALUES (#{occupationId}, #{documentPath})
+		</insert>
+		
+		<select id="getAllDocument" resultMap="SelectAllResult">
+			SELECT * FROM Document
+		</select>
+		
+		<select id="getDocumentNSubjectDetailById" parameterType="java.util.Map" resultMap="SelectAllResult">
+			SELECT d.*, sbj.name as subjectName
+			FROM Document d
+			INNER JOIN Subject sbj ON sbj.id = d.subjectId
+			WHERE d.id = #{docId}
+		</select>
+</mapper>

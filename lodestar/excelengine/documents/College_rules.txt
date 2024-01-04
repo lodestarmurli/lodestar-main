@@ -1,0 +1,798 @@
+{
+    "sheets": [
+        {
+            "sheetname": "ShikshaData",
+			"tables": [
+                {
+                    "tablename": "College",
+                    "uniquecolumnidentifiers": "name",
+                    "conditionfields":"name",
+                    "updatefields":"zone,address,cityId,locality,mobNo,offNo,email,website,collegeType,recogByKA,recogByOth,affiliatedToBoardId,addFormSubmTo,addFormSubmAddr,addFormSubmOnline,addFormSubmDate,sexPref,noSeatsState,noSeatsICSE,noSeatsCBSE,noSeatsIGSE,noSeatsISC,coachingFacility,coachingCentreName,carrerCounselling,yearOfEst",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "name",
+                            "excelcolumnname": "CollegeName",
+                            "allownull": "false",
+                            "allowduplicate": "true",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "zone",
+                            "excelcolumnname": "Zone",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "address",
+                            "excelcolumnname": "Address",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "cityId",
+                            "excelcolumnname": "City",
+							"lookuptablename": "City",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "locality",
+                            "excelcolumnname": "Locality",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "mobno",
+                            "excelcolumnname": "Mobno",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "email",
+                            "excelcolumnname": "Email",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "website",
+                            "excelcolumnname": "Website",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "collegeType",
+                            "excelcolumnname": "College Type",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "recogByKA",
+                            "excelcolumnname": "Recognized by Karnataka PU Board",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "recogByOth",
+                            "excelcolumnname": "Recognized by others",
+                            "datatype": "varchar"
+                        },						
+						{ 
+							"tablecolumnname": "admAppFromAdmOffice",
+                            "excelcolumnname": "Admission application from Admission office",
+                            "datatype": "varchar"
+                        },
+                        { 
+							"tablecolumnname": "addFormSubmOnline",
+                            "excelcolumnname": "Admission online website link",
+                            "datatype": "varchar"
+                        },                        
+						{ 
+							"tablecolumnname": "addFormSubmTo",
+                            "excelcolumnname": "Admission application form submitted to",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "addFormSubmAddr",
+                            "excelcolumnname": "Admission application form submitted address",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "addFormSubmDate",
+                            "excelcolumnname": "Admission application form submission date(LYR date)",
+                            "datatype": "varchar"
+                        },
+                        { 
+							"tablecolumnname": "saleOfAppFormStart",
+                            "excelcolumnname": "Sale of Application Form start (Last Year Month/ Date)",
+                            "datatype": "varchar"
+                        },	                        
+						{ 
+							"tablecolumnname": "sexPref",
+                            "excelcolumnname": "Gender",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "noSeatsState",
+                            "excelcolumnname": "Number of Seat in State Board",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noSeatsCBSE",
+                            "excelcolumnname": "Number of Seat in CBSE",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noSeatsIGSE",
+                            "excelcolumnname": "Number of Seat in IGCSE",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noSeatsISC",
+                            "excelcolumnname": "Number of Seat in ISC",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "coachingFacility",
+                            "excelcolumnname": "Coaching  facility/tie up with coaching institute",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "coachingCentreName",
+                            "excelcolumnname": "Name of Coaching center",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "carrerCounselling",
+                            "excelcolumnname": "Career Counseling Program available",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "yearOfEst",
+                            "excelcolumnname": "Year of establishment",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "whetherMaintainQuota",
+                            "excelcolumnname": "Whether maintain quota",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }						
+					]
+                }
+            ]
+        },
+		{
+            "sheetname": "CollegeBoard",
+			"tables": [
+                {
+                    "tablename": "CollegeBoardMapping",
+                    "uniquecolumnidentifiers": "collegeId,affiliatedToBoardId",
+                    "conditionfields":"collegeId,affiliatedToBoardId",
+                    "updatefields":"affiliatedToBoardId",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "boardId",
+                            "excelcolumnname": "Affiliated to board",
+							"lookuptablename": "Board",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]						
+		},
+        {
+            "sheetname": "CollegeStream",
+			"tables": [
+                {
+                    "tablename": "CollegeStreamDetails",
+                    "uniquecolumnidentifiers": "collegeId,streamId",
+                    "conditionfields":"collegeId,streamId",
+                    "updatefields":"noTeachingStaff,noLabIncharge,admBasisOffCutOff,admEntranceExam,admPersonalInterview,admFirstComeFirstServe,lastCutOff,perceptionRanking,noStudents,noStudentsPassed,scored75Percent,numOfStudScoreGtr80Percent,numOfStudentsScoreGtr90Percent",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noTeachingStaff",
+                            "excelcolumnname": "No of teaching staff",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noLabIncharge",
+                            "excelcolumnname": "No of Lab in charge",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "admBasisOffCutOff",
+                            "excelcolumnname": "Admission Process (Selection on the basis of cut-off)",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "admEntranceExam",
+                            "excelcolumnname": "Admission Process (Entrance Exam)",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "admPersonalInterview",
+                            "excelcolumnname": "Admission Process (Personal Interview)",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "admFirstComeFirstServe",
+                            "excelcolumnname": "Admission Process (First come first serve basis)",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "lastCutOff",
+                            "excelcolumnname": "Last Cut-off % alloted for admission",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "perceptionRanking",
+                            "excelcolumnname": "Perception Ranking",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "noStudents",
+                            "excelcolumnname": "TotalNoOfStudents",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noStudentsPassed",
+                            "excelcolumnname": "NoOfStudentsPassed",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "scored75Percent",
+                            "excelcolumnname": "Scored 75%",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "numOfStudScoreGtr80Percent",
+                            "excelcolumnname": "Number of students scoring >80 percentile",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "numOfStudentsScoreGtr90Percent",
+                            "excelcolumnname": "Number of students scoring >90 percentile",
+                            "datatype": "varchar"
+                        }					
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "ReservationData",
+			"tables": [
+                {
+                    "tablename": "CollegeStreamCombination",
+                    "uniquecolumnidentifiers": "collegeId,streamId,combinationId",
+                    "conditionfields":"collegeId,streamId,combinationId",
+                    "updatefields":"mgmtSeats,govtSeats,totalSeats",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },						
+						{ 
+							"tablecolumnname": "mgmtSeats",
+                            "excelcolumnname": "Mgmt Seats",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "govtSeats",
+                            "excelcolumnname": "Govt Seats",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "totalSeats",
+                            "excelcolumnname": "Total Seats",
+                            "datatype": "numeric"
+                        }				
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "ReservationData",
+			"tables": [
+                {
+                    "tablename": "CollegeCourseFeeSeats",
+                    "uniquecolumnidentifiers": "collegeId,streamId,combinationId,reservationId",
+                    "conditionfields":"collegeId,streamId,combinationId,reservationId",
+                    "updatefields":"seats,fees,cutoff",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },						
+						{
+                            "tablecolumnname": "reservationId",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "seats",
+                            "excelcolumnname": "Seats Gen",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "fees",
+                            "excelcolumnname": "Fee structure Gen",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "cutoff",
+                            "excelcolumnname": "Cutt off % Gen",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "ReservationData",
+			"tables": [
+                {
+                    "tablename": "CollegeCourseFeeSeats",
+                    "uniquecolumnidentifiers": "collegeId,streamId,combinationId,reservationId",
+                    "conditionfields":"collegeId,streamId,combinationId,reservationId",
+                    "updatefields":"seats,fees,cutoff",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },						
+						{
+                            "tablecolumnname": "reservationId",
+                            "constantvalue": 2,
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "seats",
+                            "excelcolumnname": "Seats OBC",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "fees",
+                            "excelcolumnname": "Fee structure OBC",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "cutoff",
+                            "excelcolumnname": "Cutt off % OBC",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "ReservationData",
+			"tables": [
+                {
+                    "tablename": "CollegeCourseFeeSeats",
+                    "uniquecolumnidentifiers": "collegeId,streamId,combinationId,reservationId",
+                    "conditionfields":"collegeId,streamId,combinationId,reservationId",
+                    "updatefields":"seats,fees,cutoff",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },						
+						{
+                            "tablecolumnname": "reservationId",
+                            "constantvalue": 3,
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "seats",
+                            "excelcolumnname": "Seats SC/ST",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "fees",
+                            "excelcolumnname": "Fee structure SC/ST",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "cutoff",
+                            "excelcolumnname": "Cutt off % SC/ST",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "ReservationData",
+			"tables": [
+                {
+                    "tablename": "CollegeCourseFeeSeats",
+                    "uniquecolumnidentifiers": "collegeId,streamId,combinationId,reservationId",
+                    "conditionfields":"collegeId,streamId,combinationId,reservationId",
+                    "updatefields":"seats,fees,cutoff",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        { 
+							"tablecolumnname": "streamId",
+                            "excelcolumnname": "Stream",
+							"lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },						
+						{
+                            "tablecolumnname": "reservationId",
+                            "constantvalue": 4,
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "seats",
+                            "excelcolumnname": "Seats Quota1",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "fees",
+                            "excelcolumnname": "Fee structure Quota1",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "cutoff",
+                            "excelcolumnname": "Cutt off % Quota1",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "InstitutesPlacement",
+			"tables": [
+                {
+                    "tablename": "StudentPlacementInInstitutes",
+                    "uniquecolumnidentifiers": "collegeId,instituteName",
+                    "conditionfields":"collegeId,instituteName",
+                    "updatefields":"countOfStudents",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "instituteName",
+                            "excelcolumnname": "Institution",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "countOfStudents",
+                            "excelcolumnname": "NoOfStudents",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }				
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "RankData",
+			"tables": [
+                {
+                    "tablename": "StudentsTopRankInExams",
+                    "uniquecolumnidentifiers": "collegeId,examId",
+                    "conditionfields":"collegeId,examId",
+                    "updatefields":"rankValue",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "examId",
+                            "excelcolumnname": "EntranceExam",
+							"lookuptablename": "EntranceExams",
+                            "lookupcolumnname": "examName",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "rankValue",
+                            "excelcolumnname": "NoOfRanks",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }				
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "CollegeInfrastructure",
+			"tables": [
+                {
+                    "tablename": "CollegeInfra",
+                    "uniquecolumnidentifiers": "collegeId,name,type",
+                    "conditionfields":"collegeId,name,type",
+                    "updatefields":"count,capacity",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "name",
+                            "excelcolumnname": "Name",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "count",
+                            "excelcolumnname": "Counts",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "capacity",
+                            "excelcolumnname": "Capacity",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "type",
+                            "excelcolumnname": "InfraType",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "CollegeAchivements",
+			"tables": [
+                {
+                    "tablename": "CollegeAchievements",
+                    "uniquecolumnidentifiers": "collegeId,achievement,type",
+                    "conditionfields":"collegeId,achievement,type",
+                    "updatefields":"achievement",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "achievement",
+                            "excelcolumnname": "Achivements",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "type",
+                            "excelcolumnname": "type",
+                            "allownull": "false",
+                            "datatype": "Type"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "CollegeActivities",
+			"tables": [
+                {
+                    "tablename": "CollegeActivities",
+                    "uniquecolumnidentifiers": "collegeId,name,type",
+                    "conditionfields":"collegeId,name,type",
+                    "updatefields":"name",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "name",
+                            "excelcolumnname": "Activities",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "type",
+                            "excelcolumnname": "type",
+                            "allownull": "false",
+                            "datatype": "Type"
+                        }
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "CollegeFeatures",
+			"tables": [
+                {
+                    "tablename": "CollegeFeatures",
+                    "uniquecolumnidentifiers": "collegeId,feature",
+                    "conditionfields":"collegeId,feature",
+                    "updatefields":"feature",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "feature",
+                            "excelcolumnname": "Distinguish features",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        }
+					]
+                }
+            ]
+        }	
+	]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StudentCityLock">
+
+<resultMap type="com.lodestar.edupath.datatransferobject.dto.StudentCityLockDTO" id="lockResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.StudentCityLockDTO" id="lockParam"/>
+
+	<select id="getAllStudentId"
+		resultMap="lockResult">
+		SELECT *  FROM Studentcitylock;
+	</select>
+	
+	<insert id="insertlockdetail" useGeneratedKeys="true"
+		keyProperty="id" parameterMap="lockParam">
+		INSERT INTO Studentcitylock (studentLockId,cityLockId)
+		VALUES
+		(#{studentLockId},#{cityLockId})
+	</insert>
+	
+	<update id="updatelockdetail" parameterMap="lockParam">
+		UPDATE Studentcitylock SET
+		cityLockId = #{cityLockId} WHERE studentLockId = #{studentLockId}
+	</update>
+	
+	<select id="getCityIdByStudentId"
+		resultMap="lockResult">
+		SELECT *  FROM Studentcitylock WHERE studentLockId = #{studentLockId};
+	</select>
+
+</mapper>

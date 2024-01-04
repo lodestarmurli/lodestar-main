@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ClientStudentDetails">
+
+
+		<parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentDetailsDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentDetailsDTO"></resultMap>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentDetailsDTO" id="SummaryResult">
+		<id property="id" column="id" />
+		<id property="clientID" column="clientID" />
+		<id property="clientName" column="clientName" />
+		<id property="name" column="name" />
+		<id property="cityId" column="cityId" />
+		<id property="classStr" column="className" />
+		<id property="schoolName" column="school" />
+		<id property="contactNumber" column="contactNumber" />
+		<id property="fatherName" column="fatherName" />
+		<id property="fatheremailId" column="fatheremailId" />
+		<id property="section" column="section" />
+		<id property="gender" column="gender" />
+		<id property="stream" column="stream" />
+		<id property="aptitudeComplete" column="aptitudeComplete" />	
+		
+	</resultMap>
+	
+	<insert id="insertStudentDetail" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ClientStudentDetails (name, clientID, clientName ,cityId, className, school, contactNumber, fatherName, fatheremailId, gender,stream)
+		VALUES (#{name}, #{clientID}, #{clientName}, #{cityId}, #{classStr}, #{schoolName}, #{contactNumber}, #{fatherName}, #{fatheremailId},  #{gender},#{stream}  )
+	</insert>
+	
+	
+	<select id="getClientStudentByClientIdAndName" parameterMap="paramMap" resultMap="SummaryResult"> 
+	  SELECT * from ClientStudentDetails where clientID like #{clientID} and  clientName like #{clientName}
+	 </select>
+	 
+	 <select id="getDHStudentByID" parameterMap="paramMap" resultMap="SummaryResult"> 
+	  SELECT * from ClientStudentDetails where id = #{id}
+	 </select>
+	
+	 <select id="getDHStudentAptitudeByDHID" parameterMap="paramMap" resultMap="SummaryResult"> 
+	  SELECT * from ClientStudentDetails where id = #{id}
+	 </select>
+	 
+	 <update id="updateDHStudentType" parameterMap="paramMap">
+		UPDATE ClientStudentDetails 
+		SET studentType = #{studentType}
+		WHERE id = #{id}
+	</update> 
+	 
+</mapper>

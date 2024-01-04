@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Industry">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.occupation.IndustryDTO" id="industryResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.occupation.IndustryDTO" id="industryParam"/>
+	 
+	<select id="getAllIndustries" resultMap="industryResult">
+		SELECT * From Industry ORDER BY name
+	</select>
+
+	<select id="getIndustryById" resultMap="industryResult" parameterType="int">
+		SELECT * From Industry WHERE id = #{id}
+	</select>
+	
+	<select id="getIndustriesForOccupation" resultMap="industryResult" parameterType="int">
+		SELECT i.*, oim.isPrimary FROM Industry i
+		JOIN OccupationIndustryMapping oim on oim.industryId = i.id
+		WHERE oim.occupationId = #{id} 
+	</select>
+
+	<select id="getIndustryFromWishOrPriForOcc" resultMap="industryResult" parameterType="int">
+		SELECT i.*
+	    FROM Industry i
+	    JOIN
+	    (
+		    SELECT occIndustryId as indusId
+		    FROM WishList w
+		    WHERE w.occupationId = #{id}
+		    UNION
+		    SELECT industryId as indusId
+		    FROM OccupationIndustryMapping oim
+		    WHERE oim.occupationId = #{id} and isPrimary
+	    )x on x.indusId = i.id
+	</select>
+	
+	<select id="getIndustryDetailsByStudentId" parameterType="int" resultMap="industryResult">
+		SELECT i.name, i.id
+		FROM EduPathShortList esl
+		JOIN Industry i ON i.id = coalesce(esl.industryId, esl.occIndustryId)
+		WHERE studentId = #{studentId}
+		ORDER BY esl.priority
+	</select>
+	
+</mapper>

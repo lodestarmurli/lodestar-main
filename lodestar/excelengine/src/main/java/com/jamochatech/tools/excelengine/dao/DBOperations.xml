@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DBOperations">
+
+	<select id="checkDuplicate" parameterType="java.util.Map"
+		resultType="long">
+		SELECT count(*) FROM ${tablename} WHERE ${tablecolumnname}
+		=
+		#{value}
+	</select>
+
+	<select id="getLookupValue" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT ${lookupfetchcolumn} FROM ${lookuptablename} WHERE
+		<foreach collection="conditionfields" index="key" item="value" open=" "
+			separator=" and " close=" ">
+			${key} = #{value}
+		</foreach>
+	</select>
+
+
+	<select id="getCountByUniqueColumnIdentifiers" parameterType="java.util.Map"
+		resultType="long">
+		SELECT count(*) FROM ${tablename} WHERE
+		<foreach collection="conditionfields" index="key" item="value" open=" "
+			separator=" and " close=" ">
+			${key} = #{value}
+		</foreach>
+	</select>
+	
+	
+	<select id="getIdByUniqueColumnIdentifiers" parameterType="java.util.Map"
+		resultType="long">
+		SELECT id FROM ${tablename} WHERE
+		<foreach collection="conditionfields" index="key" item="value" open=" "
+			separator=" and " close=" ">
+			${key} = #{value}
+		</foreach>
+	</select>
+	
+
+	<update id="updateDate" parameterType="java.util.Map">
+		UPDATE ${tablename} set
+		<foreach collection="updatefields" index="key" item="value"
+			open="" separator=", " close="">
+			${key}=#{value}
+		</foreach>
+
+		WHERE
+		<foreach collection="conditionfields" index="key" item="value"
+			open="" separator=" and " close="">
+			${key}=#{value}
+		</foreach>
+	</update>
+
+
+
+	<insert id="insertData" parameterType="java.util.Map">
+		INSERT INTO ${tablename}
+		<foreach item="key" collection="keys" index="index" open="("
+			separator="," close=")">
+			${key}
+		</foreach>
+		VALUES
+		<foreach item="value" collection="values" index="index" open="("
+			separator="," close=")">
+			#{value}
+		</foreach>
+	</insert>
+
+
+	<insert id="insertDataGetId" parameterType="java.util.Map"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO ${tablename}
+		<foreach item="key" collection="keys" index="index" open="("
+			separator="," close=")">
+			${key}
+		</foreach>
+		VALUES
+		<foreach item="value" collection="values" index="index" open="("
+			separator="," close=")">
+			#{value}
+		</foreach>
+	</insert>
+
+</mapper>

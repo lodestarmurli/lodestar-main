@@ -1,0 +1,29 @@
+{
+  "sheets": [{
+    "sheetname": "StrengthsAreaTagging",
+    "tables": [
+      {
+        "tablename": "StrengthsAreaTagging",
+		"uniquecolumnidentifiers": "areaId,strengthName",
+        "columns": [
+          {
+     		"tablecolumnname": "areaId",
+            "excelcolumnname": "Area",
+            "lookuptablename": "Area",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+          },
+          {
+            "tablecolumnname": "strengthName",
+            "excelcolumnname": "Tags",
+            "allownull": "false",
+            "datatype": "varchar",			
+          }
+        ]
+	  }
+	]
+  }  
+  ]
+}

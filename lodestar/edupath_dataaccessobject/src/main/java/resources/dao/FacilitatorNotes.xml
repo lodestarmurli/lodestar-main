@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FacilitatorNotes">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.notes.FacilitatorNotesDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.notes.FacilitatorNotesDTO"></resultMap>
+	
+	<select id="getNotes" parameterMap="paramMap" resultMap="SelectAllResult">
+	  SELECT * FROM FacilitatorNotes 
+	  WHERE
+	  userId = #{userId} AND studentId = #{studentId}
+	</select>
+	
+	<insert id="insertNotes" parameterMap="paramMap"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	  INSERT INTO FacilitatorNotes (userId, studentId, noteText)
+	  VALUES (#{userId}, #{studentId}, #{noteText})
+	  <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+	  </selectKey>
+	</insert>
+	
+	<update id="updateNotes" parameterMap="paramMap"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	  UPDATE FacilitatorNotes
+	  SET 
+	  noteText = #{noteText}
+	  WHERE
+	  userId = #{userId} AND studentId = #{studentId}
+	  <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+	  </selectKey>
+	</update>
+	
+	
+</mapper>

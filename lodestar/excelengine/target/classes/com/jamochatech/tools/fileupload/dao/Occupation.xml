@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Occupation">
+
+    <parameterMap id="paramMap" type="com.jamochatech.tools.fileupload.dto.OccupationDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.jamochatech.tools.fileupload.dto.OccupationDTO"></resultMap>
+	
+	<update id="updateOccupationImage" parameterMap="paramMap">
+		UPDATE Occupation SET image = #{image} WHERE id = #{id}
+	</update>
+	
+	<select id="getOccupationNameAndId" parameterMap="paramMap" resultMap="SelectAllResult">
+	  SELECT id, name from Occupation order by name
+	</select>
+</mapper>

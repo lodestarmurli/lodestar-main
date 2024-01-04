@@ -1,0 +1,236 @@
+{
+  "sheets": [{
+    "sheetname": "Occ Tags - Manual srch & aler",
+	"processcolumns":"true",
+	"processfromcolumn":"F",
+	"processtocolumn":"CZ",			
+	"startingrow":6,
+    
+	"col_tables": [
+      {
+        "tablename": "Category",
+		"uniquecolumnidentifiers": "name,catType",
+		"xlcolumnheader":"QUESTION BASED TAGGING",
+        "columns": [
+          {
+            "tablecolumnname": "name",
+            "rowindex": 2,
+            "allownull": "false",
+            "datatype": "varchar",
+          },
+		  {
+            "tablecolumnname": "catType",
+            "rowindex": 1,
+            "allownull": "false",
+            "datatype": "varchar"
+          }
+        ]
+      },
+	  {
+        "tablename": "SubCategory",
+		"uniquecolumnidentifiers": "name,categoryId",
+		"xlcolumnheader":"QUESTION BASED TAGGING",
+        "columns": [
+          {
+            "tablecolumnname": "name",
+            "rowindex": 3,
+            "allownull": "false",
+            "datatype": "varchar",
+          },
+		  {
+            "tablecolumnname": "categoryId",
+            "rowindex": 2,
+			"allownull": "false",
+            "lookuptablename": "Category",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "datatype": "numeric"
+          }
+        ]
+      },
+	  {
+        "tablename": "Area",
+		"uniquecolumnidentifiers": "name,categoryId,subCategoryId",
+		"xlcolumnheader":"QUESTION BASED TAGGING",
+        "columns": [
+          {
+            "tablecolumnname": "name",
+            "rowindex": 4,
+            "allownull": "false",
+            "datatype": "varchar",
+          },
+		  {
+            "tablecolumnname": "categoryId",
+            "rowindex": 2,
+            "lookuptablename": "Category",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+          },
+		  {
+            "tablecolumnname": "subCategoryId",
+            "rowindex": 3,
+            "lookuptablename": "SubCategory",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "true",
+            "datatype": "numeric"
+          }
+        ]
+      },
+	  {
+        "tablename": "Alerts",
+		"uniquecolumnidentifiers": "alertType,name,alertValue",
+		"xlcolumnheader":"ALERTS",
+        "columns": [
+          {
+            "tablecolumnname": "alertType",
+            "rowindex": 1,
+            "allownull": "false",
+            "datatype": "varchar",
+          },
+		  {
+            "tablecolumnname": "name",
+            "rowindex": 2,
+            "allownull": "false",
+            "datatype": "varchar"
+          },
+		  {
+            "tablecolumnname": "isActive",
+            "constantvalue": 1,
+			"datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "alertValue",
+            "rowindex": 5,
+			"ismultirow":"true",
+			"rowendindex":250,
+			"ignorevalues":"any",
+            "allownull": "false",
+            "datatype": "varchar"
+          }
+        ]
+      }
+	  
+    ],
+	
+	"tables": [
+	{
+        "tablename": "Tags",
+		"matrixtable":"true",
+		"xlcolumnheader":"QUESTION BASED TAGGING",
+		"uniquecolumnidentifiers": "occupationId,subjects,eduLevelId,categoryId,subCatId,areaId,tagvalue,isActive",
+        "columns": [		 
+		  {
+            "tablecolumnname": "occupationId",
+            "excelcolumnname": "Occupation",
+            "lookuptablename": "Occupation",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "subjects",
+            "excelcolumnname": "Subject",
+            "datatype": "varchar",
+			"maxlength": 500
+		  },
+		  {
+            "tablecolumnname": "eduLevelId",
+            "excelcolumnname": "Level of Education",
+            "lookuptablename": "EducationLevel",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+			"replacevalue": "Any",
+			"replacewith": -1,
+            "allownull": "false",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "categoryId",
+            "colcellindex": 2,
+            "lookuptablename": "Category",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "subCatId",
+            "colcellindex": 3,
+            "lookuptablename": "SubCategory",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "true",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "areaId",
+            "colcellindex": 4,
+            "lookuptablename": "Area",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "true",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "tagvalue",
+            "colcellindex": -9,
+            "allownull": "true",
+            "datatype": "varchar"
+		  },
+		  {
+            "tablecolumnname": "isActive",
+            "constantvalue": 1,
+			"datatype": "numeric"
+		  }
+        ]
+      },
+	  {
+        "tablename": "OccupationAlertMapping",
+		"matrixtable":"true",
+		"xlcolumnheader":"ALERTS",
+		"uniquecolumnidentifiers": "occupationId,alertId",
+        "columns": [
+		  {
+            "tablecolumnname": "occupationId",
+            "excelcolumnname": "Occupation",
+            "lookuptablename": "Occupation",
+            "lookupcolumnname": "name",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+		  },
+		  {
+            "tablecolumnname": "alertId",
+            "colcellindex": -9,
+            "lookuptablename": "Alerts",
+            "lookupcolumnname": "alertValue",
+            "lookupfetchcolumn": "id",
+            "allownull": "false",
+            "datatype": "numeric"
+		  }
+        ]
+      }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+    ]
+  }  
+  ]
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentCGTResult">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.cgt.StudentCGTResult"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.cgt.StudentCGTResult"></resultMap>
+	
+	<select id="getStudentCGTResult" parameterType="int" resultMap="SelectAllResult">
+	  SELECT * FROM  StudentCGTResult WHERE studentId = #{id}
+	</select>
+	
+	<insert id="insertOrUpdateStudentCGTResult" parameterMap="paramMap">
+	    INSERT INTO StudentCGTResult (personalityCode, score, appScore, occupationIds, studentId, aptitudeComplete, remainigTime, ssFactor) VALUES (#{personalityCode}, #{score}, #{appScore}, #{occupationIds}, #{studentId}, #{aptitudeComplete}, #{remainigTime}, #{ssFactor})
+  		ON DUPLICATE KEY UPDATE personalityCode = #{personalityCode}, score = #{score}, appScore = #{appScore}, occupationIds = #{occupationIds}, aptitudeComplete = #{aptitudeComplete}, remainigTime = #{remainigTime}, ssFactor = #{ssFactor}
+	</insert>
+	
+	<insert id="insertOrUpdateStudentCGTOccResult" parameterMap="paramMap">
+	    INSERT INTO StudentCGTResult (personalityCode, score, occupationIds, studentId, aptitudeComplete, remainigTime, ssFactor) VALUES (#{personalityCode}, #{score}, #{occupationIds}, #{studentId}, #{aptitudeComplete}, #{remainigTime}, #{ssFactor})
+  		ON DUPLICATE KEY UPDATE personalityCode = #{personalityCode}, score = #{score}, appScore = #{appScore}, occupationIds = #{occupationIds}, ssFactor = #{ssFactor}
+	</insert>
+	
+	<delete id="deleteStudentCGTResultByStudentId" parameterType="int">
+		DELETE FROM StudentCGTResult WHERE studentId = #{studentId}
+	</delete>	
+	
+	
+	<!-- START Sasedeve  by Mrutyunjaya on date 26-04-2017 -->
+	
+	<select id="getStudentCGTResultUserID" parameterType="int" resultMap="SelectAllResult">
+	  SELECT * FROM  StudentCGTResult WHERE studentId = (Select id from StudentDetails where userId=#{studentId})
+	</select>
+	
+	
+	<!-- END Sasedeve  by Mrutyunjaya on date 26-04-2017 -->
+	
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Languages">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.LanguagesDTO" id="languagesResults"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.LanguagesDTO" id="languagesParam"/>
+	
+	<select id="getAllLanguages" resultMap="languagesResults">
+		SELECT * FROM Languages
+	</select>
+</mapper>

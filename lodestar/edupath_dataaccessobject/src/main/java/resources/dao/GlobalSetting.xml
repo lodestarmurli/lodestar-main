@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GlobalSettings">
+	
+	<parameterMap id="params" type="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO"></resultMap>
+  	
+	<select id="getSettingsByKey" parameterMap="params" resultMap="SelectAllResult">
+		SELECT * FROM GlobalSetting WHERE propertyName = #{propertyName}
+	</select>
+
+	<select id="getAllGlobalSetting" parameterMap="params" resultMap="SelectAllResult">
+	    SELECT * FROM GlobalSetting
+	</select>
+	
+	<select id="getSettingsForMultipleKeys" parameterMap="params" resultMap="SelectAllResult">
+	    SELECT * FROM GlobalSetting WHERE propertyName IN (#{propertyName}) 
+	</select>
+	
+	<insert id="addGlobalSettingDetail" parameterType="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO"> 
+		INSERT INTO GlobalSetting(propertyName, propertyValue, isProtected, protectedValue) 
+		values(#{propertyName}, #{propertyValue}, #{isProtected}, #{protectedValue})
+		<selectKey resultType="int" keyProperty="id">
+      		select last_insert_id() as id
+   		</selectKey>
+	</insert>
+	
+	<select id="getGlobalSettingById"  parameterType="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO" resultType="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO">
+		SELECT * from GlobalSetting WHERE id = #{id}
+	</select>
+	
+	<delete id="deleteGlobalSettingDetail" parameterType="int">
+		DELETE FROM GlobalSetting where id = #{id}
+	</delete>
+	
+	<update id="updateGlobalSettingDetail"  parameterType="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO">
+		update GlobalSetting set propertyValue = #{propertyValue}, protectedValue = #{protectedValue}  where propertyName = #{propertyName}
+	</update>
+	
+	<select id="getUniqueGlobalSettingCount" parameterType="com.lodestar.edupath.datatransferobject.dto.GlobalSettingDTO" resultType="int"> 
+		SELECT COUNT(*) FROM GlobalSetting WHERE id != #{id} AND name = #{name}
+	</select>
+</mapper>

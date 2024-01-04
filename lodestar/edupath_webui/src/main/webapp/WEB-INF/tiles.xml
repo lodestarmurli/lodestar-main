@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- BodyTemplate Screen -->
+ <tiles-definitions>
+ 
+	<definition name="bodyLayout" template="/pages/template/BodyTemplateScreen.jsp">
+		<put-attribute name="headerContent" value="/pages/template/HeaderScreen.jsp" />
+		<put-attribute name="navigationBar" value="/pages/template/NavigationBarScreen.jsp" />
+		<put-attribute name="sidebarContent" value="/pages/template/SidebarMenuScreen.jsp" />
+		<put-attribute name="bodyContent" value="/pages/template/LoadingScreen.jsp" />
+		<put-attribute name="footer" value="/pages/template/FooterScreen.jsp" />
+	</definition>
+	
+	<definition name="ShowApplicationPage" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/template/LoadingScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowSubAdminSummary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/subadmin/SubAdminSummaryScreen.jsp"/>
+	</definition>
+	<definition name="ShowSubAdminDetail" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/subadmin/SubAdminDetailScreen.jsp"/>
+	</definition>
+	
+	<definition name="showFacilitatorSummaryScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/facilitator/FacilitatorDetailsSummaryScreen.jsp"/>
+	</definition>
+	
+	<definition name="showFacilitatorDetailsScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/facilitator/FacilitatorDetailsScreen.jsp"></put-attribute>
+	</definition>
+	
+	
+	<!--Personal Info Screen  -->
+	<definition name="ShowPersonalInfoScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/StudentTUMScreen.jsp"/>
+	</definition>
+	
+	<!--Career Info Screen  -->
+	<definition name="ShowCareerInfoScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/StudentTUMScreen.jsp"/>
+	</definition>
+	
+	<!--Hobbies Screen  -->
+	<definition name="ShowHobbiesInfoScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/StudentTUMScreen.jsp"/>
+	</definition>
+	<definition name="ShowErrorPage" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/ErrorScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowLowAptitudePage" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/LowAptitudeErrorScreen.jsp"/>
+	</definition>
+	
+	
+	<definition name="ShowReportError" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/ReportErrorScreen.jsp"/>
+	</definition>
+	<definition name="ShowSessionScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/template/SessionExpiredScreen.jsp"/>
+	</definition>
+	
+		<definition name="showSystemRecommendation" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/induoccchoice/SystemRecommendationScreen.jsp"/>
+	</definition>	
+	
+	<!--Welcome Screen  -->
+	<definition name="ShowWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/WelcomeScreen.jsp"/>
+	</definition>
+	
+	<!--Questionnaire Screen  -->
+	<definition name="ShowQuestionnaireScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/questionnaire/QuestionnaireDetailsScreen.jsp"/>
+	</definition>
+	
+	<!-- Student Details -->
+	<definition name="ShowStudentSummary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/StudentSummaryScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowStudentDetail" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/StudentDetailScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowTrailStudentDetail" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/TrailStudentDetailScreen.jsp"/>
+	</definition>
+
+	<definition name="showMyWishList" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/stuinduoccchoice/MyWishListScreen.jsp"/>
+	</definition>
+			
+	<definition name="showFacilitatorStudentSummaryScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/facilitatorstudent/FacilitatorStudentSummaryScreen.jsp"/>
+	</definition>
+	
+	<definition name="showOccupationGlossary" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/induoccchoice/OccupationGlossary.jsp"/>
+	</definition>
+	
+	<!--showOccupationWishList -->
+	<definition name="showOccupationWishList" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/occupation/wishlist/OccupationWishListDetailScreen.jsp"/>
+	</definition>
+	
+	<!--Session One WelcomeScreen  -->
+	<definition name="ShowSessionOneWelcomeScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/welcome/SessionOneWelcomeScreen.jsp"/>
+	</definition>
+	
+	<!--Session Two WelcomeScreen  -->
+	<definition name="ShowSessionTwoWelcomeScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/welcome/SessionOneWelcomeScreen.jsp"/>
+	</definition>
+	
+	<!--Session Three WelcomeScreen  -->
+	<definition name="ShowSessionThreeWelcomeScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/welcome/SessionOneWelcomeScreen.jsp"/>
+	</definition>
+	
+	<!-- Manual search -->
+	<definition name="showManualSearch" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/induoccchoice/ManualSearchScreen.jsp"/>
+	</definition>
+	
+	<definition name="showShortListScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/stuinduoccchoice/MyShortList.jsp"/>
+	</definition>
+	
+	<!--Explore More Occupation -->
+	<definition name="showExploreOccupationScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/exploremoreoccupation/ExploreMoreOccDetailScreen.jsp"/>
+	</definition>
+	
+	<!--View Log Screen  -->
+	<definition name="ShowViewLogScreen" extends="bodyLayout">
+	  <put-attribute name="bodyContent" value="/pages/viewlog/ViewLogDetailScreen.jsp"/>
+	</definition>
+	
+	<!--Edu Path Screen  -->
+	<definition name="ShowEduPathScreen" extends="bodyLayout">
+	  <put-attribute name="bodyContent" value="/pages/path/EduPathDetailScreen.jsp"/>
+	</definition>
+	
+	<!-- Entrance exam screen -->
+	<definition name="ShowEntranceExamsScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/entranceexams/EntranceExamsDetailScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!--Review Elective  -->
+	<definition name="ShowReviewElectiveScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/reviewelective/ReviewElectiveDetailsScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- Show under construction screen -->
+	<definition name="ShowUnderConstructionScreen" extends="bodyLayout">
+	  <put-attribute name="bodyContent" value="/pages/template/UnderConstructionScreen.jsp"/>
+	</definition>
+	
+	<!-- CollegeParameter -->
+	<definition name="ShowStudentParameterScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/collegeparameter/CollegeParameterDetailScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- College Selection -->
+	<definition name="ShowCollegeSelectScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/finaliseelectives/CollegeSelectSummaryScreen.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="ShowCollegeDetailsScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/finaliseelectives/CollegeSelectDetailsScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- Student SessionTwo WelcomeScreen  -->
+	
+	<definition name="ShowStudentSessionTwoWelcomeScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/welcome/SessionTwoWelcomeScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- Tutorials search -->
+	<definition name="ShowTutorialSearchScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/tutorialsearch/TutorialSearchScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- finalize -->
+	<definition name="ShowFinalizeDetailScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/finalize/FinalizeDetailScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- final summary -->
+	<definition name="showFinalSummaryScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/finalsummary/FinalSummaryScreen.jsp"></put-attribute>
+	</definition>
+	
+	<!-- College Compare -->
+	<definition name="ShowCollegeCompareScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/collegecompare/CollegeCompareScreen.jsp"/>
+	</definition>
+	
+	<!-- Review -->
+	<definition name="ShowReviewStudentSummaryScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/review/ReviewStudentSummaryScreen.jsp"/>
+	</definition>
+	
+	<!-- view feedback -->
+	<definition name="showViewFeedbackDetailsScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/viewfeedback/ViewFeedbackScreen.jsp"/>
+	</definition>
+	
+	<!-- Start Sasedeve Edited By Mrutyunjaya on Date 16-09-2017 -->
+	
+	<definition name="showGSInputDetailsScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/GSInputDetails/ViewGSIputsScreen.jsp"/>
+	</definition>
+	
+	
+	
+	
+	<!-- End Sasedeve Edited By Mrutyunjaya on Date 16-09-2017 -->
+	
+	<!-- Feedback Form  -->
+	<definition name="ShowSession3WelcomeScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/feedbackform/FeedbackFormWelcomeScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowStudentFeedbackFormScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/feedbackform/StudentFeedbackFormScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowParentFeedbackFormScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/feedbackform/ParentFeedbackFormScreen.jsp"/>
+	</definition>
+	
+	<definition name="showSchoolSummary" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/school/SchoolSummaryScreen.jsp"/>
+	</definition>
+	
+	<definition name="showSchoolDetails" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/school/SchoolDetailsScreen.jsp"/>
+	</definition>
+	
+	<!-- Trial Student Welcome Screen  -->
+	<definition name="ShowTrialWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/TrialStudentWelcomeScreen.jsp"/>
+	</definition>
+	
+	<!-- Trail Student Summary Screen  -->
+	<definition name="ShowTrialSummarycreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/tum/TrialStudentSummaryScreen.jsp"/>
+	</definition>
+	
+	<!-- Start sasedeve Edited by vyankatesh on date 3-2-2017    // Manage Payment  -->
+	<definition name="showManagePayment" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/payment/showPaymentScreen.jsp"/>
+	</definition>
+	<!-- End sasedeve Edited by vyankatesh on date 3-2-2017 -->
+	
+	
+	<!-- Start sasedeve Mrutyunjaya on date 19-07-2017  -->
+	<definition name="SessionOneFeedback" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/SessionFeedBack/SessionOneFeedBack.jsp"/>
+	</definition>
+	
+	<definition name="SessionTwoFeedback" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/SessionFeedBack/SessionTwoFeedBack.jsp"/>
+	</definition>
+	
+	<definition name="Worldofjobs" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/worldofjobs/Worldofjobsscreen.jsp"/>
+	</definition>
+	
+	
+	<definition name="showfailedemails" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/failedemails/FailedEmails.jsp"/>
+	</definition>
+	
+	
+	
+	<!-- End sasedeve Edited by Mrutyunjaya on date 19-07-2017 -->
+	
+	<!-- Start sasedeve Edited by Yogamaya on date 12-9-2017 -->
+	<definition name="showTipsAndSuggetions" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/TipsAndSuggetions/TipsandSuggetion.jsp"/>
+	</definition>
+	<!-- End sasedeve Edited by Yogamaya on date 12-9-2017 -->
+	
+	<!-- Start sasedeve Edited by Yogamaya on date 12-9-2017 -->
+	<definition name="showGSInputs" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/GSInputDetails/GSInputDetails.jsp"/>
+	</definition>
+	<!-- End sasedeve Edited by Yogamaya on date 12-9-2017 -->
+	
+
+	<!-- Start sasedeve Edited by Mrutyunjaya on date 10-01-2018 -->
+
+     <definition name="OccupationReadByStudent" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/occupationread/OccupationReadByStudent.jsp"/>
+	</definition>
+
+<!-- End sasedeve Edited by Mrutyunjaya on date 10-01-2018 -->
+	
+	<!-- Start sasedeve Edited by Mrutyunjaya on date 24-07-2018 -->
+	
+	<definition name="ShowArchiveStudentSummary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/StudentArchiveSummaryScreen.jsp"/>
+	</definition>
+	
+	<definition name="ShowArchiveStudentDetail" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/ArchiveStudentDetailScreen.jsp"/>
+	</definition>
+	
+	
+	<!-- End sasedeve Edited by Mrutyunjaya on date 24-07-2018 -->
+	
+	<!-- start by bharath on 10-9-2019 -->
+	<definition name="ShowCompletedStudentSummary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/CompletedStudentSummaryScreen.jsp"/>
+	</definition>
+	<!-- End by bharath on 10-9-2019 -->
+	
+	<!-- start by bharath on 12-9-2019 -->
+	<definition name="ShowTrailStudentSummary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/student/TrailStudentSummaryScreen.jsp"/>
+	</definition>
+	<!-- End by bharath on 12-9-2019 -->
+	
+	<!-- start by bharath on 20-9-2019 -->
+	<definition name="ShowFacilitatorCalendar" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/facilitator/FacilitatorCalendar.jsp"/>
+	</definition>
+	<!-- End by bharath on 20-9-2019 -->
+	
+	<definition name="ShowCDDBulkDownloadPage" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/CDDBulkDownload/CDDBulkDownload.jsp"/>
+	</definition>
+	
+	<!-- start by bharath on 15-10-2019 -->
+	<definition name="showStudentReportGeneratedSummary" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/facilitatorstudent/FacilitatorStudentReportGeneratedSummary.jsp"/>
+	</definition>
+	<!-- End by bharath on 15-10-2019 -->
+	
+	<!-- start by bharath on 22-10-2019 -->
+	<definition name="ShowCollegeReport" extends="bodyLayout">
+        <put-attribute name="bodyContent" value="/pages/collegereport/CollegeReportSummary.jsp"/>
+    </definition>
+    <!-- End by bharath on 22-10-2019 -->
+    
+    <!-- start by bharath 13-11-2019 -->
+	<definition name="ShowFacilitatorStatsReport" extends="bodyLayout">
+        <put-attribute name="bodyContent" value="/pages/facilitator/FacilitatorStatsReport.jsp"/>
+    </definition>
+    <!-- End by bharath 13-11-2019 -->
+    
+    <!-- start by bharath 14-11-2019 -->
+	<definition name="ShowStudentDetailsReport" extends="bodyLayout">
+        <put-attribute name="bodyContent" value="/pages/student/StudentDetailsReportScreen.jsp"/>
+    </definition>
+    <!-- End by bharath 14-11-2019 -->
+    
+    <!-- start by bharath 01-06-2020 -->
+	<definition name="ShowDHSchedule" extends="bodyLayout">
+        <put-attribute name="bodyContent" value="/pages/student/DHStudentScheduleScreen.jsp"/>
+    </definition>
+    
+    <definition name="ShowDHStudentDetail" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/dailyhunt/DHStudentDetailScreen.jsp"/>
+	</definition>
+    <!-- End by bharath 10-06-2020 -->
+    
+	 <definition name="ShowDHWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/dailyhunt/DHWelcomeScreen.jsp"/>
+	</definition>
+    
+	<definition name="ShowStreamSelectorWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/streamselector/StreamSelectorWelcomeScreen.jsp"/>
+	</definition>
+	
+    <definition name="ShowEBSelectorWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/engineeringBranchSelector/EngineeringBranchSelectorWelcomeScreen.jsp"/>
+	</definition>
+	<definition name="ShowEBFavouriteSubjectScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/engineeringBranchSelector/EBFavouriteSubject.jsp"/>
+	</definition>
+	<definition name="ShowCDDSelectorWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/CareerDegreeDiscovery/CareerDegreeDiscoveryWelcomeScreen.jsp"/>
+	</definition>
+	<definition name="ShowNonScienceCDDSelectorWelcomeScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/CareerDegreeDiscovery/NonScienceCareerDegreeDiscoveryWelcomeScreen.jsp"/>
+	</definition>
+	<definition name="ShowCDDStreamScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/CareerDegreeDiscovery/CareerDegreeDiscoverySelectStream.jsp"/>
+	</definition>
+	<definition name="ShowCareerFitmentWelcomeScreenOne" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/careerFitment/CareerFitmentWelcomeScreenOne.jsp"/>
+	</definition>
+	<definition name="ShowCareerFitmentWelcomeScreenTwo" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/careerFitment/CareerFitmentWelcomeScreenTwo.jsp"/>
+	</definition>
+	<definition name="ShowCareerFitmentThankyouScreen" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/careerFitment/CareerFitmentThankYouScreen.jsp"/>
+	</definition>
+	<definition name="showClusterOccupationGlossary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/careerFitment/OccupationClusterGlossary.jsp"/>
+	</definition>
+	<definition name="showCFOccupationGlossary" extends="bodyLayout">
+	    <put-attribute name="bodyContent" value="/pages/programTest/careerFitment/OccupationGlossary.jsp"/>
+	</definition>
+	<definition name="ShowCareerFitmentLockedScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/programTest/careerFitment/CareerFitmentLockedScreen.jsp"/>
+	</definition>
+	
+	<definition name="showVarkStudentRegistrationScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/vark/StudentRegistrationScreen.jsp"/>
+	</definition>
+	<definition name="ShowLSTResultScreen" extends="bodyLayout">
+		<put-attribute name="bodyContent" value="/pages/vark/LSTResult.jsp"/>
+	</definition>
+</tiles-definitions>

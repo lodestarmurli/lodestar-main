@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Alerts">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tags.AlertsDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.tags.AlertsDTO"></resultMap>
+	
+	<select id="getOccupationAlertsByOccId" parameterType="java.util.List" resultMap="SelectAllResult">
+	  SELECT distinct a.*, o.occupationId as occupationId FROM OccupationAlertMapping o
+	  JOIN Alerts a on a.id = o.alertId
+	  WHERE o.occupationId in
+	  <foreach collection="list" close=")" open="(" item="item" separator=",">
+	      #{item}
+	  </foreach> 
+	</select>
+	
+</mapper>

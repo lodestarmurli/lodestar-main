@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Subject">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.elective.SubjectDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.elective.SubjectDTO"></resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.elective.SubjectStreamCombinationVO" id="streamComboResult">
+		<id property="subjectId" column="subjectId"/>
+		<result property="streamName" column="streamName"/>
+		<collection property="combinations" column="streamId" ofType="com.lodestar.edupath.datatransferobject.dto.elective.CombinationDTO" resultMap="combinitionMap"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.elective.CombinationDTO" id="combinitionMap">
+		<id property="id" column="combinationId"/>
+		<result property="streamId" column="streamId"/>
+		<result property="name" column="combinationName"/>
+	</resultMap>
+	
+	<select id="getSubjectListByStudentId" parameterType="int" resultMap="SelectAllResult">
+    	SELECT DISTINCT sb.name, sb.id FROM Subject sb
+		INNER JOIN CombinationElectivesMapping cem ON cem.electiveId = sb.id
+		INNER JOIN Combination cb ON cb.id= cem.combinationId
+		INNER JOIN EduPathElectiveShortList ees ON ees.combinationId = cb.id
+		WHERE ees.studentId = #{studentId} ORDER BY ees.orderNo
+	</select>
+	
+	<select id="getSubjectListByIds" parameterType="java.util.List" resultMap="SelectAllResult">
+		SELECT * FROM Subject
+		WHERE id IN 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="getSubStreamNCombinationByStudentId" parameterType="int" resultMap="streamComboResult">
+		SELECT s.id AS streamId, s.name AS streamName, cb.id AS combinationId, cb.name AS combinationName
+		FROM Subject sb
+		INNER JOIN CombinationElectivesMapping cem ON cem.electiveId = sb.id
+		INNER JOIN Combination cb ON cb.id= cem.combinationId
+		INNER JOIN EduPathElectiveShortList ees ON ees.combinationId = cb.id
+		INNER JOIN Streams s ON s.id = cb.streamId
+		WHERE ees.studentId = #{studentId}
+		GROUP BY s.id, cb.id
+		ORDER BY ees.orderNo 
+	</select>
+	
+	<select id="getUniqueSubByStudentId" parameterType="int" resultMap="SelectAllResult">
+		SELECT DISTINCT s.*
+		FROM EduPathElectiveShortList epesl
+		JOIN CombinationElectivesMapping cem ON cem.combinationId = epesl.combinationId
+		JOIN Subject s ON s.id = cem.electiveId
+		WHERE epesl.studentId = #{studentId}
+		ORDER BY s.name
+	</select>
+</mapper>
+

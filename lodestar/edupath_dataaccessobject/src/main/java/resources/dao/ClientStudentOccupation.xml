@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ClientStudentOccupation">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentOccupationDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentOccupationDTO"></resultMap>
+	
+	<select id="getPersonalityCodeOccupationByStudentId" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT studentId,personalityCode,occList FROM ClientStudentOccupation WHERE studentId = #{studentId}
+	</select>
+
+	<!-- 
+	<select id="getStudentCGTBySectionNFactor" parameterType="java.util.Map" resultType="com.lodestar.edupath.datatransferobject.dto.student.StudentCGTForEvalDTO">
+	    SELECT * FROM DHStudentCGT st
+		JOIN CGTQuestioneries cgt on cgt.id = st.questionId
+		WHERE st.studentId = #{studentId} and cgt.factor = #{factor} and section = #{section}
+	</select>
+	 -->
+	<select id="getClientStudentOccupation" parameterType="java.util.Map" resultMap="SelectAllResult">
+	  SELECT * From ClientStudentOccupation 
+      where token1 = #{token} or  token2 = #{token}
+	</select>	
+	
+	
+	<insert id="insertorUpdateStudentOccupation" parameterMap="paramMap" >
+	   INSERT INTO ClientStudentOccupation (studentId, occ1Id, occ2Id, pdfToken, token1, token2, occList, personalityCode) VALUES (#{studentId}, #{occ1Id}, #{occ2Id}, #{pdfToken}, #{token1}, #{token2}, #{occList}, #{personalityCode})
+	   ON DUPLICATE KEY UPDATE	studentId=#{studentId}, occ1Id=#{occ1Id}, occ2Id=#{occ2Id}, pdfToken=#{pdfToken}, token1=#{token1}, token2=#{token2}, occList=#{occList}, personalityCode=#{personalityCode}
+	</insert>
+		<!--
+	<update id="updateStudentCGTAnswer" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	   UPDATE DHStudentCGT
+	   SET 
+	   answer = #{answer}
+	   WHERE studentId = #{studentId} AND questionId = #{questionId}
+	   <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</update>
+	
+	<select id="getAnsweredCountByQuestionIds" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) FROM DHStudentCGT WHERE studentId = #{studentId} AND questionId IN
+		<foreach collection="questionIds" item="questionId" open="(" separator="," close=")">
+			#{questionId}
+		</foreach>
+	</select>
+	
+	<select id="getAllStudentCGTForBulk" resultType="String">
+		SELECT CONCAT(studentId, ':', questionId) as studentNQusetionId FROM DHStudentCGT 
+	</select> -->
+
+</mapper>

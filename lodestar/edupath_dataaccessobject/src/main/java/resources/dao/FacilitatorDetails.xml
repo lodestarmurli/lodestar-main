@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FacilitatorDetails">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorDetailsDTO" id="facilitatorDetailsResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorDetailsDTO" id="facilitatorDetailsParam"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorCityMapDTO" id="facilitatorCityDetailsParam"/>
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorCityMapDTO" id="facilitatorCityDetailsParam"/>
+	  	<resultMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorStatsReportDTO" id="facilitatorStatsReportResult">
+	  	<result property="id" column="id" />
+	  	<result property="name" column="name" />
+	  	<result property="emailId" column="emailId" />
+	    <result property="preSessionCompleted" column="preSessionCompleted" />
+	    <result property="session1Completed" column="session1Completed" />
+	    <result property="session2Completed" column="session2Completed" />
+	    <result property="session3Completed" column="session3Completed" />
+	    <result property="sentForReview" column="sentForReview" />
+	    <result property="reportGenerated" column="reportGenerated" />
+		</resultMap>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.FacilitatorStatsReportDTO" id="facilitatorStatsReportParam"/>
+	 
+	 <select id="getAllFacilitatorDetails" resultType="com.lodestar.edupath.datatransferobject.dto.FacilitatorDetailsDTO" >
+		SELECT * FROM FacilitatorDetails;
+	</select>
+	
+	<select id="getFacilitatorDetailsById" parameterType="int" resultMap="facilitatorDetailsResult">
+		SELECT * FROM FacilitatorDetails WHERE id = #{id}
+	</select>
+	
+	<insert id="insertFacilitatorDetails" useGeneratedKeys="true" keyProperty="id" parameterMap="facilitatorDetailsParam">
+	 	 INSERT INTO FacilitatorDetails (name, type, dob, panNumber, highestQualificationId, emailId, altEmailId, phoneNumber, altPhoneNumber, streetAddr, areaAddr, cityId, isReviewer, userId, isActive, additionalLanguages)
+	 	  VALUES (#{name}, #{type}, #{dob}, #{panNumber}, #{highestQualificationId}, #{emailId}, #{altEmailId}, #{phoneNumber}, #{altPhoneNumber}, #{streetAddr}, #{areaAddr}, #{cityId}, #{isReviewer}, #{userId}, #{isActive}, #{additionalLanguages})
+	</insert>
+	
+	 <update id="updateFacilitatorDetailsById" parameterMap="facilitatorDetailsParam">
+	    UPDATE FacilitatorDetails SET
+	    name = #{name}, type = #{type}, dob = #{dob}, panNumber = #{panNumber}, highestQualificationId = #{highestQualificationId}, emailId = #{emailId}, altEmailId = #{altEmailId}, 
+	    phoneNumber = #{phoneNumber}, altPhoneNumber = #{altPhoneNumber}, streetAddr = #{streetAddr}, areaAddr = #{areaAddr}, cityId = #{cityId}, isReviewer = #{isReviewer}, userId = #{userId}, isActive = #{isActive}, additionalLanguages = #{additionalLanguages}
+	    WHERE id = #{id}
+	 </update>
+	 
+	 <delete id="deleteFacilitatorDetailsById" parameterType="int">
+		DELETE FROM FacilitatorDetails where id = #{id};
+	</delete>
+	
+	 
+	 <select id="getFacilitatorDetailsByUserId" parameterType="int" resultMap="facilitatorDetailsResult">
+	 	SELECT fd.*, ur.roleTypeId FROM FacilitatorDetails fd
+		INNER JOIN UserDetail u ON u.id = fd.userId
+		INNER JOIN UserRole ur ON ur.id = u.roleId
+		WHERE fd.userId = #{id}
+	 </select>
+	 
+	 <select id="getFacilitatorDetailsByEmailId" parameterMap="facilitatorDetailsParam" resultMap="facilitatorDetailsResult">
+		SELECT * FROM FacilitatorDetails WHERE emailId = #{emailId}
+	 </select>
+	 
+	 <select id="getActiveFacilitator" resultMap="facilitatorDetailsResult">
+	 	SELECT * FROM FacilitatorDetails WHERE isActive = 1
+	 </select>
+	 
+	 <select id="getFacilitatorByStudentId" parameterType="int" resultMap="facilitatorDetailsResult">
+	 	SELECT ftd.id, ftd.name, ftd.phoneNumber, ftd.emailId
+	 	FROM   SessionScheduleDetails ssd
+     	JOIN   FacilitatorDetails ftd 
+     	ON     ftd.id = ssd.facilitatorId
+     	WHERE  ssd.studentId = #{id}
+	 </select>
+	 
+	 <insert id="insertFacilitatorcityDetails" useGeneratedKeys="true" keyProperty="id" parameterMap="facilitatorCityDetailsParam">
+	 	 INSERT INTO Facilitatorcitymap (facilitatorId,	cityId, faceToFaceCity, oncallCity)
+	 	  VALUES (#{facilitatorId}, #{cityId}, #{faceToFaceCity}, #{oncallCity})
+	</insert>
+	<select id="getAllFacilitaorcityList" resultMap="facilitatorCityDetailsParam">
+	 	<!--  SELECT * FROM Facilitatorcitymap 
+	 	SELECT fcm.*,ftd.name from FacilitatorDetails ftd, Facilitatorcitymap fcm  WHERE fcm.facilitatorId=ftd.id  -->
+	 	SELECT fcm.*,ftd.name ,ftd.id as oldid from FacilitatorDetails ftd LEFT JOIN  Facilitatorcitymap fcm  on fcm.facilitatorId=ftd.id 
+
+	 </select>
+	 
+	 <select id="getAllFacetofaceIdFacilitatorId" resultMap="facilitatorDetailsResult" parameterType="int">
+		SELECT cityId FROM Facilitatorcitymap WHERE faceToFaceCity="1" AND facilitatorId = #{id}
+	</select>
+	<select id="getAllonCallCityIdFacilitatorId" resultMap="facilitatorDetailsResult" parameterType="int">
+		SELECT cityId FROM Facilitatorcitymap WHERE oncallCity="1" AND facilitatorId = #{id}
+	</select>
+	
+	  <delete id="updateFacilitatorCitymapDetailBYId" parameterType="int">
+		DELETE FROM Facilitatorcitymap where facilitatorId = #{facilitatorId};
+	</delete>
+	
+	<select id="getFacilitatorMappingId" resultMap="facilitatorDetailsResult" parameterType="int">
+		SELECT cityId FROM Facilitatorcitymap WHERE facilitatorId = #{id}
+	</select>
+	
+	<select id="getFacilitatorStatsReport" resultMap="facilitatorStatsReportResult" parameterMap="facilitatorStatsReportParam">
+		SELECT fd.id as id , fd.name as name ,fd.emailId as emailId,
+		sum( case when ssd.preSessionCompleted =1 then 1 else 0 end ) as preSessionCompleted,
+		sum( case when ssd.session1FaciCompleted =1 then 1 else 0 end ) as session1Completed,
+		sum( case when ssd.session2FaciCompleted =1 then 1 else 0 end ) as session2Completed,
+		sum( case when ssd.session3FaciCompleted =1 then 1 else 0 end ) as session3Completed,
+		sum( case when ssd.sentForReview =1 then 1 else 0 end ) as sentForReview,
+		sum( case when ssd.reportGenerated =1 then 1 else 0 end ) as reportGenerated
+		from FacilitatorDetails fd
+		left join SessionScheduleDetails ssd on ssd.facilitatorId = fd.id
+		left join StudentDetails sd on sd.id=ssd.studentId
+		left join School sc on sc.id=sd.schoolId
+		where sd.schoolId =  #{schoolId} and ( year(ssd.session1Date) = #{year} or year(ssd.session2Date) = #{year} or year(ssd.session3Date) = #{year} )
+		group by fd.id
+	</select>
+	 
+</mapper>

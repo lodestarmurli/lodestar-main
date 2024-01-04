@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BulkUpload">
+	
+	<resultMap id="uploadResult" type="com.lodestar.edupath.datatransferobject.dto.BulkUploadStatusDTO"></resultMap>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.BulkUploadStatusDTO" id="params"></parameterMap>
+  	
+	<insert id="insertUploadDetails" parameterMap="params" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO BulkUploadStatus (module, fileName, uploadedAt, uploadedBy, completedAt, status, message) 
+	    VALUES (#{module}, #{fileName}, #{uploadedAt}, #{uploadedBy}, #{completedAt}, #{status}, #{message})
+	</insert>
+	
+	<update id="updateUploadDetails" parameterMap="params">
+  		UPDATE BulkUploadStatus SET module = #{module}, fileName = #{fileName}, uploadedAt = #{uploadedAt}, uploadedBy = #{uploadedBy}, 
+  		completedAt = #{completedAt}, status = #{status} , message = #{message} WHERE id = #{id}
+  	</update>
+  	
+	<update id="updateStatusAndCompletedTime" parameterMap="params">
+  		UPDATE BulkUploadStatus SET status = #{status}, completedAt = #{completedAt}, message = #{message} 
+  		WHERE id = #{id}
+  	</update>
+  	
+	<select id="getAll" parameterMap="params" resultMap="uploadResult">
+	    SELECT * FROM BulkUploadStatus WHERE module = #{module} ORDER BY uploadedAt DESC
+	</select>
+	
+	<update id="updateInProgressStatus" parameterMap="params">
+  		UPDATE BulkUploadStatus SET status = #{status}, completedAt = #{completedAt}, message = #{message} 
+  		WHERE status = 'IN PROGRESS'
+  	</update>
+	
+</mapper>

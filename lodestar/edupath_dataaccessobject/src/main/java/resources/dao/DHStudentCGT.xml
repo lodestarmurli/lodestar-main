@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DHStudentCGT">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTDTO"></resultMap>
+	
+	<select id="getDHstudentCGTByStudentId" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM DHStudentCGT WHERE studentId = #{studentId}
+	</select>
+
+	<select id="getDHstudentCGTAptitudeByStudentId" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM DHStudentCGT WHERE studentId = #{studentId} and questionId > 60 
+	</select>
+	<select id="getStudentCGTBySectionNFactor" parameterType="java.util.Map" resultType="com.lodestar.edupath.datatransferobject.dto.student.StudentCGTForEvalDTO">
+	    SELECT * FROM DHStudentCGT st
+		JOIN CGTQuestioneries cgt on cgt.id = st.questionId
+		WHERE st.studentId = #{studentId} and cgt.factor = #{factor} and section = #{section}
+	</select>
+	
+	<select id="getStudentCGTByStudentId" parameterType="java.util.Map" resultType="com.lodestar.edupath.datatransferobject.dto.student.StudentCGTForEvalDTO">
+	  SELECT cgt.slNo ,scgt.answer
+      From DHStudentCGT as scgt
+      JOIN CGTQuestioneries as cgt 
+      ON cgt.id = scgt.questionId
+      where scgt.studentId = #{studentId} AND cgt.section = #{section}
+	</select>	
+	
+	<insert id="insertDHStudentCGTAnswer" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	   INSERT INTO DHStudentCGT (studentId, questionId, answer)
+	   VALUES (#{studentId}, #{questionId}, #{answer})
+	   <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<update id="updateStudentCGTAnswer" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	   UPDATE DHStudentCGT
+	   SET 
+	   answer = #{answer}
+	   WHERE studentId = #{studentId} AND questionId = #{questionId}
+	   <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</update>
+	
+	<select id="getAnsweredCountByQuestionIds" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) FROM DHStudentCGT WHERE studentId = #{studentId} AND questionId IN
+		<foreach collection="questionIds" item="questionId" open="(" separator="," close=")">
+			#{questionId}
+		</foreach>
+	</select>
+	
+	<select id="getAllStudentCGTForBulk" resultType="String">
+		SELECT CONCAT(studentId, ':', questionId) as studentNQusetionId FROM DHStudentCGT 
+	</select>
+
+</mapper>

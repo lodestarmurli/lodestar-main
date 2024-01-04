@@ -1,0 +1,111 @@
+.configtable a {color:blue;text-decoration: none;}
+.configtable a:link {color:blue;text-decoration: none;}
+.configtable a:visited {text-decoration: none; color:#000000; }
+.configtable a:active {text-decoration: none; color: #000000;font-weight:bold;}
+.configtable a:hover {color:blue; text-decoration: underline;}
+
+.configtable
+{
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight:normal;
+}
+
+.configtable th
+{
+	BACKGROUND: #447fb9;
+    font-family: Verdana;
+	font-size: 10px;
+	font-weight:bold;
+	PADDING-LEFT:5px;
+	PADDING-RIGHT:5px;
+	text-align:left;
+	color:#FFFFFF;
+	height: 22px;
+}
+
+.configtable td
+{
+	height: 25px;
+}
+
+.textbox {
+	BORDER-BOTTOM: #7F9DB9 1px solid;
+	BORDER-LEFT: #7F9DB9 1px solid;
+	BORDER-TOP: #7F9DB9 1px solid;
+	BORDER-RIGHT: #7F9DB9 1px solid;
+	font-family: Verdana;
+	font-size: 10px;
+	BACKGROUND-COLOR: #ffffff;
+	WIDTH: 92%;
+	HEIGHT: 18px;
+	align: left;
+}
+ 
+.button {
+	BACKGROUND: #076FDF; 
+	COLOR: #FFFFFF;
+	font-weight: bold;
+	BORDER: #c5dbec 1px solid;
+	font-family: verdana;
+	font-size: 9px;
+	cursor: pointer;
+	width: 71px;
+	height: 20px;
+	padding-bottom: 2px;
+	text-align: center;
+	margin-left: -8px;
+    margin-top: 2px;
+}
+
+.linklabels {
+	color: #A5203B;
+	font-family: verdana;
+	font-size: 10px;
+	font-weight: normal;
+	text-align: left;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.reporttable {
+	BORDER-TOP: #dddddd 1px solid; 
+	BORDER-BOTTOM: #dddddd 1px solid; 
+	BORDER-LEFT: #dddddd 1px solid;
+	width: 100%;
+	font-family: Verdana;
+	font-size: 10px;
+}
+
+.reporttable th {
+	text-align: left;
+	BACKGROUND: #336699;
+	PADDING-LEFT: 2px;
+	PADDING-RIGHT: 4px;
+	font-weight: bold;
+	color: #ffffff;
+	height: 22px;
+}
+.reporttable td
+{
+	BACKGROUND: #f6f6f6;
+	height:25px;
+	border-bottom: 1px solid #dddddd;
+	PADDING-LEFT: 4px;
+//	word-wrap: break-word;        
+   // overflow-wrap: break-word;    
+   word-break: break-all; 
+}
+.reporttable td.actions
+{
+	PADDING-LEFT: 0px;
+}
+
+.reporttable tr.odd
+{
+	border-bottom: 1px solid #dddddd;
+}
+.reporttable tr.even
+{
+	border-bottom: 1px solid #dddddd;
+}

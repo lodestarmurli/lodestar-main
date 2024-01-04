@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PaymentDetails">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.PaymentDTO"
+		id="paymentDetailsResult" />
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.PaymentDTO"
+		id="paymentDetailsParam" />
+
+	<insert id="insertPaymentDetails" useGeneratedKeys="true"
+		keyProperty="id" parameterMap="paymentDetailsParam">
+		INSERT INTO Payment (studentId,loginId,dueAmount,agreedAmount,paidAmount)
+		VALUES
+		(#{studentId},#{loginId},#{dueAmount},#{agreedAmount},#{paidAmount})
+	</insert>
+
+	<select id="getallstudentID"
+		resultType="com.lodestar.edupath.datatransferobject.dto.PaymentDTO">
+		SELECT studentId,loginId FROM Payment;
+	</select>
+
+	<update id="updatePaymentDetailbyStudentId" parameterMap="paymentDetailsParam">
+		UPDATE Payment SET
+		dueAmount = #{dueAmount}, agreedAmount = #{agreedAmount}, paidAmount = #{paidAmount} WHERE loginId = #{loginId}
+	</update>
+	<select id="getallLoginId" resultType="com.lodestar.edupath.datatransferobject.dto.PaymentDTO">
+		SELECT * FROM  UserDetail;
+	</select>
+	<update id="updatePaymentbyStudentId" parameterMap="paymentDetailsParam">
+		UPDATE Payment SET
+		dueAmount = #{dueAmount}, agreedAmount = #{agreedAmount}, paidAmount = #{paidAmount} WHERE studentId = #{studentId}
+	</update>
+
+</mapper>

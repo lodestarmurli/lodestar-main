@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentTUM">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.StudentTUMDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.StudentTUMDTO"></resultMap>
+	
+	<select id="getStudentSavedTUM" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM StudentTUM WHERE studentId = #{studentId}
+	</select>
+	
+	<select id="getStudentSavedTUMBySlNo" parameterType="java.util.Map" resultMap="SelectAllResult">
+	    SELECT * FROM StudentTUM WHERE studentId = #{studentId}
+	    AND questionSlNo IN 
+	    <foreach collection="questionSlNoList" close=")" open="(" item="slNo" separator=",">
+	        #{slNo}
+	    </foreach>
+	</select>
+			
+	
+	
+	<insert id="addStudentTUMDetail"  parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	  INSERT INTO StudentTUM (studentId, questionSlNo, answer) 
+	  VALUES (#{studentId}, #{questionSlNo}, #{answer}) 
+	 <!--  ON DUPLICATE KEY UPDATE studentId = VALUES(#{studentId}),  questionSlNo = VALUES(#{questionSlNo}), answer = VALUES(#{answer}) -->
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteStudentTUMById" parameterMap="paramMap">
+	    DELETE from StudentTUM WHERE studentId = #{studentId} AND questionSlNo >= #{questionSlNo} AND questionSlNo  &lt;= #{range}
+	</delete> 
+	
+	<select id="getStudentTUMBySlNo" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM StudentTUM WHERE studentId = #{studentId} AND questionSlNo >= #{questionSlNo} AND questionSlNo  &lt;= #{range}
+	</select>
+	<select id="getStudentTUMById" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM StudentTUM WHERE studentId = #{studentId}
+	</select>
+	
+	<update id="updateStudentTUMById" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	    UPDATE StudentTUM
+	    SET
+	    answer = #{answer}
+	    WHERE studentId = #{studentId} AND questionSlNo = #{questionSlNo}
+	    <selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</update>
+	
+	<delete id="deleteStudentTUMByQuestionSlNo" parameterMap="paramMap">
+	    DELETE from StudentTUM WHERE studentId = #{studentId} AND questionSlNo = #{questionSlNo}
+	</delete> 
+	
+</mapper>

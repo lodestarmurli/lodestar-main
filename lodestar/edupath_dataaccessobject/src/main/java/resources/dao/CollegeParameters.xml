@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CollegeParameters">
+	
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO" id="paramMap"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO" id="resultMap"/>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersDTO" id="collegeParamValueMap">
+		<id property="id" column="id"/>
+		<result property="parameter" column="parameter"/>
+		<result property="description" column="description"/>
+		<result property="filterDisplayName" column="filterDisplayName"/>
+		<result property="paramName" column="paramName"/>
+		<result property="displayOrder" column="displayOrder"/>
+		<result property="isRangeParam" column="isRangeParam"/>
+		<result property="isMultiSelect" column="isMultiSelect"/>
+		<collection property="values" column="parameterId" resultMap="paramValueMap" ofType="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO" id="paramValueMap">
+		<id property="id" column="valueId"/>
+		<result property="displayValue" column="displayValue"/>
+		<result property="actualValue" column="actualValue"/>
+		<result property="parameterId" column="parameterId"/>
+	</resultMap>
+
+<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.BoardList" id="BoardNotListed">
+<id property="id" column="id"/>
+</resultMap>
+
+<!-- START Sasedeve Edited by Mrutyunjaya on Date 17-04-2017  -->
+
+<!--Start Original Code  -->
+<!--  <select id="getCollegeParameters" parameterType="java.util.Map" resultMap="collegeParamValueMap">
+		SELECT cp.id, cp.parameter, cp.description, cp.filterDisplayName, cp.paramName, cp.isRangeParam, cp.isMultiSelect,
+		cpv.id as valueId, cpv.displayValue, cpv.actualValue, cpv.parameterId
+		FROM CollegeParameters cp
+		INNER JOIN CollegeParametersValues cpv ON cpv.parameterId = cp.id
+		ORDER BY cp.displayOrder, cpv.displayOrder
+	</select>-->
+
+<!--END Original Code  -->
+
+
+<!--Start Change Code -->
+<select id="getCollegeParameters" parameterType="java.util.Map" resultMap="collegeParamValueMap">
+		SELECT cp.id, cp.parameter, cp.description, cp.filterDisplayName, cp.paramName, cp.isRangeParam, cp.isMultiSelect,
+		cpv.id as valueId, cpv.displayValue, cpv.actualValue, cpv.parameterId
+		FROM CollegeParameters cp
+		INNER JOIN CollegeParametersValues cpv ON cpv.parameterId = cp.id 
+		<if test="list != null and list.size() > 0">
+		and cpv.actualValue NOT IN 
+		<foreach collection="list" item="collegeId" open="(" separator="," close=")">
+			#{collegeId}
+		</foreach>
+		</if>
+		ORDER BY cp.displayOrder, cpv.displayOrder
+	</select>
+
+<!--END Change Code -->
+
+<select id="getNotlistedBoard" parameterType="int" resultMap="BoardNotListed">
+select boardid as id from BoardCityMap  where cityid != #{Cityid} and cityid!=0
+</select>
+
+<select id="getlistedBoard" parameterType="int" resultMap="BoardNotListed">
+select boardid as id from BoardCityMap where cityid = #{Cityid} or cityid=0
+</select>
+
+<!-- END Sasedeve Edited by Mrutyunjaya on Date 17-04-2017  -->
+
+	
+</mapper>

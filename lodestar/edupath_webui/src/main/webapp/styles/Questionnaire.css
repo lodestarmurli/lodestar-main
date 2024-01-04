@@ -1,0 +1,190 @@
+.question_action
+{
+  margin-top:20px;
+  text-align: right;
+  padding-right: 57px !important;
+}
+.instruction_txt
+{
+  text-align: center;
+  font-weight: bold;
+  font-family: Open Sans;
+  width: 99%;
+  line-height: 13 pt;
+  font-size: 12pt;
+}
+.btn_qt
+{
+  background-color: #fff;
+  border: 1px solid #C7C5C5 !important;
+}
+.instruction
+{
+  font-family: Open Sans;
+  font-size: 13px;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+.instruction ul > li
+{
+  padding-bottom: 5px;
+}
+.instruction_txt_div
+{
+  clear: both;
+  width: 100%;
+  padding-top: 5px;
+}
+.icon_left_div
+{
+  float: left; 
+  width: 2%;
+}
+.instruction_right_div
+{
+  float: left; 
+  width: 97%;
+}
+
+.serial_left_div
+{
+  float: left; 
+  width:3%;
+}
+.qusetion_right_div
+{
+   width: 97%;
+}
+.btn_yes
+{
+  background: #B7DECC !important;
+  color: #6688A4;
+}
+.btn_no
+{
+  background: #B7DECC !important;
+  color: #6688A4;
+}
+.btn_qt
+{
+ font-size: 10 pt;
+ font-family: Open Sans;
+ font-weight: 600;
+}
+.sl_btn_qt
+{
+ background-color: #fff;
+ border: 1px solid #C7C5C5 !important;
+}
+.sl_btn_qt
+{
+ font-size: 10 pt;
+ font-family: Open Sans;
+ font-weight: 600;
+
+}
+.qusetion_content
+{
+ 	padding-bottom: 80px;
+  	padding-top: 100px;
+}
+.question_main 
+{
+  padding-left: 41px;
+  margin-top: -25px;
+}
+
+.custom-modal-btn
+{
+  width: 80px;
+  background: #6ABA95;
+}
+.modal-content
+{
+  box-shadow: 0 0px 20px #0970BB !important;
+  margin-top: 200px;
+ /* width: 400px !important;
+  left: 100px !important;*/
+}
+#apt_messageId
+{
+  display: none; 
+  margin-top: 90px;
+  text-align: center;
+  width: 350px;
+  height: 150px;
+  background: #39423E;
+  opacity: .9;
+  padding-top: 60px;
+  font-size: 13pt;
+  border: 3px solid #B3B3B3;
+  color: #BFBFBF;
+}
+
+.remove_div
+{
+  margin-top: 25px;
+  text-align: center;
+}
+div.radio, div.checker {
+  margin-right: 0;
+  margin-left: 10px !important;
+  margin-top: 5px !important;
+}
+.apt_md_lbl
+{
+  width: 205px !important;
+}
+.question_img_div
+{
+  padding-left: 40px;
+  padding-bottom: 10px;
+}
+.question_img
+{
+/*   width: 300px;*/
+  height: 200px; 
+}
+.big_radio_lbl
+{
+  width: 100% !important;
+}
+.startdiv
+{
+  height: 162px;
+  width: 320px;
+  box-shadow: 0px 0px 24px #0970BB;
+  padding-top: 52px;
+  text-align: center;
+}
+.remain-time
+{
+  background: #0970BB;
+  color: #fff;
+  padding: 7px;
+}
+.option_div
+{
+ padding-left: 35px;
+}
+.question_div_1_1
+{
+   padding-top: 20px;
+}
+.apt_main
+{
+   padding-left: 45px;
+}
+#questionDiv
+{
+  display: none;
+}
+.apt_radio_lbl
+{
+  width: 170px;
+}
+.question_p
+{
+  padding-left: 30px;
+  line-height: 21px;
+}

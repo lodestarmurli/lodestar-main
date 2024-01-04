@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DHEdupath">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHEdupathDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHEdupathDTO"></resultMap>
+	<resultMap id="SelectAllResultExam" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHEntExamDTO"></resultMap>
+	
+	<select id="getDHEdupathbyOccId" parameterType="java.util.List" resultMap="SelectAllResult">
+	  select ed.*, roc.occupationId from DHEdupath ed
+	left join RAISECCodeOccupation roc on roc.id=ed.raisecOccId
+		where roc.occupationId in
+		<foreach collection="list" close=")" open="(" item="item" separator=",">
+	      #{item}
+	  </foreach> 
+	</select>
+	
+	
+	<select id="getDHExamList" parameterType="java.util.List" resultMap="SelectAllResultExam">
+	  select * from DHEntExam where exam in
+		<foreach collection="list" close=")" open="(" item="item" separator=",">
+	      #{item}
+	  </foreach> 
+	  group by exam
+	</select>
+	
+	
+</mapper>

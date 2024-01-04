@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- Always ensure to use the correct XML header as above! -->
+
+<configuration>
+	<!-- The properties (name=value) in the file specified here can be used 
+		placeholders in this config file (e.g. “${driver}”. The file is usually relative 
+		to the classpath and is optional. -->
+	<properties resource="databaseconnection.properties" />
+	<!-- These settings control SqlMap configuration details, primarily to do 
+		with transaction management. They are all optional (see the Developer Guide 
+		for more). -->
+	<!-- Configure a datasource to use with this SQL Map using SimpleDataSource. 
+		Notice the use of the properties from the above resource -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+				<property name="poolMaximumActiveConnections" value="${maxActive}" />
+				<property name="poolMaximumIdleConnections" value="${maxIdle}" />
+				<property name="poolTimeToWait" value="${maxWaitTimeInMills}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- Identify all SQL Map XML files to be loaded by this SQL map. Notice 
+		the paths are relative to the classpath. For now, we only have one… -->
+	<mappers>
+		<mapper resource="com/jamochatech/tools/excelengine/dao/DBOperations.xml" /> 
+		<mapper resource="com/jamochatech/tools/fileupload/dao/Occupation.xml" />
+		<mapper resource="com/jamochatech/tools/fileupload/dao/Industry.xml" />
+		<mapper resource="com/jamochatech/tools/fileupload/dao/Subject.xml" />
+		<mapper resource="com/jamochatech/tools/fileupload/dao/Documents.xml" />
+		<mapper resource="com/jamochatech/tools/fileupload/dao/TrialInterestCodeMapping.xml" />
+	</mappers>
+</configuration>

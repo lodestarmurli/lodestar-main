@@ -1,0 +1,1 @@
+java -classpath ..:../lib/* com.jamochatech.tools.fileupload.TrialInterestCodeUpload "../data/TrialInterestReport.xls" "Sheet1" "../data/reports"

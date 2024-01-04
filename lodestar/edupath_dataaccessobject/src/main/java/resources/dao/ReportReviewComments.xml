@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReportReviewComments">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.ReportReviewCommentsDTO" id="resultMap"></resultMap>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.ReportReviewCommentsDTO" id="paramMap"></parameterMap>
+	
+	<insert id="insertReportReviewComments" parameterMap="paramMap" useGeneratedKeys="true">
+		INSERT INTO ReportReviewComments (studentId, facilitatorId, review, lastUpdatedDate)
+		VALUES (#{studentId}, #{facilitatorId}, #{review}, #{lastUpdatedDate})
+	</insert>
+	
+	<select id="getReportReviewComments" parameterType="int" resultMap="resultMap">
+		SELECT * FROM ReportReviewComments WHERE studentId = #{studentId}
+	</select>
+	
+	<update id="updateReportReviewComments" parameterMap="paramMap">
+		UPDATE ReportReviewComments SET review = #{review}, lastUpdatedDate = #{lastUpdatedDate}
+		WHERE studentId = #{studentId}
+	</update>
+</mapper>

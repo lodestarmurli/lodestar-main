@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CareerFitment">
+
+    <parameterMap id="paramMapSCF" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.StudentCareerFitmentDTO"></parameterMap>
+	<resultMap id="SelectAllResultSCF" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.StudentCareerFitmentDTO"></resultMap>
+	
+	<parameterMap id="paramMapCluster" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.ClusterDTO"></parameterMap>
+	<resultMap id="SelectResultClusterdto" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.ClusterDTO"></resultMap>
+	 
+	<parameterMap id="paramMapJFL" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.JustForLodestar"></parameterMap>
+	<resultMap id="SelectResultJFL" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.JustForLodestar"></resultMap>
+	
+	<parameterMap id="paramMapRA" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.RiasecActivityDTO"></parameterMap>
+	<resultMap id="SelectResultRA" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.RiasecActivityDTO"></resultMap>
+	
+	<parameterMap id="paramMapOCCNOTFOUND" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.CareerFitmentOccNotFoundDTO"></parameterMap>
+	<resultMap id="SelectResultOCCNOTFOUND" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.CareerFitmentOccNotFoundDTO"></resultMap>
+	
+	 
+ 
+	<insert id="insertOrUpdateStudentCareerFitment" parameterMap="paramMapSCF">
+	    INSERT INTO StudentCareerFitment (studentId , optionA, optionB, clusterId, occupationId, approved ) VALUES 
+	    (#{studentId}, #{optionA}, #{optionB},  #{clusterId}, #{occupationId}, #{approved})
+  		ON DUPLICATE KEY UPDATE  optionA=#{optionA}, optionB=#{optionB}, clusterId= #{clusterId}, occupationId= #{occupationId}, approved=#{approved}
+	</insert>
+	
+	 	
+	 <select id ="getStudentCareerFitment" parameterType="int"  resultMap="SelectAllResultSCF"> 
+	 SELECT * FROM StudentCareerFitment Where studentId=#{studentId}
+	 </select>
+	 
+	 <select id ="getClusterByIds"   parameterType="java.util.List"  resultMap="SelectResultClusterdto"> 
+	 SELECT * FROM Cluster Where id IN 
+	 <foreach collection="list" close=")" open="(" item="item" separator=",">
+	      #{item}
+	  </foreach> 
+	 </select>
+	 
+	 <insert id="insertJustForLodestar" parameterMap="paramMapJFL">
+	   INSERT INTO JustForLodestar(LDID, studentId, personalityCode, ability, CCC1, CCC1PF, CCC1AF, CCC1AFreqd, CCC1priority, CCC2, CCC2PF, CCC2AF, CCC2AFreqd, CCC2priority, CCC3, CCC3PF, CCC3AF, CCC3AFreqd, CCC3priority, CCCexam, CCCdegree, top3, Allexam, AllDegree, PMF,CCCExamDegreedisplay,top3ExamDegreedisplay) 
+	   VALUES (#{LDID}, #{studentId}, #{personalityCode}, #{ability}, #{CCC1}, #{CCC1PF}, #{CCC1AF}, #{CCC1AFreqd}, #{CCC1priority}, #{CCC2}, #{CCC2PF}, #{CCC2AF}, #{CCC2AFreqd}, #{CCC2priority}, #{CCC3}, #{CCC3PF}, #{CCC3AF}, #{CCC3AFreqd}, #{CCC3priority}, #{CCCexam}, #{CCCdegree}, #{top3}, #{Allexam}, #{AllDegree}, #{PMF}, #{CCCExamDegreedisplay}, #{top3ExamDegreedisplay})
+	   
+	</insert>
+	
+	 <select id ="getClusterByName"   parameterType="String"  resultMap="SelectResultClusterdto"> 
+	 SELECT * FROM Cluster Where name like #{name} 
+	 
+	 </select>
+	 
+	  <select id ="getClusterDetails"   parameterType="String"  resultMap="SelectResultClusterdto"> 
+	 SELECT * FROM Cluster Where id > 0 order by id 
+	 
+	 </select>
+	 
+	 <select id ="getRiasecActivityList"     parameterType="java.util.List"  resultMap="SelectResultRA"> 
+	 SELECT * FROM RiasecActivity Where 
+	   <foreach collection="list" close=")" open="(" item="item" separator="OR">
+	     code like #{item}
+	  </foreach>  order by id 
+	 
+	 </select>
+	 
+	 
+	  <insert id="insertOccnotFoundLock" parameterMap="paramMapOCCNOTFOUND">
+	  INSERT INTO CareerFitmentOccNotFound (studentId , OccName,locked) VALUES 
+	    (#{studentId}, #{OccName}, #{locked})
+  		ON DUPLICATE KEY UPDATE  OccName=#{OccName}, locked=#{locked}
+	  </insert>
+	  
+	  <select id ="getOccnotFoundLock"     parameterType="int"  resultMap="SelectResultOCCNOTFOUND">
+	  	SELECT * FROM CareerFitmentOccNotFound WHERE studentId=#{studentId}
+	   </select>
+	 
+</mapper>

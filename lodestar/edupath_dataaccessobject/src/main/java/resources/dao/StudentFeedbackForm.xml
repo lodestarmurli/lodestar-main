@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentFeedbackForm">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.studentfeedback.StudentFeedbackFormDTO" id="resultMap"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.studentfeedback.StudentFeedbackFormDTO" id="paramMap"/>
+	
+	<insert id="insertStudentFeedbackForm" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO StudentFeedbackForm (studentId, questionNo, answer) VALUES (#{studentId}, #{questionNo}, #{answer}) 
+	</insert>
+	
+	<update id="updateStudentFeedbackForm">
+		UPDATE StudentFeedbackForm SET answer = #{answer}
+		WHERE studentId = #{studentId} AND questionNo = #{questionNo}
+	</update>
+	
+	<select id="isAnsweredStudentFeedbackForm" parameterMap="paramMap" resultType="int">
+		SELECT COUNT(id) FROM StudentFeedbackForm
+		WHERE studentId = #{studentId} AND questionNo = #{questionNo}
+	</select>
+
+	<select id="getStudentFeedbackFormByStudentId" parameterMap="paramMap" resultMap="resultMap">
+		SELECT * FROM StudentFeedbackForm
+		WHERE studentId = #{studentId} 
+	</select>
+
+</mapper>

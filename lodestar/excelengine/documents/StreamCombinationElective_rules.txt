@@ -1,0 +1,89 @@
+{
+    "sheets": [
+        {
+            "sheetname": "StreamElectiveCombination",
+            "tables": [
+                {
+                    "tablename": "Streams",
+                    "uniquecolumnidentifiers": "name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Stream",
+                            "allownull": "false",
+                            "allowduplicate": "false",
+                            "datatype": "varchar"
+                        },
+						{
+                            "tablecolumnname": "eduLevelId",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "Combination",
+                    "uniquecolumnidentifiers": "name,StreamId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Combination",
+                            "allownull": "false",
+							"allowduplicate": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "StreamId",
+                            "excelcolumnname": "Stream",
+                            "lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "Subject",
+                    "uniquecolumnidentifiers": "name",
+                    "columns": [
+                        {
+                            "tablecolumnname": "name",
+                            "excelcolumnname": "Subjects",
+							"isdelimited": "true",
+                            "allownull": "false",
+							"allowduplicate": "false",
+                            "datatype": "varchar"
+                        }
+                    ]
+                },
+                {
+                    "tablename": "CombinationElectivesMapping",
+                    "uniquecolumnidentifiers": "combinationId, electiveId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+							"lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+							"allowduplicate": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "electiveId",
+                            "excelcolumnname": "Subjects",
+                            "lookuptablename": "Subject",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+							"isdelimited": "true",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

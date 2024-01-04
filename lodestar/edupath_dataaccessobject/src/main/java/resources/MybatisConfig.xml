@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- Always ensure to use the correct XML header as above! -->
+
+<configuration>
+	<!-- The properties (name=value) in the file specified here can be used 
+		placeholders in this config file (e.g. “${driver}”. The file is usually relative 
+		to the classpath and is optional. -->
+	<properties resource="databaseconnection.properties" />
+
+	<!-- These settings control SqlMap configuration details, primarily to do 
+		with transaction management. They are all optional (see the Developer Guide 
+		for more). -->
+	<!-- Configure a datasource to use with this SQL Map using SimpleDataSource. 
+		Notice the use of the properties from the above resource -->
+		<settings>
+			 <setting name="logImpl" value="SLF4J"/>
+		</settings>
+
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+				<property name="poolMaximumActiveConnections" value="${maxActive}" />
+				<property name="poolMaximumIdleConnections" value="${maxIdle}" />
+				<property name="poolTimeToWait" value="${maxWaitTimeInMills}" />
+				<property name="poolPingQuery" value="SELECT 1" />
+				<property name="poolPingEnabled" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- Identify all SQL Map XML files to be loaded by this SQL map. Notice 
+		the paths are relative to the classpath. For now, we only have one… -->
+	<mappers>
+		<mapper resource="dao/SubAdmin.xml" />
+		<mapper resource="dao/MessageQueue.xml" />
+		<mapper resource="dao/CronScheduler.xml" />
+		<mapper resource="dao/EmailSettingMaster.xml" />
+		<mapper resource="dao/MessageTemplate.xml" />
+		<mapper resource="dao/FacilitatorDetails.xml" />
+		<mapper resource="dao/ApplicationMenu.xml" />
+		<mapper resource="dao/RolePermission.xml" />
+		<mapper resource="dao/RoleType.xml" />
+		<mapper resource="dao/UserDetail.xml" />
+		<mapper resource="dao/UserRole.xml" />
+		<mapper resource="dao/GlobalSetting.xml" />
+		<mapper resource="dao/EducationLevel.xml" />
+		<mapper resource="dao/City.xml" />
+		<mapper resource="dao/StudentDetails.xml" />
+		<mapper resource="dao/SessionScheduleDetails.xml" />
+		<mapper resource="dao/AuditTrail.xml" />
+		<mapper resource="dao/DoYouKnow.xml" />
+		<mapper resource="dao/StudentTUM.xml" />
+		<mapper resource="dao/StudentCGT.xml" />
+		<mapper resource="dao/RAISECCodeOccupation.xml" />
+		<mapper resource="dao/TUMQuestions.xml" />
+		<mapper resource="dao/TableReferenceNorms.xml" />
+		<mapper resource="dao/Tags.xml" />
+		<mapper resource="dao/AptitudeTestFactor.xml" />
+		<mapper resource="dao/StudentCGTResult.xml" />
+		<mapper resource="dao/BulkUploadStatus.xml" />
+		<mapper resource="dao/Area.xml" />
+		<mapper resource="dao/Alerts.xml" />
+		<mapper resource="dao/WishList.xml" />
+		<mapper resource="dao/Documents.xml" />
+		<mapper resource="dao/ManualSearchQuestionMapping.xml" />
+		<mapper resource="dao/Occupation.xml" />
+		<mapper resource="dao/Industry.xml"/>		
+		<mapper resource="dao/Class.xml" />
+		<mapper resource="dao/School.xml" />
+		<mapper resource="dao/ForgotPasswordRequest.xml" />
+		<mapper resource="dao/CGTQuestioneries.xml" />
+		<mapper resource="dao/StudentNotes.xml" />
+		<mapper resource="dao/FacilitatorNotes.xml" />
+		<mapper resource="dao/OccupationRelatedOccupation.xml" />
+		<mapper resource="dao/ShortList.xml" />
+		<mapper resource="dao/Languages.xml" />
+		<mapper resource="dao/EntranceExams.xml" />
+		<mapper resource="dao/Combination.xml" />
+		<mapper resource="dao/EduPathShortList.xml" />
+		<mapper resource="dao/Subject.xml" />
+		<mapper resource="dao/EduPathElectiveShortList.xml" />
+		<mapper resource="dao/ShortListExams.xml"/>
+		<mapper resource="dao/IntegratedCourse.xml"/>
+		<mapper resource="dao/ShortListCourse.xml"/>
+		<mapper resource="dao/EduPath.xml"/>
+		<mapper resource="dao/EduPathPUElectives.xml"/>
+		<mapper resource="dao/EduPathPG.xml"/>
+		<mapper resource="dao/EduPathPGSpecialization.xml"/>
+		<mapper resource="dao/EduPathDegrees.xml"/>
+		<mapper resource="dao/EduPathDegreeSpecialization.xml"/>
+		<mapper resource="dao/Stream.xml"/>
+		<mapper resource="dao/EduPathPUStreams.xml"/>
+		<mapper resource="dao/StudentCollegeParameters.xml"/>
+		<mapper resource="dao/Tutorials.xml"/>
+		<mapper resource="dao/College.xml"/>
+		<mapper resource="dao/Board.xml"/>
+		<mapper resource="dao/TutorialCityCenters.xml"/>
+		<mapper resource="dao/CollegeActivities.xml"/>
+		<mapper resource="dao/CollegeInfra.xml"/>
+		<mapper resource="dao/TutorialRank.xml"/>
+		<mapper resource="dao/CollegeParameters.xml"/>
+		<mapper resource="dao/StudentTutorialCentreShortList.xml"/>
+		<mapper resource="dao/StudentCollegeShortList.xml"/>
+		<mapper resource="dao/ReportReviewComments.xml"/>
+		<mapper resource="dao/ReportComments.xml"/>
+		<mapper resource="dao/ParentFeedbackForm.xml"/>
+		<mapper resource="dao/ParentFeedbackFormQuestion.xml"/>
+		<mapper resource="dao/StudentFeedbackForm.xml"/>
+		<mapper resource="dao/StudentFeedbackFormQuestion.xml"/>
+		<mapper resource="dao/TrialInterestCodeMapping.xml"/>
+		<mapper resource="dao/OccupationAbilityMapping.xml"/>
+		
+		<!-- Vyankatesh added -->
+		<mapper resource="dao/PaymentDetails.xml" />
+	 	<mapper resource="dao/PaymentMapDetails.xml" /> 
+	 	<mapper resource="dao/VenueDetails.xml" /> 
+	 	<mapper resource="dao/StudentCityLock.xml" /> 
+	 	<mapper resource="dao/StudentCityLock.xml" />
+	 	
+	 	<!-- Vyankatesh added -->
+	 	
+	 	<!-- Start Sasedeve Edited Mrutyunjaya on date 20-06-2017 -->
+	 	
+
+	 	<!-- <mapper resource="dao/TransactionDetails.xml" /> -->
+
+	 	
+	 	<!-- End Sasedeve Edited Mrutyunjaya on date 20-06-2017 -->
+	 	
+	 	
+	 	<!-- Start Sasedeve Edited Mrutyunjaya on date 19-07-2017 -->
+	 	
+	 	<mapper resource="dao/SessionFeedBack.xml" />
+	 	
+	 	<mapper resource="dao/APIS.xml" />
+	 	
+	 	
+	 	
+	 	
+	 	<!-- End Sasedeve Edited Mrutyunjaya on date 19-07-2017 -->
+	 	
+	 	
+		<!-- Start Sasedeve Edited Mrutyunjaya on date 14-09-2017 -->
+	 	
+	 	<mapper resource="dao/TipsAndSuggestions.xml" />
+	 	
+	 	
+	 	<!-- End Sasedeve Edited Mrutyunjaya on date 14-09-2017 -->
+	 	
+	 	
+	 	
+	 	<!-- Start Sasedeve Edited Mrutyunjaya on date 07-10-2017 -->
+	 	
+	 	<mapper resource="dao/LeadParent.xml" />
+	 	
+	 	
+	 	<!-- End Sasedeve Edited Mrutyunjaya on date 07-10-2017 -->
+	 	
+	 	<!-- Start Bharath on date 06-07-2019 -->
+	 	<mapper resource="dao/StudentTUMCGT.xml" />
+	 	<!-- End Bharath on date 06-07-2019 -->
+	 	
+	 		<!-- CHNK starts here -->
+	 	<mapper resource="dao/ChanakyaStudentDetails.xml" />
+	 	<mapper resource="dao/ChanakyaStudentCGT.xml" />
+	 	<mapper resource="dao/ChanakyaStudentOccupation.xml" />
+
+	 	<!-- CHNK ends here  -->
+	 	
+	 	<!-- Start Bharath on date 21-03-2020 -->
+	 	<mapper resource="dao/DHStudentDetails.xml" />
+	 	<mapper resource="dao/DHStudentCGT.xml" />
+	 	<mapper resource="dao/DHStudentCGTResult.xml" />
+	 	<mapper resource="dao/DHStudentOccupation.xml" />
+	 	<mapper resource="dao/RaisecCode.xml" />
+	 	<mapper resource="dao/PartnerDeatils.xml" />
+	 	<!-- End Bharath on date 08-04-2020 -->
+	 	<mapper resource="dao/DHStudentExtraDetails.xml" />
+	 	<mapper resource="dao/DHEdupath.xml" />
+	 	
+	 	<mapper resource="dao/RiasecStreamSelector.xml" />
+	 	<mapper resource="dao/EngineeringSelector.xml" />
+	 	<mapper resource="dao/CareerDegreeDiscovery.xml" />
+	 	<mapper resource="dao/CareerFitment.xml" />
+	 	<mapper resource="dao/WishListCareerFitment.xml" />
+	 	<mapper resource="dao/VarkStudent.xml" />
+	 	<mapper resource="dao/VarkStudentAnswer.xml" />
+	 	
+	 	<!-- Start Bharath on date 12-02-2021 -->
+	 	<mapper resource="dao/ClientStudentDetails.xml" />
+	 	<mapper resource="dao/ClientStudentCGT.xml" />
+	 	<mapper resource="dao/ClientStudentCGTResult.xml" />
+	 	<mapper resource="dao/ClientStudentOccupation.xml" />
+	 	<mapper resource="dao/ClientStudentExtraDetails.xml" />
+	 	<mapper resource="dao/ClientEdupath.xml" />
+	 	<!-- end Bharath on date 12-02-2021 -->
+	</mappers>
+</configuration>

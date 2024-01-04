@@ -1,0 +1,320 @@
+{
+    "sheets": [
+        {
+            "sheetname": "Tutorial",
+			"tables": [
+                {
+                    "tablename": "Tutorials",
+                    "uniquecolumnidentifiers": "name",
+                    "conditionfields":"name",
+                    "updatefields":"headOfficeaddress,contactNumbers,website,nrankInst,yearOfEst,noOfCities,centerAllIndia,noFaculty,qualificationOfFaculty,specialfeatures",                    
+                    "columns": [
+                        { 
+							"tablecolumnname": "name",
+                            "excelcolumnname": "Institute",
+                            "allownull": "false",
+                            "allowduplicate": "true",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "headOfficeaddress",
+                            "excelcolumnname": "Address",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "contactNumbers",
+                            "excelcolumnname": "Contact details",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "website",
+                            "excelcolumnname": "Website",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "nrankInst",
+                            "excelcolumnname": "National Rank of the Institute",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "yearOfEst",
+                            "excelcolumnname": "Year of Commencement",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "noOfCities",
+                            "excelcolumnname": "Branches in No. of cities",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "centerAllIndia",
+                            "excelcolumnname": "No. of Centers All India",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noFaculty",
+                            "excelcolumnname": "No. of Faculty",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "qualificationOfFaculty",
+                            "excelcolumnname": "Qualification of Faculty",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "specialfeatures",
+                            "excelcolumnname": "Special Features of the Institute",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+						
+					]
+                }
+            ]
+        },
+        {
+            "sheetname": "TutorialCity",
+			"tables": [
+                {
+                    "tablename": "TutorialCityCenters",
+                    "uniquecolumnidentifiers": "tutorialId,cityId,locality",
+                    "conditionfields":"tutorialId,cityId,locality",
+                    "updatefields":"centreType,address,contactNumbers,yearofEst,noOfFaculty,noOffEnrollments,timings",                   
+                    "columns": [
+                        { 
+							"tablecolumnname": "tutorialId",
+                            "excelcolumnname": "Institute",
+							"lookuptablename": "Tutorials",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"							
+                        },
+						{ 
+							"tablecolumnname": "cityId",
+                            "excelcolumnname": "City",
+							"lookuptablename": "City",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "locality",
+                            "excelcolumnname": "Area",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "centreType",
+                            "excelcolumnname": "Centre Type",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "address",
+                            "excelcolumnname": "Address",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "contactNumbers",
+                            "excelcolumnname": "Contact details",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "yearofEst",
+                            "excelcolumnname": "Year of Commencement",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "noOfFaculty",
+                            "excelcolumnname": "No. of Faculty",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noOffEnrollments",
+                            "excelcolumnname": "No. of Enrollments",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "timings",
+                            "excelcolumnname": "Timings",
+                            "datatype": "varchar"
+                        }
+					]
+                }
+            ]
+        },		
+        {
+            "sheetname": "TutorialProgram",
+			"tables": [
+                {
+                    "tablename": "TutorialProgram",
+                    "uniquecolumnidentifiers": "tutorialId,examId,programName",
+                    "conditionfields":"tutorialId,examId,programName",
+                    "updatefields":"hasClassroom,hasCorrespondence,contactNumbers,totalMocks",            
+                    "columns": [
+                        { 
+							"tablecolumnname": "tutorialId",
+                            "excelcolumnname": "Institute",
+							"lookuptablename": "Tutorials",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"							
+                        },
+						{ 
+							"tablecolumnname": "examId",
+                            "excelcolumnname": "Exam Name",
+							"lookuptablename": "EntranceExams",
+                            "lookupcolumnname": "examName",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "programName",
+                            "excelcolumnname": "Program Name (Multiple programs listed for each exam)",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "hasClassroom",
+                            "excelcolumnname": "Classroom",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "hasCorrespondence",
+                            "excelcolumnname": "Correspondence",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "contactNumbers",
+                            "excelcolumnname": "Contact details",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "totalMocks",
+                            "excelcolumnname": "Total Mock Tests",
+                            "datatype": "varchar"
+                        }
+					]
+                }
+            ]
+        },		
+        {
+            "sheetname": "TutorialExam",
+			"tables": [
+                {
+                    "tablename": "TutorialExamMapping",
+                    "uniquecolumnidentifiers": "tutorialId,examId",
+                    "conditionfields":"tutorialId,examId",
+                    "updatefields":"admissionCriteria,noClassEnroll,noCorresEnroll,toprankcutoff,clearClass,clearCorres",    
+                    "columns": [
+                        { 
+							"tablecolumnname": "tutorialId",
+                            "excelcolumnname": "Institute",
+							"lookuptablename": "Tutorials",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"							
+                        },
+						{ 
+							"tablecolumnname": "examId",
+                            "excelcolumnname": "Exam Name",
+							"lookuptablename": "EntranceExams",
+                            "lookupcolumnname": "examName",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "admissionCriteria",
+                            "excelcolumnname": "Admission Criteria",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "noClassEnroll",
+                            "excelcolumnname": "Classroom Enrolment",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "noCorresEnroll",
+                            "excelcolumnname": "Correspondence Enrolment",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "toprankcutoff",
+                            "excelcolumnname": "Top Rank Cut-off",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "clearClass",
+                            "excelcolumnname": "Classroom -  People above cut off rank",
+                            "datatype": "varchar"
+                        },
+						{ 
+							"tablecolumnname": "clearCorres",
+                            "excelcolumnname": "Correspondence -  People above cut off rank",
+                            "datatype": "varchar"
+                        }
+					]
+                }
+            ]
+        },		
+		{
+            "sheetname": "TutorialRank",
+			"tables": [
+                {
+                    "tablename": "TutorialRank",
+                    "uniquecolumnidentifiers": "tutorialId,examId",
+                    "conditionfields":"tutorialId,examId",
+                    "updatefields":"year,classroom,correspondance", 
+                    "columns": [
+                        { 
+							"tablecolumnname": "tutorialId",
+                            "excelcolumnname": "Institute",
+							"lookuptablename": "Tutorials",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"							
+                        },
+						{ 
+							"tablecolumnname": "examId",
+                            "excelcolumnname": "Exam Name",
+							"lookuptablename": "EntranceExams",
+                            "lookupcolumnname": "examName",
+                            "lookupfetchcolumn": "id",							
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "year",
+                            "excelcolumnname": "Year",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "classroom",
+                            "excelcolumnname": "Total Ranks in Classroom",
+                            "datatype": "numeric"
+                        },
+						{ 
+							"tablecolumnname": "correspondance",
+                            "excelcolumnname": "Total Ranks in Correspondence",
+                            "datatype": "numeric"
+                        }
+					]
+                }
+            ]
+        }
+	]
+}

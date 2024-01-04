@@ -1,0 +1,381 @@
+.question_right_div
+{
+  float: left; 
+  width: 97%;
+  padding-left: 5px;
+}
+
+.question_left_div
+{
+  float: left; 
+  width: 3%;
+}
+.auto_txt
+{
+  background-color: gainsboro;
+  padding-left: 10px;
+  padding-right: 15px;
+  width: 200px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 12px;
+}
+.do-know
+{
+  min-height: 245px;
+  background: rgba(220, 220, 220, 0);
+  position: absolute;
+  width: 190px;
+  margin-top: 28px;
+  box-shadow: 0px 0px 10px #6ABA95;
+  padding: 12px;
+}
+.do-know-spn
+{
+   margin-left: 10px;
+  font-size: 17px;
+}
+.txt-field
+{
+  word-wrap: break-word !important;
+  padding-top: 5px;
+  padding-left: 25px;
+  padding-bottom: 15px;
+}
+.input-md
+{
+  width: 60%;
+  height: 30px;
+  border: 1px solid #D8D8D8;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.div_lable
+{
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+.checkboxLabel
+{
+  padding-right: 10px;
+}
+.txt-field > label
+{
+ padding-right: 10px;
+ font-size: 12px;
+}
+.input-lrg
+{
+  width: 90.5%;
+  height: 30px;
+  border: 1px solid #D8D8D8;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.div_lable, .txt-field, .checkboxLabel, .marks_lable >label
+{
+ /* font-size: 12px; */
+}
+.marks_lable > label
+{
+   padding-right: 10px;
+}
+.subject_div
+{
+   margin-right: 1px;
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
+   font-weight: bold;
+   background-color: #CCCCCC;
+   font-size: 10pt;
+}
+.row_false
+{
+   background: #EDEDED;
+}
+.row_true
+{
+  
+}
+.row_div
+{
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
+   height: 40px;
+}
+.sr-number
+{
+  text-align: center;
+}
+.input-selectbox
+{
+  width: 80%;
+  height: 30px;
+  border: 1px solid;
+}
+.last-div
+{
+  width: 35% !important;
+}
+.action-div
+{
+  margin-top: 3%;
+  margin-bottom: 5%;
+  padding-left: 59px !important;
+}
+.btn-back
+{
+    margin-left: 2%;
+}
+.back-spn
+{ 
+    padding-left: 7px;
+}
+.next-spn
+{
+   padding-right: 7px;
+}
+.input-sml
+{
+  width: 25%;
+  height: 30px;
+  border: 1px solid #D8D8D8;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.strength_div >label
+{
+   width: 202px;
+}
+.strength_div
+{
+  width: 892px;
+}
+
+.input-textarea
+{
+  height: 100px;
+  width: 97%;
+  resize:none;
+ /*  box-shadow: 0 0 3px #000; */
+  border: 1px solid #D8D8D8;
+  margin-left: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.input-textarea:ACTIVE
+{
+  border: 1px solid #D8D8D8;
+}
+
+.leftarrowdiv{
+	display:none;
+    background: #6ABA95 none repeat scroll 0 0;
+    border-radius: 3px;
+    color: white;
+    height: 75px;
+    margin-bottom: 2em;
+    margin-left: -4%;
+    margin-top: 4%;
+    min-height: 40px;
+    padding: 8px;
+    position: absolute;
+    width: 200px;
+    word-wrap: break-word;
+    box-shadow: 0 0 5px #6ABA95;
+    opacity:.8;
+}
+
+.leftarrowdiv:after{ 
+content:'';
+display:block;
+position:absolute;
+top:10px;
+left:-30px;
+width:0;
+height:0;
+border-color: transparent #6ABA95 transparent transparent;
+border-style: solid;
+border-width: 15px;
+}
+.do-know-txt
+{
+    padding-top: 5px;
+    font-size: 10pt;
+    word-break: break-word;
+    margin-top: 3px;
+}
+ .career_Div
+{
+  margin-left:-16px !important; 
+} 
+.things-txt
+{
+  margin-bottom: 5px;
+}
+.things-txt > input
+{
+ width: 90.5% !important;
+ padding-left: 5px;
+}
+.btn_action
+{
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  padding-left: 26px !important;
+  padding-right: 26px !important;
+  background-color: #F0483B !important;
+  color: #fff;
+}
+.error-block
+  {
+    color: rgb(190, 69, 69);
+    font-size: 12px;
+  }
+    .custom-box
+  {
+   width: 25.333333% !important;
+  }
+  .custom-box > .checkbox
+  {
+    width: 188% !important;
+  }
+  .custom-box-subject
+  {
+    width: 30% !important;
+  }
+  .custom-box-subject > .checkbox
+  {
+     /*width: 190% !important;*/
+  }
+  
+  .date_spn
+{
+  font-weight: bold;
+}
+.change_icon_left_div
+{
+ float: left;
+  width: 13%;
+}
+.change_right_div
+{
+  float: left;
+  width: 86%;
+}
+.change_p_h4
+{
+ font-size: 11pt;
+}
+.change_page_div_1
+{
+   padding-top: 15px;
+    padding-right: 50px;
+}
+.change_img_big
+{
+  height: 138px;
+  width: 185px;
+}
+.change_spn_txt
+{
+  font-size: 11pt;
+}
+.change_p_h3
+{
+  font-size: 17pt;
+   line-height: .8;
+}
+.change_p_h6
+{
+  font-size: 10pt;
+}
+.chenge_hidden
+{
+  display: none;
+}
+.change_p
+{
+   font-size: 11pt;
+}
+.change_spn
+{
+  font-size: 10pt; 
+  color: #CCCCCC;
+}
+.arrow_change_div
+{
+   padding-top: 15px;
+}
+.change_arrow-right {
+	
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	
+	border-left: 15px solid #CCCCCC;
+    width:0;
+    height:0;
+    float:left;
+    margin-top:-7px;
+   
+}
+.change_img_div
+{
+ float: left;
+ width: 100px;
+}
+.change_arrow
+{
+    height:15px;
+    width:40px;
+    float:left;
+    background:#CCCCCC;
+}
+.change_img
+{
+   width: 60;
+  height: 45px;
+}
+.change_page
+{
+  height: 211px;
+  width: 831px;
+  //border: 1px solid;
+}
+.change_toggle
+{
+   text-align: center;
+   width: 100%;
+   left:0px;
+   top: 0px;
+   position: relative;
+}
+.custom-change-font
+{
+  cursor: pointer;
+}
+.page_spn
+{
+  font-size: 10pt;
+}
+.page_cls
+{
+ padding-left: 20px;
+ height: 90%;
+}
+.change-col
+{
+  float: left;
+}
+.custom-progress-bar
+{
+   position: relative;
+   height: 2px;
+}

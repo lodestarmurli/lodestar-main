@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DoYouKnow">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.DoYouKnowDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.DoYouKnowDTO"></resultMap>
+	
+	<select id="getDoYouKnowDetails" parameterMap="paramMap" resultMap="SelectAllResult">
+	   Select * from DoYouKnow order by message DESC
+	</select>
+	
+	
+	
+	<!-- <insert id="addUserDetail"  parameterType="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteUserDetailById" parameterMap="paramMap">
+	   
+	</delete>
+	
+	<update id="updateUserDetailById" parameterMap="paramMap">
+	   
+	</update>
+	 -->
+</mapper>

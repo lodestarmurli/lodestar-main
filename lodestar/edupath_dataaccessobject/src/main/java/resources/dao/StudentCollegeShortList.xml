@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentCollegeShortList">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.StudentCollegeShortListDTO" id="resultMap"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.StudentCollegeShortListDTO" id="paramMap"/>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.CombinationIdDTO" id="combinationmap"/>
+	
+	
+	
+	
+	<select id="getShortListedCollegeByStudentId" parameterType="int" resultMap="resultMap">
+		
+		
+		<!-- Start SASEDEVE EDITED By Mrutyunjaya on Date 03-06-2017 -->
+		
+		<!-- Start Original Code -->
+	<!-- SELECT scsl.*, c.name AS collegeName, c.address AS collegeAddress 
+		FROM StudentCollegeShortList scsl
+		INNER JOIN College c ON c.id = scsl.collegeId
+		WHERE scsl.studentId = #{studentId}   -->	
+		
+		<!-- END Original Code -->
+		
+		
+		<!-- Start Changes Code -->
+		
+		
+		SELECT scsl.*, c.name AS collegeName,c.zone as Location,c.website as Website,c.collegeType as Collegetype,YEAR(CURDATE()) - c.yearofEst AS AgeofInstitute,GROUP_CONCAT(DISTINCT s.name separator ', ')AS StreamAvailable,
+		        GROUP_CONCAT(DISTINCT cmb.name separator ', ') AS Courseavailable,c.addFormSubmDate AS Applicationlastdate, c.address AS collegeAddress,c.addFormSubmAddr as Admissionapplicationform
+		FROM StudentCollegeShortList scsl
+		INNER JOIN College c ON c.id = scsl.collegeId
+		LEFT JOIN CollegeStreamDetails csd ON csd.collegeId = c.id
+		LEFT JOIN Streams s ON s.id = csd.streamId
+		LEFT JOIN CollegeStreamCombination csc ON csc.collegeId = csd.collegeId and csc.streamId = s.id
+		LEFT JOIN Combination cmb ON cmb.id =csc.combinationId AND cmb.streamId = csc.streamId
+		
+		WHERE scsl.studentId = #{studentId}
+		GROUP BY c.id
+		
+		
+		<!-- END Changes Code -->
+		
+		<!-- END SASEDEVE EDITED By Mrutyunjaya on Date 03-06-2017 -->
+	</select>
+	
+	
+	
+		<!-- Start SASEDEVE EDITED By Mrutyunjaya on Date 07-06-2017 -->
+	
+	
+	<select id="Free" parameterType="com.lodestar.edupath.datatransferobject.dto.CombinatioListDTO" resultMap="resultMap">
+	
+	select ccfs1.collegeId,MIn(ccfs1.fees) as fee
+	from CollegeCourseFeeSeats ccfs1
+	WHERE ccfs1.collegeId =#{collegeId}
+	<if test="idsList != null and idsList.size() > 0">
+	and ccfs1.combinationId in
+	<foreach collection="idsList" item="combinationId" open="(" separator="," close=")">
+	#{combinationId}
+		</foreach>
+		</if>
+	AND ccfs1.reservationId=1 and ccfs1.streamId= #{streamId}
+	
+	</select>
+	
+	
+	<select id="ListCombinationreport" parameterType="int" resultMap="combinationmap">
+	
+	SELECT epes.combinationId as combinationId FROM EduPathElectiveShortList epes WHERE epes.studentId= #{studentId}
+	
+	</select>
+	
+	
+	
+	
+	<select id="Seat" parameterType="com.lodestar.edupath.datatransferobject.dto.CombinatioListDTO" resultMap="resultMap">
+	
+	select csc.collegeId, sum(csc.totalSeats) as Seats
+	from CollegeStreamCombination csc
+	WHERE csc.collegeId = #{collegeId}
+	<if test="idsList != null and idsList.size() > 0">
+	and csc.combinationId in
+	<foreach collection="idsList" item="combinationId" open="(" separator="," close=")">
+	#{combinationId}
+		</foreach>
+		</if>
+	and csc.streamId= #{streamId}
+	
+	</select>
+	
+	
+	
+	<select id="appcost_pass_teaching_Cutof" parameterType="com.lodestar.edupath.datatransferobject.dto.CombinatioListDTO" resultMap="resultMap">
+	
+	select csd.collegeId, csd.applicationFormFees as ApplicationCost,csd.noTeachingStaff as TeachingStaff,csd.lastCutOff as Cut, ROUND(csd.noStudentsPassed / csd.noStudents * 100, 2) AS Pass
+	from CollegeStreamDetails csd
+	WHERE csd.collegeId = #{collegeId}
+	and csd.streamId= #{streamId}
+	
+
+	
+	</select>
+	
+	
+		<!-- END SASEDEVE EDITED By Mrutyunjaya on Date 07-06-2017 -->
+	
+	
+	
+	<delete id="deleteShortListedCollegeById" parameterType="int">
+		DELETE FROM StudentCollegeShortList WHERE id=#{id}
+	</delete>
+	
+	<insert id="insertStudentCollegeShortlist" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO StudentCollegeShortList (studentId, collegeId) VALUES (#{studentId}, #{collegeId})
+	</insert>
+</mapper>

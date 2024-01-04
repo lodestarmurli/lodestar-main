@@ -1,0 +1,2167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation"
+		value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.custom.i18n.resources"
+		value="applicationproperties" />
+	<constant name="struts.multipart.maxSize" value="300000000" />
+	<constant name="struts.xwork.chaining.copyErrors" value="true" />
+	<constant name="struts.xwork.chaining.copyFieldErrors"
+		value="true" />
+	<constant name="struts.xwork.chaining.copyMessages"
+		value="true" />
+
+	<package name="edupath" namespace="/" extends="struts-default">
+
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+
+		<action name="Authentication"
+			class="com.lodestar.edupath.auth.action.AuthenticationAction">
+			<result type="chain">
+				<param name="actionName">Authorization</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="login">/pages/LoginScreen.jsp</result>
+			<result name="error">/pages/LoginScreen.jsp</result>
+			<result name="input">/pages/LoginScreen.jsp</result>
+		</action>
+		<action name="Authorization"
+			class="com.lodestar.edupath.auth.action.AuthorizationAction">
+			<result name="success" type="tiles">ShowApplicationPage</result>
+			<result name="error">/pages/LoginScreen.jsp</result>
+			<result name="input">/pages/LoginScreen.jsp</result>
+			<result name="login">/pages/LoginScreen.jsp</result>
+		</action>
+
+		<action name="Logout"
+			class="com.lodestar.edupath.auth.action.LogoutAction">
+			<result>/pages/LoginScreen.jsp</result>
+		</action>
+
+		<action name="InvalidSessionRedirect"
+			class="com.lodestar.edupath.auth.action.InvalidSessionredirectAction">
+			<result type="redirect">/pages/LoginScreen.jsp</result>
+		</action>
+
+		<action name="*ForgotPassword"
+			class="com.lodestar.edupath.forgotpassword.ForgotPasswordAction"
+			method="{1}">
+			<result name="success">/pages/forgotpassword/ForgotPasswordScreen.jsp
+			</result>
+			<result name="validData">/pages/forgotpassword/ConfirmPasswordScreen.jsp
+			</result>
+			<result name="passconfirm" type="redirect">/pages/LoginScreen.jsp
+			</result>
+		</action>
+
+		<action name="*trial"
+			class="com.lodestar.edupath.student.action.trial.TrialStudentAction"
+			method="{1}">
+			<result name="success">/pages/student/trial/TrialStudentScreen.jsp
+			</result>
+			<result name="INVALID_REQUEST">/pages/template/InvalidRequestScreen.jsp</result>
+			<result name="ADDSUCCESS">/pages/student/trial/TrialSuccessScreen.jsp
+			</result>
+			<result name="error">/pages/student/trial/TrialStudentDetailScreen.jsp
+			</result>
+			<result name="input">/pages/student/trial/TrialStudentDetailScreen.jsp
+			</result>
+		</action>
+
+		<!-- start by bharath 22-04-2020 -->
+		<action name="GsPasswordRest"
+			class="com.lodestar.edupath.changepassword.GsPasswordRest">
+
+		</action>
+		<!-- End by bharath 22-04-2020 -->
+
+	</package>
+
+	<!-- for Chanakya -->
+	<package name="Chanakya" namespace="/Chanakya"
+		extends="struts-default">
+
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="StudentInterestTest"
+			class="com.lodestar.edupath.APIS.chanakya.StudentWithInterest">
+			<result type="json1">
+			</result>
+		</action>
+
+		<action name="InterestResult"
+			class="com.lodestar.edupath.APIS.chanakya.InterestResultReport">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*DownloadReport"
+			class="com.lodestar.edupath.APIS.chanakya.DownloadReport"
+			method="{1}">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="DownloadPDFReport"
+			class="com.lodestar.edupath.APIS.chanakya.DownloadPDFReportAction">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+	</package>
+	<!-- Chanakya ends -->
+
+	<package name="dia/aml" namespace="/myapp"
+		extends="struts-default">
+
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<interceptors>
+			<interceptor name="sessionInterceptor"
+				class="com.lodestar.edupath.auth.action.SessionValidatorInterceptor" />
+			<interceptor-stack name="sessionCheckStack">
+				<interceptor-ref name="sessionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref
+			name="sessionCheckStack" />
+
+		<global-results>
+			<result name="SessionExpired" type="tiles">ShowSessionScreen</result>
+		</global-results>
+		<action name="*SubAdminSubmit"
+			class="com.lodestar.edupath.subadmin.action.SubAdminSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">ManageSubAdminAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="ADDSCREEN" type="tiles">ShowSubAdminDetail</result>
+			<result name="input" type="tiles">ShowSubAdminDetail</result>
+			<result name="error" type="tiles">ShowSubAdminDetail</result>
+
+		</action>
+
+		<action name="*ManageSubAdminAction"
+			class="com.lodestar.edupath.subadmin.action.SubAdminSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowSubAdminSummary</result>
+			<result name="ADDSCREEN" type="tiles">ShowSubAdminDetail</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*ManageStudentAction"
+			class="com.lodestar.edupath.subadmin.action.SubAdminSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowSubAdminSummary</result>
+			<result name="ADDSCREEN" type="tiles">ShowSubAdminDetail</result>
+		</action>
+
+		<action name="*PersonalAndAcademicInfoAction"
+			class="com.lodestar.edupath.tum.action.StudentTUMSubmitAction"
+			method="{1}">
+			<param name="pageAction">1</param>
+			<result name="success" type="tiles">ShowPersonalInfoScreen</result>
+			<result name="NEXT" type="chain">
+				<param name="actionName">HobbiesAndInterestAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*HobbiesAndInterestAction"
+			class="com.lodestar.edupath.tum.action.StudentTUMSubmitAction"
+			method="{1}">
+			<param name="pageAction">2</param>
+			<param name="serialNum">10</param>
+			<result name="success" type="tiles">ShowHobbiesInfoScreen</result>
+			<result name="NEXT" type="chain">
+				<param name="actionName">CareerinterestAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="BACK" type="chain">
+				<param name="actionName">PersonalAndAcademicInfoAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*CareerinterestAction"
+			class="com.lodestar.edupath.tum.action.StudentTUMSubmitAction"
+			method="{1}">
+			<param name="pageAction">3</param>
+			<param name="serialNum">13</param>
+			<result name="success" type="tiles">ShowCareerInfoScreen</result>
+			<result name="NEXT" type="chain">
+				<param name="actionName">HobbiesAndInterestAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="QUESTION" type="chain">
+				<param name="actionName">InterestAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*WelcomeStudentAction"
+			class="com.lodestar.edupath.tum.action.StudentWelcomeAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowWelcomeScreen</result>
+			<result name="DHWELCOMEPAGE" type="tiles">ShowDHWelcomeScreen</result>
+			<result name="STREAMSELECTORWELCOMEPAGE" type="tiles">ShowStreamSelectorWelcomeScreen
+			</result>
+			<result name="EBSELECTORWELCOMEPAGE" type="tiles">ShowEBSelectorWelcomeScreen
+			</result>
+			<result name="CDDWELCOMEPAGE" type="tiles">ShowCDDSelectorWelcomeScreen
+			</result>
+			<result name="NONSCIENCECDDWELCOMEPAGE" type="tiles">ShowNonScienceCDDSelectorWelcomeScreen
+			</result>
+			<result name="EBSUBJECTPRIORITY" type="chain">
+				<param name="actionName">EBFavouriteSubjectAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="CDDSTREAM" type="chain">
+				<param name="actionName">CCDStreamSelectAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="TRIALSTUDENT" type="tiles">ShowTrialWelcomeScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+			<result name="CAREERFITMENTWELCOMEPAGEONE" type="tiles">ShowCareerFitmentWelcomeScreenOne
+			</result>
+			<result name="CAREERFITMENTWELCOMEPAGETWO" type="tiles">ShowCareerFitmentWelcomeScreenTwo
+			</result>
+			<result name="CAREERFITMENTTHANKYOUSCREEN" type="tiles">ShowCareerFitmentThankyouScreen
+			</result>
+			<result name="CFOPTION1" type="chain">
+				<param name="actionName">CareerFitmentClusterOccGlossary</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="CFOPTION2" type="chain">
+				<param name="actionName">CareerFitmentOccGlossary</param>
+				<param name="namespace">/myapp</param>
+			</result>
+
+		</action>
+
+		<action name="*WelcomeSessionFirstAction"
+			class="com.lodestar.edupath.welcome.WelcomeSessionFirstAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowSessionOneWelcomeScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*ReviewElectivesAction"
+			class="com.lodestar.edupath.reviewelective.action.ReviewElectivesDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowReviewElectiveScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*QuestionnaireAction"
+			class="com.lodestar.edupath.tum.action.QuestionnaireAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowQuestionnaireScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*InterestAction"
+			class="com.lodestar.edupath.tum.questionnaire.InterestSubmitAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowQuestionnaireScreen</result>
+			<result name="TRIALSUMMARY" type="tiles">ShowTrialSummarycreen
+			</result>
+			<result name="NEXT" type="chain">
+				<param name="actionName">AptitudeAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="WELCOMESCREEN" type="chain">
+				<param name="actionName">WelcomeStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*AptitudeAction"
+			class="com.lodestar.edupath.tum.questionnaire.AptitudeSubmitAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowQuestionnaireScreen</result>
+			<result name="NEXT" type="chain">
+				<param name="actionName">WelcomeStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="EBSUBJECTPRIORITY" type="chain">
+				<param name="actionName">EBFavouriteSubjectAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="ManageStudentAction"
+			class="com.lodestar.edupath.student.action.StudentDetailsSummaryAction">
+			<result name="success" type="tiles">ShowStudentSummary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*StudentSummary"
+			class="com.lodestar.edupath.student.action.StudentDetailsSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowStudentSummary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+		<action name="*StudentDetailAction"
+			class="com.lodestar.edupath.student.action.StudentDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowStudentDetail</result>
+			<result name="error" type="chain">
+				<param name="actionName">ManageStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="input" type="chain">
+				<param name="actionName">ManageStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">ManageStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="openSession" type="chain">
+				<param name="actionName">ManageStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+		<action name="*StudentSubmit"
+			class="com.lodestar.edupath.student.action.StudentSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">ManageStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowStudentDetail</result>
+			<result name="input" type="tiles">ShowStudentDetail</result>
+		</action>
+
+		<action name="*ManageFacilitatorAction"
+			class="com.lodestar.edupath.facilitator.action.FacilitatorDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">showFacilitatorSummaryScreen
+			</result>
+			<result name="insert" type="tiles">showFacilitatorDetailsScreen
+			</result>
+		</action>
+
+		<action name="*ManageStudentAction"
+			class="com.lodestar.edupath.facilitator.action.FacilitatorDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">showFacilitatorSummaryScreen
+			</result>
+			<result name="insert" type="tiles">showFacilitatorDetailsScreen
+			</result>
+		</action>
+
+		<action name="*ExcelTemplate"
+			class="com.lodestar.edupath.bulkupload.EduPathBulkUploadAction"
+			method="{1}">
+			<result name="success">/pages/bulkupload/EduPathMapBulkUploadScreen.jsp
+			</result>
+			<result name="error">/pages/bulkupload/EduPathMapBulkUploadScreen.jsp
+			</result>
+			<result name="input">/pages/bulkupload/EduPathMapBulkUploadScreen.jsp
+			</result>
+		</action>
+
+		<action name="SystemrecommendationAction"
+			class="com.lodestar.edupath.induoccchoice.SystemRecommendationAction">
+			<result name="success" type="tiles">showSystemRecommendation</result>
+		</action>
+
+
+		<action name="*MyWishlistAction"
+			class="com.lodestar.edupath.stuinduocchoice.action.MyWishListAction"
+			method="{1}">
+			<result name="success" type="tiles">showMyWishList</result>
+		</action>
+
+		<action name="*SystemrecommendationAction"
+			class="com.lodestar.edupath.stuinduocchoice.action.MyWishListAction"
+			method="{1}">
+			<result name="success" type="tiles">showMyWishList</result>
+		</action>
+
+		<action name="*OccupationAction"
+			class="com.lodestar.edupath.occupation.OccupationAction" method="{1}">
+			<result name="success">/pages/occupation/OccupationHoverDetails.jsp
+			</result>
+		</action>
+
+		<action name="*OccupationwishlistAction"
+			class="com.lodestar.edupath.occupation.wishlist.OccupationWishListAction"
+			method="{1}">
+			<result name="success" type="tiles">showOccupationWishList</result>
+		</action>
+
+		<!-- Start Sasedeve Edited By Mrutyunjaya On Date 15-09-2017 -->
+
+		<action name="*FacilitatorStudentSummaryAction"
+			class="com.lodestar.edupath.facilitatorstudent.FacilitatorStudentSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">showFacilitatorStudentSummaryScreen
+			</result>
+			<result name="tipsandsuggestionsession1" type="tiles">showTipsAndSuggetions
+			</result>
+			<result name="tipsandsuggestionsession2" type="tiles">showGSInputs
+			</result>
+			<result name="reviewerSummary" type="chain">
+				<param name="isOnChange">true</param>
+				<param name="actionName">ReviewSummaryAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result type="chain" name="session1">
+				<param name="actionName">SystemrecommendationAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result type="chain" name="session2">
+				<param name="actionName">EduPath</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result type="chain" name="session3">
+				<param name="actionName">CollegeSelectionAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result type="chain" name="summary">
+				<param name="actionName">showSummaryFinalSummaryAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+		<!-- END Sasedeve Edited By Mrutyunjaya On Date 15-09-2017 -->
+
+
+		<action name="*StudentInfoAction"
+			class="com.lodestar.edupath.studentinfo.StudentInfoAction"
+			method="{1}">
+			<result name="tuminfo">/pages/studentinfo/StudentPersonalAndAcademicInfo.jsp
+			</result>
+		</action>
+
+
+		<!-- BEGIN Sasedeve edited by Mrutyunjaya on date 15-02-2017 -->
+
+
+		<action name="getStudentTUMReport"
+			class="com.lodestar.edupath.PDFReport.service.StudentTUMReportService">
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<!-- END Sasedeve edited by Mrutyunjaya on Date 15-02-2017 -->
+
+
+		<!-- BEGIN Sasedeve edited by Mrutyunjaya on date 20-02-2017 -->
+
+		<action name="getStudentFinalReport"
+			class="com.lodestar.edupath.PDFReport.service.StudentFinalReportService">
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+
+		<!-- END Sasedeve edited by Mrutyunjaya on Date 20-02-2017 -->
+
+
+
+
+
+
+
+
+
+		<action name="*ExcelPdfReport"
+			class="com.lodestar.edupath.report.export.EdupathExportReportAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowErrorPage</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*OccupationglossaryAction"
+			class="com.lodestar.edupath.induoccchoice.OccupationGlossaryAction"
+			method="{1}">
+			<result name="success" type="tiles">showOccupationGlossary</result>
+		</action>
+
+		<!-- Manual search -->
+		<action name="*ManualsearchAction"
+			class="com.lodestar.edupath.induoccchoice.ManualSearchAction"
+			method="{1}">
+			<result name="success" type="tiles">showManualSearch</result>
+			<result name="error" type="tiles">showManualSearch</result>
+			<result name="input" type="tiles">showManualSearch</result>
+		</action>
+
+		<action name="*DocumentAction"
+			class="com.lodestar.edupath.document.action.GetDocumentForReading"
+			method="{1}">
+			<result name="data" type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+
+		<action name="*ChangePasswordAction"
+			class="com.lodestar.edupath.changepassword.ChangePasswordAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">Authentication</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="*FacilitatorNotesAction"
+			class="com.lodestar.edupath.notes.FacilitatorNotesAction"
+			method="{1}">
+			<result name="success">/pages/notes/FacilitatorNotesDetailScreen.jsp
+			</result>
+		</action>
+
+		<!-- StudentCart Detail Action -->
+		<action name="*StudentCartDetailAction"
+			class="com.lodestar.edupath.studentcart.action.StudentCartDetailAction"
+			method="{1}">
+			<result name="success">/pages/studentcart/StudentCartDetailScreen.jsp
+			</result>
+			<result name="error" type="tiles">showManualSearch</result>
+			<result name="input" type="tiles">showManualSearch</result>
+			<result name="data" type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="showExamAndCourseScreen">/pages/studentcart/StudentCartExamAndCourseScreen.jsp
+			</result>
+			<result name="showCollegeScreen">/pages/studentcart/StudentCartCollegeScreen.jsp
+			</result>
+			<result name="showTutorialScreen">/pages/studentcart/StudentCartTutorialScreen.jsp
+			</result>
+		</action>
+
+		<action name="*StudentNotesAction"
+			class="com.lodestar.edupath.notes.StudentNotesAction" method="{1}">
+			<result name="success">/pages/notes/FacilitatorNotesDetailScreen.jsp
+			</result>
+		</action>
+
+		<action name="*MyShortListAction"
+			class="com.lodestar.edupath.stuinduocchoice.action.MyShortListAction"
+			method="{1}">
+			<result name="success" type="tiles">showShortListScreen</result>
+		</action>
+
+		<action name="*MyShortListSubAction"
+			class="com.lodestar.edupath.stuinduocchoice.action.MyShortListSubAction"
+			method="{1}">
+			<result name="insertresult" type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+
+		<action name="*GuidanceAction"
+			class="com.lodestar.edupath.guidance.GuidanceAction" method="{1}">
+			<result name="success">/pages/guidance/GuidanceSpecialistPopUpScreen.jsp
+			</result>
+		</action>
+
+		<!-- Explore More Occupation -->
+		<action name="*ExploremoreoccupationsAction"
+			class="com.lodestar.edupath.exploremoreoccupation.ExploreMoreOccupationsAction"
+			method="{1}">
+			<result name="success" type="tiles">showExploreOccupationScreen
+			</result>
+			<result name="error" type="tiles">showExploreOccupationScreen</result>
+			<result name="input" type="tiles">showExploreOccupationScreen</result>
+		</action>
+		<!-- Student -->
+		<action name="Session1"
+			class="com.lodestar.edupath.studentsession.StudentSessionAction">
+			<result name="success" type="chain">
+				<param name="actionName">WelcomeSessionFirstAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="Session2"
+			class="com.lodestar.edupath.studentsession.StudentSessionAction"
+			method="sessionTwo">
+			<result name="success" type="chain">
+				<param name="actionName">StudentSessionTwoAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="Session3"
+			class="com.lodestar.edupath.studentsession.StudentSessionAction"
+			method="sessionThree">
+			<result name="success" type="chain">
+				<param name="actionName">FeedbackFormAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="Summary"
+			class="com.lodestar.edupath.studentsession.StudentSessionAction"
+			method="summary">
+			<result name="success" type="chain">
+				<param name="actionName">showSummaryForStudentFinalSummaryAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- Student -->
+		<!-- Facilitator -->
+
+		<!-- START Sasedeve Edited By Mrutyunjaya On Date 15-09-2017 -->
+
+
+		<action name="SessionFirstFacilitatorAction"
+			class="com.lodestar.edupath.facilitatorsession.FacilitatorSessionAction">
+			<result name="success" type="chain">
+				<param name="actionName">SystemrecommendationAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+			<result name="tipsandsuggestionsession1" type="tiles">showTipsAndSuggetions
+			</result>
+		</action>
+
+
+		<action name="SessionSecondFacilitator"
+			class="com.lodestar.edupath.facilitatorsession.FacilitatorSessionAction"
+			method="sessionTwo">
+			<result name="success" type="chain">
+				<param name="actionName">EduPath</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+			<result name="tipsandsuggestionsession2" type="tiles">showGSInputs
+			</result>
+		</action>
+
+		<!-- END Sasedeve Edited By Mrutyunjaya On Date 15-09-2017 -->
+
+
+
+
+		<action name="SessionThirdFacilitator"
+			class="com.lodestar.edupath.facilitatorsession.FacilitatorSessionAction"
+			method="sessionThree">
+			<result name="success" type="chain">
+				<param name="actionName">CollegeSelectionAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<!-- <result name="success" type="tiles">CollegeSelectionAction</result> -->
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="SummaryFacilitator"
+			class="com.lodestar.edupath.facilitatorsession.FacilitatorSessionAction"
+			method="summary">
+			<result name="success" type="chain">
+				<param name="actionName">showSummaryFinalSummaryAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- Facilitator -->
+		<action name="*ViewLogAction"
+			class="com.lodestar.edupath.viewlog.ViewLogAction" method="{1}">
+			<result name="success" type="tiles">ShowViewLogScreen</result>
+			<result name="TABLESCREEN">/pages/viewlog/ViewLogTableScreen.jsp</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*EduPath"
+			class="com.lodestar.edupath.path.EduPathAction" method="{1}">
+			<result name="success" type="tiles">ShowEduPathScreen</result>
+			<result name="EDUPATH">/pages/path/EduPathResponseScreen.jsp</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*Elective"
+			class="com.lodestar.edupath.path.ElectiveAction" method="{1}">
+			<result name="success">/pages/path/ViewElectives.jsp</result>
+			<result name="status" type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="electivecomb" type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*EntranceExams"
+			class="com.lodestar.edupath.entranceexam.EntranceExamsAction"
+			method="{1}">
+			<result name="success">/pages/entranceexams/EntranceExamsDetailScreen.jsp
+			</result>
+			<result name="showOccExam">/pages/entranceexams/OccupationExamsDetailScreen.jsp
+			</result>
+		</action>
+
+		<action name="*IntegratedCourse"
+			class="com.lodestar.edupath.integratedcourse.IntegratedCourseAction"
+			method="{1}">
+			<result name="success">/pages/integratedcourse/IntegratedCourseDetailScreen.jsp
+			</result>
+			<result name="showOccExam">/pages/integratedcourse/OccupationCourseDetailScreen.jsp
+			</result>
+		</action>
+
+		<action name="*GlobalSearch"
+			class="com.lodestar.edupath.globalsearch.GlobalSearchAction"
+			method="{1}">
+			<result name="showexam">/pages/globalsearch/GlobalSearchExamDetailScreen.jsp
+			</result>
+			<result name="showcourse">/pages/globalsearch/GlobalSearchCourseDetailScreen.jsp
+			</result>
+			<result name="showcollege">/pages/globalsearch/GlobalSearchCollegeDetailScreen.jsp
+			</result>
+			<result name="showtutorial">/pages/globalsearch/GlobalSearchTutorialDetailScreen.jsp
+			</result>
+		</action>
+
+		<action name="*CollegeParameter"
+			class="com.lodestar.edupath.collegeparameter.StudentCollegeParametersAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowStudentParameterScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*CollegeSelectionAction"
+			class="com.lodestar.edupath.finaliseelectives.CollegeSelectionAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowCollegeSelectScreen</result>
+			<result name="ShowCollegeDetailsScreen" type="tiles">ShowCollegeDetailsScreen
+			</result>
+			<result name="ShowCollegeCard">/pages/finaliseelectives/CollegeDetailsCardScreen.jsp
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="StudentSessionTwoAction"
+			class="com.lodestar.edupath.welcome.WelcomeSessionFirstAction"
+			method="sessionTwo">
+			<result name="success" type="tiles">ShowStudentSessionTwoWelcomeScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*SelectTutorialsAction"
+			class="com.lodestar.edupath.tutorialsearch.action.TutorialSearchAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowTutorialSearchScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+			<result name="showContentScreen">/pages/tutorialsearch/TutorialSearchFilterContentScreen.jsp
+			</result>
+			<result name="showTutorialCenterScreen">/pages/tutorialsearch/TutorialCentersDetailsScreen.jsp
+			</result>
+		</action>
+
+		<action name="*FinalizeAction"
+			class="com.lodestar.edupath.finalize.FinalizeAction" method="{1}">
+			<result name="success" type="tiles">ShowFinalizeDetailScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*FinalSummaryAction"
+			class="com.lodestar.edupath.finalsummary.FinalSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">showFinalSummaryScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*CollegeCompareNShortList"
+			class="com.lodestar.edupath.collegecompare.CollegeCompareNShortListAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowCollegeCompareScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*ReviewSummaryAction"
+			class="com.lodestar.edupath.review.action.ReviewSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowReviewStudentSummaryScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*ReportReviewSubmitAction"
+			class="com.lodestar.edupath.review.action.ReportReviewSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">ReviewSummaryAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+		<action name="*ViewFeedbackAction"
+			class="com.lodestar.edupath.viewfeedback.ViewFeedbackAction"
+			method="{1}">
+			<result name="success" type="tiles">showViewFeedbackDetailsScreen
+			</result>
+			<result name="showFeedbackContent">/pages/viewfeedback/ViewFeedbackContent.jsp
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<!-- Feedback Form -->
+		<action name="*FeedbackFormAction"
+			class="com.lodestar.edupath.feedbackform.FeedbackFormAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowSession3WelcomeScreen</result>
+			<result name="ShowStudentForm" type="tiles">ShowStudentFeedbackFormScreen
+			</result>
+			<result name="ShowParentForm" type="tiles">ShowParentFeedbackFormScreen
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*FeedbackExportExcelReportAction"
+			class="com.lodestar.edupath.viewfeedback.FeedbackExportExcelReportAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowErrorPage</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*ManageSchoolSummaryAction"
+			class="com.lodestar.edupath.school.ManageSchoolSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">showSchoolSummary</result>
+		</action>
+
+		<action name="*ManageSchoolSubmitAction"
+			class="com.lodestar.edupath.school.ManageSchoolSubmitAction"
+			method="{1}">
+			<result name="success" type="tiles">showSchoolDetails</result>
+			<result name="showSummary" type="chain">
+				<param name="actionName">ManageSchoolSummaryAction</param>
+				<param name="namespace">/myapp</param>
+
+			</result>
+		</action>
+
+		<!-- Start sasedeve Edited by vyankatesh on date 3-2-2017 // Manage Payment -->
+
+		<action name="*ManagePaymentAction"
+			class="com.lodestar.edupath.payment.action.ManagePaymentAction"
+			method="{1}">
+			<result name="success" type="tiles">showManagePayment</result>
+		</action>
+
+		<!-- End sasedeve Edited by vyankatesh on date 3-2-2017 -->
+
+
+		<!-- Start sasedeve Edited by Mrutyunjaya on date 19-07-2017 -->
+
+
+		<action name="SessionOneFeedBack"
+			class="com.lodestar.edupath.sessionfeedback.action.SessionOneFeedBack">
+			<result name="success" type="tiles">SessionOneFeedback</result>
+
+		</action>
+
+		<action name="SaveSessionOneFeedBack"
+			class="com.lodestar.edupath.sessionfeedback.action.SaveSessionOneFeedBack">
+
+		</action>
+
+
+
+
+		<action name="SessionTwoFeedBack"
+			class="com.lodestar.edupath.sessionfeedback.action.SessionTwoFeedBack">
+			<result name="success" type="tiles">SessionTwoFeedback</result>
+
+		</action>
+
+
+
+		<action name="SaveSessionTwoFeedBack"
+			class="com.lodestar.edupath.sessionfeedback.action.SaveSessionTwoFeedBack">
+
+		</action>
+
+
+
+		<action name="worldofjobs"
+			class="com.lodestar.edupath.worldofjobs.WorldOfJobs">
+			<result name="success" type="tiles">Worldofjobs</result>
+
+		</action>
+
+
+		<action name="ManageFailedEmails"
+			class="com.lodestar.edupath.emailsfailed.EmailsFailed">
+			<result name="success" type="tiles">showfailedemails</result>
+
+		</action>
+
+		<!-- End sasedeve Edited by Mrutyunjaya on date 19-07-2017 -->
+
+
+		<!-- Begin sasedeve Edited by Mrutyunjaya on date 15-09-2017 -->
+
+		<action name="TipsuggetionssubmitAction"
+			class="com.lodestar.edupath.TipsAndSuggetions.TipsuggetionsAction"
+			method="SubmitSession1TipsAndSuggestion">
+			<result name="success" type="chain">
+				<param name="actionName">SessionFirstFacilitatorAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+		<action name="GSinputSubmitAction"
+			class="com.lodestar.edupath.GSIinput.GSIinputAction"
+			method="GSinputSubmit">
+			<result name="success" type="chain">
+				<param name="actionName">SessionSecondFacilitator</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+
+
+		<action name="*GSinputsView"
+			class="com.lodestar.edupath.GSIinput.GSinputViews" method="{1}">
+			<result name="success" type="tiles">showGSInputDetailsScreen</result>
+			<result name="showGSInputsContent">/pages/GSInputDetails/ViewGSIputsContent.jsp
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+
+		<!-- End sasedeve Edited by Mrutyunjaya on date 15-09-2017 -->
+
+
+
+
+
+
+
+
+
+		<!-- Begin sasedeve Edited by Yogamaya on date 12-09-2017 -->
+
+		<action name="TipsuggetionsAction"
+			class="com.lodestar.edupath.TipsAndSuggetions.TipsuggetionsAction">
+			<result name="success" type="tiles">showTipsAndSuggetions</result>
+		</action>
+
+		<!-- End sasedeve Edited by Yogamaya on date 12-09-2017 -->
+
+		<!-- Begin sasedeve Edited by Yogamaya on date 13-09-2017 -->
+
+		<action name="GSinput"
+			class="com.lodestar.edupath.GSIinput.GSIinputAction">
+			<result name="success" type="tiles">showGSInputs</result>
+		</action>
+
+		<!-- End sasedeve Edited by Yogamaya on date 13-09-2017 -->
+
+
+
+		<!-- Start sasedeve Edited by Mrutyunjaya on date 10-01-2018 -->
+
+
+		<action name="OccupationReadByStudents"
+			class="com.lodestar.edupath.GSIinput.OccupationsReadByStudents">
+			<result name="success" type="tiles">OccupationReadByStudent</result>
+		</action>
+
+
+
+		<!-- End sasedeve Edited by Mrutyunjaya on date 10-01-2018 -->
+
+
+		<!-- Start sasedeve Edited by Mrutyunjaya on date 11-05-2018 -->
+
+
+		<action name="autoSaveCommentsofGS"
+			class="com.lodestar.edupath.APIS.AutoSaveComments"
+			method="AutoSaveGSComments">
+
+		</action>
+
+		<action name="autoSaveCommentsofReview"
+			class="com.lodestar.edupath.APIS.AutoSaveComments"
+			method="AutoSaveReviewerComments">
+
+		</action>
+
+		<!-- End sasedeve Edited by Mrutyunjaya on date 11-05-2018 -->
+
+
+		<!-- Start sasedeve Edited by Mrutyunjaya on date 24-07-2018 -->
+
+		<action name="ArchiveStudents"
+			class="com.lodestar.edupath.student.action.ArchiveStudentDetailsSummaryAction">
+			<result name="success" type="tiles">ShowArchiveStudentSummary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*StudentSummaryArchive"
+			class="com.lodestar.edupath.student.action.ArchiveStudentDetailsSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowArchiveStudentSummary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+		<action name="*ArchiveDetailAction"
+			class="com.lodestar.edupath.student.action.StudentDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowArchiveStudentDetail</result>
+			<result name="error" type="chain">
+				<param name="actionName">ArchiveStudents</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="input" type="chain">
+				<param name="actionName">ArchiveStudents</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">ArchiveStudents</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="openSession" type="chain">
+				<param name="actionName">ArchiveStudents</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+
+		<action name="*StudentArchiveSubmit"
+			class="com.lodestar.edupath.student.action.StudentSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">ArchiveStudents</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowArchiveStudentDetail</result>
+			<result name="input" type="tiles">ShowArchiveStudentDetail</result>
+		</action>
+
+		<!-- End sasedeve Edited by Mrutyunjaya on date 24-07-2018 -->
+
+
+		<!-- started by bharath 10-9-2019 -->
+		<action name="CompletedStudentAction"
+			class="com.lodestar.edupath.student.action.CompletedStudentDetailsAction">
+			<result name="success" type="tiles">ShowCompletedStudentSummary
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*CompletedStudentAction"
+			class="com.lodestar.edupath.student.action.CompletedStudentDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowCompletedStudentSummary
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+			<result name="success" type="tiles">ShowStudentDetail</result>
+			<result name="error" type="chain">
+				<param name="actionName">CompletedStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">CompletedStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="openSession" type="chain">
+				<param name="actionName">CompletedStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+		<!-- End by bharath 10-9-2019 -->
+
+		<!-- started by bharath 12-9-2019 -->
+		<action name="TrialStudentAction"
+			class="com.lodestar.edupath.student.action.TrialStudentDetailsAction">
+			<result name="success" type="tiles">ShowTrailStudentSummary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*TrialStudentAction"
+			class="com.lodestar.edupath.student.action.TrialStudentDetailsAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowTrailStudentDetail</result>
+			<result name="error" type="chain">
+				<param name="actionName">TrialStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="input" type="chain">
+				<param name="actionName">TrialStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">TrialStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="openSession" type="chain">
+				<param name="actionName">TrialStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+		<!-- End by bharath 12-9-2019 -->
+
+		<!-- started by bharath 20-9-2019 -->
+		<action name="FacilitatorCalendarAction"
+			class="com.lodestar.edupath.facilitator.action.FacilitatorCalendarAction">
+			<result name="success" type="tiles">ShowFacilitatorCalendar</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*FacilitatorCalendarAction"
+			class="com.lodestar.edupath.facilitator.action.FacilitatorCalendarAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowFacilitatorCalendar</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 20-9-2019 -->
+
+
+		<action name="CDDBulkDownload"
+			class="com.lodestar.edupath.CDDBulkDownload.action.CDDBulkDownloadAction">
+			<result name="success" type="tiles">ShowCDDBulkDownloadPage</result>
+		</action>
+
+
+		<action name="*CDDBulkPDFReportDownload"
+			class="com.lodestar.edupath.CDDBulkDownload.action.CDDBulkPDFReportDownload"
+			method="{1}">
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/zip</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="reporterror" type="tiles">ShowReportError</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+
+		<!-- start by bharath 22-9-2019 -->
+		<action name="*TrialStudentSubmit"
+			class="com.lodestar.edupath.student.action.TrialStudentSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">TrialStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowStudentDetail</result>
+			<result name="input" type="tiles">ShowStudentDetail</result>
+		</action>
+		<!-- End by bharath 22-9-2019 -->
+
+		<!-- start by bharath 15-10-2019 -->
+		<action name="CompletedReportsAction"
+			class="com.lodestar.edupath.facilitatorstudent.FacilitatorStudentReportGenteratedAction">
+			<result name="success" type="tiles">showStudentReportGeneratedSummary
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 15-10-2019 -->
+
+		<!-- start by bharath 22-10-2019 -->
+		<action name="*CollegeReportAction"
+			class="com.lodestar.edupath.collegereport.CollegeReportSummaryAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowCollegeReport</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 22-10-2019 -->
+
+
+		<!-- start by bharath 13-11-2019 -->
+		<action name="*FacilitatorReportAction"
+			class="com.lodestar.edupath.facilitator.action.FacilitatorStatsReportAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowFacilitatorStatsReport
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 13-11-2019 -->
+		<!-- start by bharath 14-11-2019 -->
+		<action name="*StudentDetailsReportAction"
+			class="com.lodestar.edupath.student.action.StudentDetailsReportAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowStudentDetailsReport</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 14-11-2019 -->
+
+		<!-- start by bharath 14-11-2019 -->
+		<action name="*StudentDetailsReportAction"
+			class="com.lodestar.edupath.student.action.StudentDetailsReportAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowStudentDetailsReport</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 14-11-2019 -->
+		<!-- start by bharath 01-06-2020 -->
+		<action name="*DHScheduleAction"
+			class="com.lodestar.edupath.APIS.dailyHunt.ScheduleApointment.ScheduleAppointmentAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowDHSchedule</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*DHStudentConversionAction"
+			class="com.lodestar.edupath.APIS.dailyHunt.ScheduleApointment.DHStudentConversionAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowDHStudentDetail</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*DHStudentConversionsubmit"
+			class="com.lodestar.edupath.APIS.dailyHunt.ScheduleApointment.DHStudentConversionSubmitAction"
+			method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">DHScheduleAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowDHStudentDetail</result>
+			<result name="input" type="tiles">ShowDHStudentDetail</result>
+		</action>
+		<!-- End by bharath 10-06-2020 -->
+
+		<!-- start by bharath 10-07-2020 -->
+		<action name="DownloadStreamselectorPDF"
+			class="com.lodestar.edupath.programTest.streamselector.StreamSelectorPDFGeneration">
+			<result name="data" type="json">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<action name="*EBFavouriteSubjectAction"
+			class="com.lodestar.edupath.programTest.engineeringBranchSelector.EBFavouriteSubjectAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowEBFavouriteSubjectScreen
+			</result>
+			<result name="EBSELECTORWELCOMEPAGE" type="chain">
+				<param name="actionName">WelcomeStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+
+		<action name="EngineeringSelectorRecommendation"
+			class="com.lodestar.edupath.programTest.engineeringBranchSelector.EngineeringSelectorRecommendation">
+			<result type="json">
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="EngineeringSelectorPDFReport"
+			class="com.lodestar.edupath.programTest.engineeringBranchSelector.EngineeringSelectorPDFReport">
+			<result name="data" type="json">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*CCDStreamSelectAction"
+			class="com.lodestar.edupath.programTest.CareerDegreeDiscovery.CCDStreamSelectAction"
+			method="{1}">
+			<result name="success" type="tiles">ShowCDDStreamScreen</result>
+			<result name="Welcome" type="chain">
+				<param name="actionName">WelcomeStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*CareerDegreeDiscoveryPDFReport"
+			class="com.lodestar.edupath.programTest.CareerDegreeDiscovery.CareerDegreeDiscoveryPDFReport"
+			method="{1}">
+			<result name="lowAptitude" type="tiles">ShowLowAptitudePage</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="reporterror" type="tiles">ShowReportError</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*CDDORReport"
+			class="com.lodestar.edupath.programTest.CareerDegreeDiscovery.CddORReport"
+			method="{1}">
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="CareerFitmentReport"
+			class="com.lodestar.edupath.programTest.CareerFitment.action.CareerFitmentPDFReport">
+
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="CareerFitmentClusterOccGlossary"
+			class="com.lodestar.edupath.programTest.CareerFitment.action.CareerFitmentClusterOccGlossayAction">
+
+			<result name="success" type="tiles">showClusterOccupationGlossary
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<action name="*CareerFitmentOccGlossary"
+			class="com.lodestar.edupath.programTest.CareerFitment.action.CareerFitmentOccGlossaryAction"
+			method="{1}">
+
+			<result name="success" type="tiles">showCFOccupationGlossary</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+		<!-- End by bharath 17-08-2020 -->
+
+		<!-- start by bharath 17-08-2020 -->
+		<action name="*LSTResult"
+			class="com.lodestar.edupath.vark.action.LSTResultAction" method="{1}">
+			<result name="success" type="tiles">ShowLSTResultScreen</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+		<!-- End by bharath 20-08-2020 -->
+
+	</package>
+
+	<package name="jsonapp" extends="json-default">
+		<result-types>
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*OccupationWishList"
+			class="com.lodestar.edupath.induoccchoice.OccupationWishListAction"
+			method="{1}">
+			<result type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="*OccupationClusterWishList"
+			class="com.lodestar.edupath.programTest.CareerFitment.action.OccupationClusterWishListAction"
+			method="{1}">
+			<result type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="WELCOMESCREEN" type="chain">
+				<param name="actionName">WelcomeStudentAction</param>
+				<param name="namespace">/myapp</param>
+			</result>
+		</action>
+
+		<action name="sendingfinalreportemail"
+			class="com.lodestar.edupath.PDFReport.service.StudentFinalReportEmailService">
+			<result type="json">
+
+			</result>
+		</action>
+
+
+
+
+
+		<!-- Start sasedeve Edited by Mrutyunjaya on date 20-06-2017 -->
+		<!-- <action name="paymenttransactionupdate" class="com.lodestar.edupath.payment.action.TransactionAction"> 
+			<result type="json"> </result> </action> -->
+		<!-- End sasedeve Edited by Mrutyunjaya on date 20-06-2017 -->
+
+
+	</package>
+
+	<!-- Start sasedeve Edited by Mrutyunjaya on date 26-07-2017 -->
+
+	<package name="jsonapp1" namespace="/APIS"
+		extends="json-default">
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="StudentCreate"
+			class="com.lodestar.edupath.APIS.StudentCreationAPI">
+			<result type="json1">
+
+			</result>
+		</action>
+
+		<action name="EmailValidator"
+			class="com.lodestar.edupath.APIS.EmailValidation">
+			<result type="json1">
+
+			</result>
+		</action>
+
+		<action name="EmailSend"
+			class="com.lodestar.edupath.APIS.SendingEmails">
+			<result type="json1">
+
+			</result>
+		</action>
+
+
+		<action name="StudentRegistor"
+			class="com.lodestar.edupath.APIS.LeadStudentCreation">
+			<result type="json1">
+
+			</result>
+		</action>
+
+
+		<action name="NewStudentRegistor"
+			class="com.lodestar.edupath.APIS.LeadStudentCreation"
+			method="NewStudentRegistration">
+			<result type="json1">
+
+			</result>
+		</action>
+
+		<action name="NewSchoolStudentRegistor"
+			class="com.lodestar.edupath.APIS.LeadSchoolStudentCreation"
+			method="NewStudentRegistration">
+			<result type="json1">
+
+			</result>
+		</action>
+
+
+		<action name="RazorpayOrder"
+			class="com.lodestar.edupath.APIS.CreateRazorpayOrder">
+			<result type="json1">
+
+			</result>
+		</action>
+
+
+		<action name="NewChildRegistration"
+			class="com.lodestar.edupath.APIS.LeadStudentCreation"
+			method="NewChildRegistration">
+			<result type="json1">
+
+			</result>
+		</action>
+		<action name="NewTYEProgTestRegistration"
+			class="com.lodestar.edupath.APIS.LeadStudentCreation"
+			method="NewTYEProgTestRegistration">
+			<result type="json1">
+
+			</result>
+		</action>
+
+	</package>
+
+
+	<package name="Partnersite" namespace="/Partner"
+		extends="struts-default">
+
+
+		<action name="*Psychometrictests"
+			class="com.lodestar.edupath.Psychometrictests.PsychometricTests"
+			method="{1}">
+			<result name="success">/pages/Partnerpages/QuestionnaireDetailsScreen.jsp
+			</result>
+
+			<result name="error">/pages/Partnerpages/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+	</package>
+
+
+
+
+
+
+	<!-- End sasedeve Edited by Mrutyunjaya on date 26-07-2017 -->
+
+
+
+
+
+
+
+	<!-- End sasedeve Edited by vyankatesh on date 3-2-2017 -->
+
+
+
+
+	<!-- Begin sasedeve Edited by Mrutyunjaya on date 07-10-2017 -->
+
+	<package name="TestSite" namespace="/Test"
+		extends="struts-default">
+
+
+
+
+		<action name="*SIATTest"
+			class="com.lodestar.edupath.FreeSIATTest.SIATTest" method="{1}">
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreen.jsp
+			</result>
+			<result name="studentregister">/pages/FreeSIATTest/StudentRegistration.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+		<action name="SendMessage"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/FreeSiatTest.jsp</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+		<action name="sendmessagesuccessfull"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage"
+			method="sendmessagesuccessfull">
+			<result name="success">/pages/FreeSIATTest/FreeSiatTest.jsp</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<action name="Appointmentbook"
+			class="com.lodestar.edupath.FreeSIATTest.AppointmentBook">
+			<result name="success">/pages/FreeSIATTest/AppointmentBook.jsp</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+		<action name="SendMessageToChlid"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/SendMessageToChild.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+
+
+		<action name="sendmessagetochildsuccessfull"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage"
+			method="sendmessagesuccessfull">
+			<result name="success" type="redirect">${"https://www.lodestar.guru/thank-you.html"}
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+		<!-- HDFC Offer Flow -->
+
+		<action name="SendTestLinkToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/SendTestLinkToChild.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<action name="sendtestlinktochildsuccessfull"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage"
+			method="sendtestlinksuccessfull">
+			<result name="success">/pages/FreeSIATTest/SendTestLinkToChild.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+		<action name="*SIATTestLink"
+			class="com.lodestar.edupath.FreeSIATTest.SIATTestLink" method="{1}">
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreenLink.jsp
+			</result>
+			<result name="studentregister">/pages/FreeSIATTest/StudentRegistrationLink.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<action name="AppointmentbookLink"
+			class="com.lodestar.edupath.FreeSIATTest.AppointmentBook"
+			method="AppointmentBookLink">
+			<result name="success">/pages/FreeSIATTest/AppointmentBookLink.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+		<!-- New Studen Registration Flow -->
+
+
+		<action name="*StudentRegistration"
+			class="com.lodestar.edupath.FreeSIATTest.StudentRegistration"
+			method="{1}">
+			<result name="studentregister">/pages/FreeSIATTest/NewStudentRegistration.jsp
+			</result>
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreenNew.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+		</action>
+
+
+		<action name="schoolStudentRegistration"
+			class="com.lodestar.edupath.FreeSIATTest.SchoolStudentRegistration"
+			method="execute">
+			<result name="studentregister">/pages/FreeSIATTest/NewSchoolStudentRegistration.jsp
+			</result>
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreenNew.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+		</action>
+
+
+
+		<!-- Start Sasedeve Edited By Mrutyunjaya on Date 10-01-2018 -->
+
+
+		<!-- For FB Campaign -->
+
+		<action name="FBSendMessageToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/FBCampaignFreeSiatTest.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+		<!-- For Google Campaign -->
+
+		<action name="GSendMessageToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/GCampaignFreeSiatTest.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<!-- For E Campaign -->
+
+		<action name="ESendMessageToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/ECampaignFreeSiatTest.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<!-- For SMS Campaign -->
+
+		<action name="SMSSendMessageToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/SMSCampaignFreeSiatTest.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+		<!-- For ES Campaign -->
+
+		<action name="ESSendMessageToChild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage">
+			<result name="success">/pages/FreeSIATTest/ESCampaignFreeSiatTest.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+		<action name="sendmessagesuccessfulltochild"
+			class="com.lodestar.edupath.FreeSIATTest.LeadParentSendMessage"
+			method="sendmessagesuccessfulltochild">
+			<result name="fbsuccess">/pages/FreeSIATTest/FBCampaignFreeSiatTest.jsp
+			</result>
+			<result name="gsuccess">/pages/FreeSIATTest/GCampaignFreeSiatTest.jsp
+			</result>
+			<result name="ebsuccess">/pages/FreeSIATTest/ECampaignFreeSiatTest.jsp
+			</result>
+			<result name="smssuccess">/pages/FreeSIATTest/SMSCampaignFreeSiatTest.jsp
+			</result>
+			<result name="essuccess" type="redirect">${"https://www.lodestar.guru/thank-you.html"}
+			</result>
+			<result name="success" type="redirect">${"https://www.lodestar.guru/thank-you.html"}
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+
+		<action name="*ChildTest"
+			class="com.lodestar.edupath.FreeSIATTest.ChildTest" method="{1}">
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreenChild.jsp
+			</result>
+			<result name="studentregister">/pages/FreeSIATTest/ChildRegistration.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+
+		<!-- END Sasedeve Edited By Mrutyunjaya on Date 10-01-2018 -->
+
+
+		<action name="*TYEProgTest"
+			class="com.lodestar.edupath.FreeSIATTest.TYEProgTest" method="{1}">
+			<result name="success">/pages/FreeSIATTest/QuestionnaireDetailsScreenTYEProgTest.jsp
+			</result>
+			<result name="studentregister">/pages/FreeSIATTest/TYEProgTestRegistration.jsp
+			</result>
+			<result name="error">/pages/FreeSIATTest/ErrorScreen.jsp</result>
+
+		</action>
+
+
+
+
+
+
+
+	</package>
+
+	<!-- End sasedeve Edited by Mrutyunjaya on date 07-10-2017 -->
+
+	<!-- Start bharath on date 19-03-2020 -->
+
+	<package name="DailyHunt" namespace="/DailyHunt"
+		extends="struts-default">
+
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="StudentInterestTest"
+			class="com.lodestar.edupath.APIS.dailyHunt.StudentWithInterest">
+			<result type="json1">
+			</result>
+		</action>
+
+		<action name="InterestResult"
+			class="com.lodestar.edupath.APIS.dailyHunt.InterestResultReport">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*DownloadReport"
+			class="com.lodestar.edupath.APIS.dailyHunt.DownloadReport"
+			method="{1}">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="DownloadPDFReport"
+			class="com.lodestar.edupath.APIS.dailyHunt.DownloadPDFReportAction">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+		<!-- end bharath on date 19-03-2020 -->
+
+
+		<!-- Start bharath on date 21-05-2020 -->
+		<action name="StudentAptitudeTest"
+			class="com.lodestar.edupath.APIS.dailyHunt.StudentAptitudeTestAction">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="AptitudeResult"
+			class="com.lodestar.edupath.APIS.dailyHunt.AptitudeResult.AptitudeResultAction">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*OccupationViewer"
+			class="com.lodestar.edupath.APIS.dailyHunt.AptitudeResultDownload.OccupationViewerAction"
+			method="{1}">
+			<result name="SUCCESS">/pages/dailyhunt/DHReadingPage.jsp</result>
+			<result name="data" type="json1">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="ScheduleApointment"
+			class="com.lodestar.edupath.APIS.dailyHunt.ScheduleApointment.ScheduleAppointmentAPI">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*DownloadORReport"
+			class="com.lodestar.edupath.APIS.dailyHunt.AptitudeResultDownload.DownloadORReport"
+			method="{1}">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="DownloadAptitudePDFReport"
+			class="com.lodestar.edupath.APIS.dailyHunt.AptitudeResultDownload.DownloadAptitudeReportPDFAction">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<!-- end bharath on date 10-06-2020 -->
+
+	</package>
+
+
+	<package name="DH-Lodestar" namespace="/DH-Lodestar"
+		extends="struts-default">
+
+		<action name="login"
+			class="com.lodestar.edupath.auth.action.LogoutAction">
+			<result>/pages/LoginScreen.jsp</result>
+		</action>
+
+
+
+	</package>
+
+
+	<package name="ProgramTest" namespace="/ProgramTest"
+		extends="struts-default">
+
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="StudentCreationAPI"
+			class="com.lodestar.edupath.APIS.ProgramTestStudentCreationAPI">
+			<result type="json1">
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+	</package>
+
+	<package name="Engineering Selector"
+		namespace="/engineeringSelector" extends="struts-default">
+
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="*EngineeringSelectorPDFReport"
+			class="com.lodestar.edupath.programTest.engineeringBranchSelector.EngineeringSelectorPDFReport"
+			method="{1}">
+			<result name="data" type="json">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+			</result>
+			<result name="error" type="tiles">ShowErrorPage</result>
+			<result name="input" type="tiles">ShowErrorPage</result>
+		</action>
+
+	</package>
+
+	<package name="vark" namespace="/vark" extends="struts-default">
+		<result-types>
+
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<!-- start by bharath 18-08-2020 -->
+		<action name="VarkStudentRegistration"
+			class="com.lodestar.edupath.vark.action.StudentRegistrationAction">
+			<result name="success">/pages/vark/VarkStudentRegistraionBodyScreen.jsp
+			</result>
+		</action>
+
+		<action name="*VarkStudentSubmit"
+			class="com.lodestar.edupath.vark.action.StudentSubmitAction"
+			method="{1}">
+			<result name="success">/pages/vark/ThankYouMailScreen.jsp</result>
+		</action>
+
+		<action name="*VarkStartTest"
+			class="com.lodestar.edupath.vark.action.VarkTest" method="{1}">
+			<result name="success">/pages/vark/VarkTestBodyScreen.jsp</result>
+			<result name="THANKYOU">/pages/vark/VarkThankyouBodyScreen.jsp</result>
+		</action>
+
+		<!-- End by bharath 18-08-2020 -->
+	</package>
+
+
+	<!-- start by bharath 12-02-2021 -->
+	<package name="Client" namespace="/Client"
+		extends="struts-default">
+
+		<result-types>
+			<result-type name="json1"
+				class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+
+		<action name="StudentInterestTest"
+			class="com.lodestar.edupath.APIS.client.StudentWithInterest">
+			<result type="json1">
+			</result>
+		</action>
+
+		<action name="InterestResult"
+			class="com.lodestar.edupath.APIS.client.InterestResultReport">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*DownloadReport"
+			class="com.lodestar.edupath.APIS.client.DownloadReport" method="{1}">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="DownloadPDFReport"
+			class="com.lodestar.edupath.APIS.client.DownloadPDFReportAction">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="StudentAptitudeTest"
+			class="com.lodestar.edupath.APIS.client.StudentAptitudeTestAction">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="AptitudeResult"
+			class="com.lodestar.edupath.APIS.client.AptitudeResult.AptitudeResultAction">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*OccupationViewer"
+			class="com.lodestar.edupath.APIS.client.AptitudeResultDownload.OccupationViewerAction"
+			method="{1}">
+			<result name="SUCCESS">/pages/dailyhunt/DHReadingPage.jsp</result>
+			<result name="data" type="json1">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="ScheduleApointment"
+			class="com.lodestar.edupath.APIS.client.ScheduleApointment.ScheduleAppointmentAPI">
+			<result type="json1">
+			</result>
+		</action>
+		<action name="*DownloadORReport"
+			class="com.lodestar.edupath.APIS.client.AptitudeResultDownload.DownloadORReport"
+			method="{1}">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pptx</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<action name="DownloadAptitudePDFReport"
+			class="com.lodestar.edupath.APIS.client.AptitudeResultDownload.DownloadAptitudeReportPDFAction">
+			<result name="data" type="json1">
+			</result>
+			<result name="success" type="stream">
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+
+			</result>
+		</action>
+
+		<!-- end bharath on date 12-02-2021 -->
+
+		<!-- Start bharath on date 22-09-2021 -->
+		<action name="Hobby"
+			class="com.lodestar.edupath.APIS.client.hobby.Hobby">
+			<result type="json1">
+			</result>
+		</action>
+
+		<!-- end bharath on date 30-09-2021 -->
+
+	</package>
+
+
+
+
+</struts>

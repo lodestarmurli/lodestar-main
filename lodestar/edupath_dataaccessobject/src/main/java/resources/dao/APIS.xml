@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APIS">
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.APIS.AuthCodeValidationDTO" id="resultMap"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.APIS.PartnerStudentDetailDTO" id="PartnerStudentDetails"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.APIS.PartnerDetailsDTO" id="PartnerDetails"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.APIS.CheckingDuplicationDTO" id="DuplicationCheck"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.APIS.AuthCodeValidationDTO" id="paramMap"/>
+	<parameterMap id="updatestudentuin" type="com.lodestar.edupath.datatransferobject.dto.APIS.PartnerStudentDetailDTO"></parameterMap>
+	<parameterMap id="duplictionvalidate" type="com.lodestar.edupath.datatransferobject.dto.student.StudentDetailsDTO"></parameterMap>
+	
+	<select id="ValidateAPI"  parameterMap="paramMap" resultMap="PartnerDetails">
+		SELECT * FROM PartnerDetails WHERE EmailID=#{EmailID} AND Password=#{Password} AND AuthCode=#{AuthCode} AND IsActive=1
+		
+	</select>
+	
+	<select id="getMaxIdValue" resultType="int">
+		SELECT MAX(id) as id FROM PartnerStudentDetails;
+	</select>
+	
+	<insert id="addpartnerstudentDetail"  parameterType="com.lodestar.edupath.datatransferobject.dto.APIS.PartnerStudentDetailDTO" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO PartnerStudentDetails(partnerUIN, studentid, LDID,CityString)
+		VALUES ( #{partnerUIN}, #{studentid},#{LDID},#{CityString})
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	<update id="updatestudentuin" parameterMap="updatestudentuin" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE PartnerStudentDetails 
+	    SET
+	    studenUIN = #{studenUIN} where id = #{id}
+	</update>
+	
+	
+	
+	<update id="RegisterForCall" parameterType="int" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE PartnerStudentDetails 
+	    SET
+	    IsRegister =1,RegisterDateTime=NOW() where id = #{psid}
+	</update>
+	
+	
+	
+	
+	<select id="partnerstudentdetails"  parameterMap="updatestudentuin" resultMap="PartnerStudentDetails">
+		SELECT * FROM PartnerStudentDetails WHERE partnerUIN=#{partnerUIN} AND studenUIN=#{studenUIN}
+		
+	</select>
+	
+	<select id="partnerdetail"  parameterType="String" resultMap="PartnerDetails">
+		SELECT * FROM PartnerDetails WHERE UIN=#{puin} AND IsActive=1
+		
+	</select>
+	
+	<select id="DuplicateionCheck"  parameterMap="duplictionvalidate" resultMap="DuplicationCheck">
+		SELECT count(id) as countstudent FROM StudentDetails WHERE name=#{name} AND fatheremailId=#{fatheremailId}
+		
+	</select>
+	
+	
+</mapper>

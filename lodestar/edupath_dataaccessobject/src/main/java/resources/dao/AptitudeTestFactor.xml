@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AptitudeTestFactor">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.cgt.AptitudeTestFactorDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.cgt.AptitudeTestFactorDTO"></resultMap>
+	
+	<select id="getAptitudeTestFactor" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM AptitudeTestFactor order by occupationId
+	</select>
+	
+	<select id="getAptitudeTestFactorByFactor" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM AptitudeTestFactor WHERE factor = #{factor}
+	</select>
+		
+	
+</mapper>

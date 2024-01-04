@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EdupathElectiveShortList">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.elective.EduPathElectiveShortListDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.elective.EduPathElectiveShortListDTO"></resultMap>
+	
+	<update id="updateOrderNoForCombinationId" parameterMap="paramMap">
+		UPDATE EduPathElectiveShortList SET orderNo = #{orderNo} WHERE combinationId = #{combinationId} AND studentId = #{studentId}
+	</update>
+	
+	<insert id="insertElectiveShortList" parameterMap="paramMap" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO EduPathElectiveShortList (combinationId, studentId, noOfCollege) values
+				(#{combinationId}, #{studentId}, #{noOfCollege})
+	</insert>
+	
+	<delete id="deleteEdupathElectiveByStudentId" parameterType="int">
+		DELETE FROM EduPathElectiveShortList WHERE studentId = #{studentId}
+	</delete>
+	
+	<select id="getElectiveShortListByStudentId" parameterType="int" resultMap="SelectAllResult">
+		SELECT eduel.orderNo, cmb.name as name FROM EduPathElectiveShortList eduel
+		JOIN Combination  cmb
+		ON cmb.id = eduel.combinationId
+		WHERE eduel.studentId = #{id} order by eduel.orderNo
+	</select>
+	
+	<select id="combinationIdsByStudentId" parameterType="int" resultType="int">
+		SELECT eduel.combinationId
+		FROM EduPathElectiveShortList eduel
+		INNER JOIN Combination cmb ON cmb.id = eduel.combinationId
+		WHERE eduel.studentId = #{id} 
+		ORDER BY eduel.orderNo
+	</select>
+</mapper>

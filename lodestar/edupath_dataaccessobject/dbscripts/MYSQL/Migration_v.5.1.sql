@@ -1,0 +1,3 @@
+INSERT INTO `ApplicationMenu` (`id`, `refName`, `displayName`, `actionPath`, `menuLevel`, `parentId`, `menuOrder`, `roleWeight`, `enablePermission`, `allowCreate`, `allowRead`, `allowUpdate`, `allowDelete`, `iconPath`) VALUES 
+('', 'ManagePayment', 'com.lodestar.edupath.navigation.tab.managePayment', 'ManagePaymentAction', 1, NULL, 7, 1, 1, 1, 1, 1, 1, ''),
+('', 'ManagePayment', 'com.lodestar.edupath.navigation.tab.managePayment', 'ManagePaymentAction', 1, NULL, 3, 4, 1, 1, 1, 1, 1, '');

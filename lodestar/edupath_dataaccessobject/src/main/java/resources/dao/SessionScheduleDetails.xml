@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SessionDetails">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.session.SessionScheduleDetailsDTO" id="getAllResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.session.SessionScheduleDetailsDTO" id="generalParam"/>
+	 
+	<select id="getAllSession1Reminder" parameterType="java.util.Map" resultMap="getAllResult">
+	    SELECT * FROM SessionScheduleDetails WHERE
+	    DATEDIFF(session1Date, now()) <![CDATA[<=]]> ${beforeDays}
+	    AND session1Reminder is NULL
+	</select>
+	
+	<select id="getAllSession2Reminder" parameterType="java.util.Map" resultMap="getAllResult">
+	    SELECT * FROM SessionScheduleDetails WHERE
+	    DATEDIFF(session2Date, now()) <![CDATA[<=]]> ${beforeDays}
+	    AND session2Reminder is NULL
+	</select>
+
+	<select id="getAllSession3Reminder" parameterType="java.util.Map" resultMap="getAllResult">
+	    SELECT * FROM SessionScheduleDetails WHERE
+	    DATEDIFF(session3Date, now()) <![CDATA[<=]]> ${beforeDays}
+	    AND session3Reminder is NULL
+	</select>	
+	
+	<select id="getSessionCountForDelete" parameterType="int" resultType="java.lang.Integer">
+		 SELECT COUNT(id) FROM SessionScheduleDetails WHERE facilitatorId = #{facilitatorId} 
+	</select>
+	
+	<update id="updateSession1Reminder" parameterType="int">
+	    UPDATE SessionScheduleDetails set session1Reminder = now() WHERE id = #{id}
+	</update>	
+
+	<update id="updateSession2Reminder" parameterType="int">
+	    UPDATE SessionScheduleDetails set session2Reminder = now() WHERE id = #{id}
+	</update>	
+
+	<update id="updateSession3Reminder" parameterType="int">
+	    UPDATE SessionScheduleDetails set session3Reminder = now() WHERE id = #{id}
+	</update>	
+	
+	<select id="getStudentSessionByUserId"  parameterType="int" resultMap="getAllResult">
+		SELECT * FROM SessionScheduleDetails ssd
+		JOIN StudentDetails sd on sd.id = ssd.studentId
+		WHERE sd.userId = #{studentUserId}
+	</select>
+	
+	<select id="getDetailsByFacilitatorId" parameterType="int" resultMap="getAllResult">
+		SELECT * FROM SessionScheduleDetails s where facilitatorId = #{facilitatorId}
+	</select>
+
+	<insert id="insertSessionSchedule" parameterMap="generalParam" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SessionScheduleDetails (studentId, facilitatorId, session1Date, session2Date, session3Date, preSessionCompleted, session1FaciCompleted, session2FaciCompleted, session3FaciCompleted, reportGenerated, session1Reminder, session2Reminder, session3Reminder, venue)
+	 	VALUES (#{studentId}, #{facilitatorId}, #{session1Date}, #{session2Date}, #{session3Date}, #{preSessionCompleted}, #{session1FaciCompleted}, #{session2FaciCompleted}, #{session3FaciCompleted}, #{reportGenerated}, #{session1Reminder}, #{session2Reminder}, #{session3Reminder}, #{venue})
+	</insert>
+	
+	<delete id="deleteSessionByStudentId" parameterType="int" >
+		DELETE FROM SessionScheduleDetails where studentId = #{studentId}
+	</delete>
+	
+	<select id="countBySession1Date" parameterMap="generalParam" resultType="int">
+		SELECT COUNT(*) FROM SessionScheduleDetails 
+		WHERE studentId != #{studentId} AND facilitatorId = #{facilitatorId} AND session1Date = #{session1Date} 
+	</select>
+	
+	<select id="countBySession2Date" parameterMap="generalParam" resultType="int">
+		SELECT COUNT(*) FROM SessionScheduleDetails 
+		WHERE studentId != #{studentId} AND facilitatorId = #{facilitatorId} AND session2Date = #{session2Date} 
+	</select>
+	
+	<select id="countBySession3Date" parameterMap="generalParam" resultType="int">
+		SELECT COUNT(*) FROM SessionScheduleDetails 
+		WHERE studentId != #{studentId} AND facilitatorId = #{facilitatorId} AND session3Date = #{session3Date} 
+	</select>
+	
+	<select id="getStudentSessionDetailsByStudentId" parameterType="int" resultMap="getAllResult">
+		SELECT * FROM SessionScheduleDetails  WHERE studentId = #{studentId}
+	</select>
+	
+	<update id="updateSessionScheduleByStudentId" parameterMap="generalParam">
+		UPDATE SessionScheduleDetails SET facilitatorId = #{facilitatorId}, session1Date = #{session1Date},
+		session2Date = #{session2Date}, session3Date = #{session3Date} , venue =#{venue} WHERE studentId = #{studentId}
+	</update>
+	
+	<update id="updatePreNFaci1CompleteByStudentId" parameterType="int">
+	
+	<!-- Start Sasedeve edited by Mrutyunjaya On Date 19-12-2017 -->
+	
+	<!--Start Original query -->
+	
+	 <!--   UPDATE SessionScheduleDetails SET preSessionCompleted = 1, session1FaciCompleted = 1
+	    WHERE studentId = #{id} -->
+	<!--End Original query -->    
+	   
+	   
+	 	<!--Start Change query -->  
+	   
+	   UPDATE SessionScheduleDetails SET preSessionCompleted = 1, session1FaciCompleted = 1,
+	   session1FaciCompletedDate=case when session1FaciCompletedDate is null then NOW() else session1FaciCompletedDate end 
+	   WHERE studentId = #{id}
+	    
+	    <!--End Change query --> 
+	    
+	 <!-- End Sasedeve edited by Mrutyunjaya On Date 19-12-2017 -->
+	</update>
+	
+	<update id="updatePreANDFaci1CompleteByStudentId" parameterType="int">
+	    UPDATE SessionScheduleDetails SET preSessionCompleted = 0, session1FaciCompleted = 0
+	    WHERE studentId = #{id}
+	</update>
+
+	<update id="updateFaci2CompleteByStudentId" parameterType="int">
+	
+	<!-- Start Sasedeve edited by Mrutyunjaya On Date 20-12-2017 -->
+	
+	<!--Start Original query -->
+	
+	
+	   <!--  UPDATE SessionScheduleDetails SET session2FaciCompleted = 1, session1FaciCompleted = 1, preSessionCompleted = 1
+	    WHERE studentId = #{id} --> 
+	    
+	    <!--End Original query -->    
+	   
+	   
+	   
+	   
+	   
+	 	<!--Start Change query -->  
+	    
+	    
+	    UPDATE SessionScheduleDetails SET session2FaciCompleted = 1, session1FaciCompleted = 1, preSessionCompleted = 1,
+	    session2FaciCompletedDate=case when session2FaciCompletedDate is null then NOW() else session2FaciCompletedDate end 
+	    WHERE studentId = #{id}
+	    
+	    
+	    
+	    
+	    <!--End Change query --> 
+	    
+	 <!-- End Sasedeve edited by Mrutyunjaya On Date 20-12-2017 -->
+	</update>
+
+	<update id="updateSession2_3_IncompleteByStudentId" parameterType="int">
+	    UPDATE SessionScheduleDetails SET session2FaciCompleted = 0, session3FaciCompleted = 0
+	    WHERE studentId = #{id}
+	</update>
+	
+	<update id="updateSession3FaciCompletedByStudentId" parameterType="int">
+		UPDATE SessionScheduleDetails SET session3FaciCompleted = 1,allsessionscompleted=1,
+		session3FaciCompletedDate=case when session3FaciCompletedDate is null then NOW() else session3FaciCompletedDate end 
+		WHERE studentId = #{studentId} 
+	</update>
+
+	<select id="getAllSessionDetails" resultMap="getAllResult">
+		SELECT * FROM SessionScheduleDetails;
+	</select>
+	
+	<!--  Start Sasedeve Edited by Vyankatesh on date:- 31-01-2017 -->
+	
+	<!-- Start Original code -->
+	<!-- <select id="getSessionDeatilsWithFacilitatorName" resultMap="getAllResult" parameterType="int">
+	  SELECT ssd.session1Date, ssd.session2Date, ssd.session3Date, ftd.name, ftd.phoneNumber, ssd.venue, std.name as studentName
+	  FROM   SessionScheduleDetails ssd
+	  JOIN   FacilitatorDetails ftd 
+	  ON     ftd.id = ssd.facilitatorId
+	  JOIN   StudentDetails std 
+	  ON     std.id = ssd.studentId
+	  WHERE  studentId = #{id}
+	</select>-->
+	<!-- END Original code -->
+	
+	
+	<!-- Start Change code -->
+	
+	<select id="getSessionDeatilsWithFacilitatorName" resultMap="getAllResult" parameterType="int">
+	   SELECT ssd.session1Date, ssd.session2Date, ssd.session3Date, ftd.name, ftd.phoneNumber, ssd.venue, py.dueamount,std.name as studentName
+	  FROM   SessionScheduleDetails ssd
+	  JOIN   FacilitatorDetails ftd 
+	  ON     ftd.id = ssd.facilitatorId
+	  JOIN   StudentDetails std 
+	  ON     std.id = ssd.studentId
+      LEFT JOIN Payment py ON py.studentId = std.id 
+	  WHERE  ssd.studentId = #{id}
+	</select>
+	
+	
+	<!-- End Change code -->
+	
+	<!--  End Sasedeve Edited by Vyankatesh on date:- 30-01-2017 -->
+	
+	<update id="updateSentForReviewByStudentId" parameterMap="generalParam">
+		UPDATE SessionScheduleDetails SET sentForReview = #{sentForReview},
+		sentForReviewDate=case when sentForReviewDate is null then NOW() else sentForReviewDate end 
+		WHERE studentId = #{studentId}
+	</update>
+	
+	<update id="updateReportGeneratedByStudentId" parameterType="int">
+		UPDATE SessionScheduleDetails SET reportGenerated = 1,
+		reportGeneratedDate=case when reportGeneratedDate is null then NOW() else reportGeneratedDate end
+		WHERE studentId = #{studentId}
+	</update>
+	
+	<select id="checkIsSentForReview" parameterType="int" resultType="int">
+		SELECT COUNT(id) FROM SessionScheduleDetails WHERE studentId = #{studentId} AND sentForReview = 1 
+	</select>
+	
+	<update id="updateSessionsByStudentId" parameterMap="generalParam">
+		UPDATE SessionScheduleDetails
+		<set>
+			<if test="preSessionCompleted">
+				preSessionCompleted = 0, session1FaciCompleted = 0, session2FaciCompleted = 0, session3FaciCompleted = 0, sentForReview = 0, reportGenerated = 0
+			</if>
+			<if test="session1FaciCompleted">
+				session1FaciCompleted = 0, session2FaciCompleted = 0, session3FaciCompleted = 0, sentForReview = 0, reportGenerated = 0
+			</if>
+			<if test="session2FaciCompleted">
+				session2FaciCompleted = 0, session3FaciCompleted = 0, sentForReview = 0, reportGenerated = 0
+			</if>
+			<if test="session3FaciCompleted">
+				session3FaciCompleted = 0, sentForReview = 0, reportGenerated = 0
+			</if>
+		</set>
+		WHERE studentId = #{studentId}
+	</update>
+	
+	<update id="updateStudentFeedBackTime" parameterType="int">
+		UPDATE SessionScheduleDetails SET studentFeedback = NOW()
+		WHERE studentId = #{studentId}
+	</update>	
+	
+	<update id="updateParentFeedBackTime" parameterType="int">
+		UPDATE SessionScheduleDetails SET parentFeedback = NOW()
+		WHERE studentId = #{studentId}
+	</update>	
+	
+	<select id="getFacilitatorScheduleById" parameterType="int" resultMap="getAllResult">
+		select sd.name as studentName, ud.loginId as loginId ,  ssd.* from SessionScheduleDetails ssd 
+		left join StudentDetails sd ON sd.id = ssd.studentId
+		left join UserDetail ud on ud.id= sd.userId
+		where ssd.facilitatorId = #{facilitatorId}
+	</select>
+	
+	<!-- started by bharath 14-11-2019 -->
+	<select id="getCompleteStudentDetailsBySchoolId" parameterMap="generalParam" resultMap="getAllResult">
+		select ud.loginId,sd.id as studentId, sd.name as studentName,fd.name as facilitatorName,
+			ssd.session1Date as session1Date, ssd.session2Date as session2Date, ssd.session3Date as session3Date, 
+			ssd.session1FaciCompletedDate, ssd.session2FaciCompletedDate, ssd.session3FaciCompletedDate,
+			ssd.sentForReviewDate, ssd.reportGeneratedDate
+		from UserDetail ud
+		left join StudentDetails sd on sd.userId=ud.id
+		left join SessionScheduleDetails ssd on ssd.studentId=sd.id
+		left join FacilitatorDetails fd on fd.id=ssd.facilitatorId
+		left join School sc on sc.id=sd.schoolId
+		where sd.schoolId =  #{schoolId} and (year(ssd.session1Date)= #{year} or year(ssd.session2Date)= #{year} or year(ssd.session3Date)= #{year} )
+		group by ud.loginId
+	</select>
+	<!-- ended by bharath 14-11-2019 -->
+	
+</mapper>

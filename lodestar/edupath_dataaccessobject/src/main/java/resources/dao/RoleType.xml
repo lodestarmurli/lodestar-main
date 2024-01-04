@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoleType">
+	
+	<parameterMap id="params" type="com.lodestar.edupath.datatransferobject.dto.role.RoleTypeDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.role.RoleTypeDTO"></resultMap>
+  	
+	<select id="getRoleDetails" parameterMap="params" resultMap="SelectAllResult">
+		SELECT * FROM RoleType WHERE id = #{id}
+	</select>
+
+	<select id="getAllRoleDetails" resultMap="SelectAllResult">
+		SELECT * FROM RoleType
+	</select>
+	
+	<select id="getRoleDetailByWeight" parameterType="int" resultMap="SelectAllResult">
+		SELECT * FROM RoleType WHERE weight = #{id}
+	</select>
+	
+</mapper>

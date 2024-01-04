@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ParentFeedbackFormQuestion">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.parentfeedback.ParentFeedbackFormQuestionDTO" id="resultMap"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.parentfeedback.ParentFeedbackFormQuestionDTO" id="paramMap"/>
+
+	<select id="getParentFeedbackFormQuestion" parameterMap="paramMap" resultMap="resultMap">
+		SELECT * FROM ParentFeedbackFormQuestion
+		ORDER BY questionOrder
+	</select>
+</mapper>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="College">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.college.CollegeDTO"></parameterMap>
+	<resultMap id="resultMap" type="com.lodestar.edupath.datatransferobject.dto.college.CollegeDTO"></resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegesearch.CollegeSearchVO" id="collegeFilterResult">
+		<id column="id" property="collegeId"/>
+		<result column="name" property="collegeName"/>
+		<result column="affiliationToBoard" property="affiliationToBoard"/>
+		<result column="address" property="address"/>
+		<result column="zone" property="zone"/>
+		<result column="ageOfTheInstitute" property="ageOfTheInstitute"/>
+		<result column="coachingFacility" property="integratedCoaching"/>
+		<result column="coachingCentreName" property="coachingCenterName"/>
+		<result column="lastCutOff" property="lastCutOff"/>
+		<result column="sexPref" property="sexPref"/>
+		<collection property="collegeStreamDetails" column="streamId" ofType="com.lodestar.edupath.datatransferobject.dto.collegesearch.CollegeSearchVO" resultMap="collegeStream"/>
+		<collection property="collegeCombinationDetails" column="combinationId" ofType="com.lodestar.edupath.datatransferobject.dto.collegesearch.CustCollegeCombinationVO" resultMap="collegeCombination"/>
+		<collection property="selectedCombinationDetails" column="selectedComboId" ofType="com.lodestar.edupath.datatransferobject.dto.collegesearch.CustCollegeCombinationVO" resultMap="selectedCombination"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegesearch.CustCollegeStreamVO" id="collegeStream">
+		<id column="streamId" property="streamId"/>
+		<result column="streamsOffered" property="streamsOffered"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegesearch.CustCollegeCombinationVO" id="collegeCombination">
+		<id column="combinationId" property="combinationId"/>
+		<result column="streamId" property="streamId"/>
+		<result column="electiveCombAvailable" property="electiveCombAvailable"/>
+		<result column="annualFee" property="annualFee"/>
+		<result column="cutOff" property="cutOff"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegesearch.CustCollegeCombinationVO" id="selectedCombination">
+		<id column="selectedComboId" property="combinationId"/>
+		<result column="selectdstreamId" property="streamId"/>
+		<result column="combinatonName" property="electiveCombAvailable"/>
+		<result column="selectedAnnualFees" property="annualFee"/>
+		<result column="selectedCutOff" property="cutOff"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.CollegeCombinationVO" id="selectCollegeCombResult">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="ageOfTheInstitute" column="ageOfTheInstitute"/>
+		<result property="collegeType" column="collegeType"/>
+		<result property="coachingFacility" column="coachingFacility"/>
+		<result property="coachingCentreName" column="coachingCentreName"/>
+		<result property="address" column="address"/>
+		<result property="website" column="website"/>
+		<result property="addFormSubmDate" column="addFormSubmDate"/>
+		<association property="boardDTO" column="affiliatedToBoardId" javaType="com.lodestar.edupath.datatransferobject.dto.college.BoardDTO" resultMap="boardColResult"/>
+		<collection property="streamsList" column="streamId" ofType="com.lodestar.edupath.datatransferobject.dto.elective.StreamsDTO" resultMap="streamsColResult"/>
+		<collection property="combinationList" column="combinationId" ofType="com.lodestar.edupath.datatransferobject.dto.elective.CombinationDTO" resultMap="combinationColResult"/>
+		<collection property="collegeInfraList" column="collegeId" ofType="com.lodestar.edupath.datatransferobject.dto.college.CollegeInfraDTO" resultMap="colInfraColResult"/>
+		<collection property="collegeActivitiesList" column="collegeId" ofType="com.lodestar.edupath.datatransferobject.dto.college.CollegeActivitiesDTO" resultMap="colActivityColResult"/>
+		<collection property="collegeCourseFeeSeatsList" column="collegeId" ofType="com.lodestar.edupath.datatransferobject.dto.college.CollegeCourseFeeSeatsDTO" resultMap="colCouFeeSeatColResult"/>
+		<collection property="collegeStreamDetailsList" column="collegeId" ofType="com.lodestar.edupath.datatransferobject.dto.college.CollegeStreamDetailsDTO" resultMap="colStreamDetailsColResult"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.BoardDTO" id="boardColResult">
+		<id property="id" column="affiliatedToBoardId"/>
+		<result property="name" column="affiliation"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.elective.StreamsDTO" id="streamsColResult">
+		<id property="id" column="streamId"/>
+		<result property="name" column="streamName"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.elective.CombinationDTO" id="combinationColResult">
+		<id property="id" column="combinationId"/>
+		<result property="name" column="combinationName"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.CollegeInfraDTO" id="colInfraColResult">
+		<result property="name" column="collegeInfraName"/>
+		<result property="count" column="count"/>
+		<result property="capacity" column="capacity"/>
+		<result property="type" column="collegeInfraType"/>
+		<result property="collegeId" column="collegeId"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.CollegeActivitiesDTO" id="colActivityColResult">
+		<result property="name" column="collegeActivityName"/>
+		<result property="type" column="collegeActivityType"/>
+		<result property="collegeId" column="collegeId"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.CollegeCourseFeeSeatsDTO" id="colCouFeeSeatColResult">
+		<result property="collegeId" column="collegeId"/>
+		<result property="reservationId" column="reservationId"/>
+		<result property="fees" column="fees"/>
+		<result property="seats" column="seats"/>
+		<result property="streamId" column="courseFeeStreamId"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.college.CollegeStreamDetailsDTO" id="colStreamDetailsColResult">
+		<result property="collegeId" column="collegeId"/>
+		<result property="noteachingStaff" column="noteachingStaff"/>
+		<result property="lastCutOff" column="lastCutOff"/>
+		<result property="streamId" column="streamId"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegedetails.CollegeDetailsVO" id="collegeResult">
+		<id column="id" property="id"/>
+		<result column="collegeName" property="collegeName"/>
+		<result column="collegeType" property="collegeType"/>
+		<result column="ageOfTheInstitute" property="ageOfTheInstitute"/>
+		<result column="address" property="address"/>
+		<result column="website" property="website"/>
+		<result column="fees" property="fees"/>
+		<result column="seats" property="seats"/>
+		<result column="addFormSubmDate" property="addFormSubmDate"/>
+		<result column="addFormSubmAddr" property="addFormSubmAddr"/>
+		<result column="availableStreams" property="availableStreams"/>
+		<result column="availableCombinations" property="availableCombinations"/>
+		<result column="noStudents" property="noStudents"/>
+		<result column="lastCutOff" property="lastCutOff"/>
+		<result column="passPercent" property="passPercent"/>
+		<result column="noTeachingStaff" property="noTeachingStaff"/>
+		<result column="applicationFormFees" property="applicationFormFees"/>
+		<result column="zone" property="zone"/>
+		<result column="sexPref" property="sexPref"/>
+		<collection property="activities" ofType="com.lodestar.edupath.datatransferobject.dto.collegedetails.CollegeActivityVO" column="activityId" resultMap="activityResult"/>
+		<collection property="infraStructs" ofType="com.lodestar.edupath.datatransferobject.dto.collegedetails.CollegeInfraStructVO" column="infraId" resultMap="infraResult"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegedetails.CollegeActivityVO" id="activityResult">
+		<id column="activityId" property="id"/>
+		<result column="activity" property="activity"/>
+		<result column="activityExist" property="activityExist"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegedetails.CollegeInfraStructVO" id="infraResult">
+		<id column="infraId" property="id"/>
+		<result column="infra" property="infra"/>
+		<result column="infraExist" property="infraExist"/>
+		<result column="count" property="count"/>
+		<result column="capacity" property="capacity"/>
+	</resultMap>
+	
+	<select id="getAllCollege"  resultMap="resultMap">
+		SELECT DISTINCT id, name, cityId, locality FROM College ORDER BY name
+	</select>
+	
+	<select id="getCollegeDetailsById" parameterType="int" resultMap="selectCollegeCombResult">
+		SELECT  c.id, c.name, b.name AS affiliation, YEAR(CURDATE()) - c.yearofEst AS ageOfTheInstitute, c.collegeType, c.coachingFacility, c.coachingCentreName, s.name AS streamName,
+		        cmb.name AS combinationName, csd.lastCutOff, ccfs.seats, ccfs.fees, ccfs.reservationId, csd.noteachingStaff, c.address, c.website, c.addFormSubmDate, c.addFormSubmDate AS appLastDateStr,
+		        ci.name AS collegeInfraName, ci.count, ci.capacity, ci.type AS collegeInfraType, ca.name AS collegeActivityName,
+		        ca.type AS collegeActivityType, b.id AS affiliatedToBoardId, s.id AS streamId , cmb.id AS combinationId, ccfs.streamId AS courseFeeStreamId
+		FROM College c
+		LEFT JOIN CollegeBoardMapping cbm ON cbm.collegeId = c.id 
+		LEFT JOIN Board b ON b.id = cbm.boardId
+		LEFT JOIN CollegeStreamDetails csd ON csd.collegeId = c.id
+		LEFT JOIN Streams s ON s.id = csd.streamId
+		LEFT JOIN CollegeStreamCombination csc ON csc.collegeId = csd.collegeId and csc.streamId = s.id
+		LEFT JOIN Combination cmb ON cmb.id =csc.combinationId AND cmb.streamId = csc.streamId
+		LEFT JOIN CollegeCourseFeeSeats ccfs ON ccfs.collegeId = c.id AND ccfs.streamId = csd.streamId AND ccfs.combinationId = cmb.id
+		LEFT JOIN CollegeInfra ci ON ci.collegeId = c.id
+		LEFT JOIN CollegeActivities ca ON ca.collegeId = c.id
+		WHERE c.id = #{id}
+	</select>
+	
+	<select id="getCollegeByFilter" parameterType="java.util.Map" resultMap="collegeFilterResult">
+		SELECT 
+		<choose>
+			<when test="getTotalCount">
+				c.id
+			</when>
+			<when test="!getTotalCount">
+				c.id, c.name, c.address AS address, c.coachingFacility AS coachingFacility, c.coachingCentreName, YEAR(CURDATE()) - c.yearofEst AS ageOfTheInstitute, c.zone, c.sexPref,
+				b.name AS affiliationToBoard, s.id as streamId, s.name AS streamsOffered, 
+				(CASE WHEN csd.streamId = #{streamId} THEN csd.lastCutOff END) AS lastCutOff, ccfs.fees AS annualFee,
+				comb.id AS combinationId, comb.name AS electiveCombAvailable,
+				ccfss.combinationId AS selectedComboId, ccfss.streamId AS selectdstreamId, ccfss.cutOff AS selectedCutOff, ccfss.fees AS selectedAnnualFees,
+				combs.name AS combinatonName
+			</when>
+		</choose>
+		FROM College c
+		INNER JOIN Combination combs ON combs.streamId = #{streamId} 
+		INNER JOIN CollegeCourseFeeSeats ccfss ON ccfss.collegeId = c.id AND ccfss.combinationId = combs.id AND ccfss.streamId = combs.streamId
+		INNER JOIN Reservation res ON res.id = ccfss.reservationId 
+		INNER JOIN CollegeBoardMapping cbm ON cbm.collegeId = c.id 
+		INNER JOIN Board b ON b.id = cbm.boardId
+		INNER JOIN CollegeStreamDetails csd ON csd.collegeId = c.id AND csd.streamId = combs.streamId
+		<!-- Left join to get all stream and combinations associated with college -->
+		INNER JOIN CollegeStreamDetails csdt ON csdt.collegeId = c.id
+		INNER JOIN Streams s ON s.id = csdt.streamId
+		LEFT JOIN CollegeStreamCombination csc ON csc.collegeId = c.id
+		LEFT JOIN Combination comb ON comb.streamId = csc.streamId AND comb.id = csc.combinationId
+		LEFT JOIN CollegeCourseFeeSeats ccfs ON ccfs.collegeId = c.id AND ccfs.streamId = s.id AND ccfs.combinationId = comb.id
+		<if test="activities != null and activities.size() > 0">
+			INNER JOIN CollegeActivities ca ON ca.collegeId = c.id
+		</if>
+		<if test="infrastructures != null and infrastructures.size() > 0">
+			INNER JOIN CollegeInfra ci ON ci.collegeId = c.id 
+		</if>
+		<!-- <if test="(cityIds == null or cityIds.size() == 0) and (collegeIds == null or collegeIds.size() == 0)">
+			INNER JOIN StudentDetails sd ON sd.cityId = c.cityId
+		</if> -->
+		<where>
+			<choose>
+				<when test="collegeIds != null and collegeIds.size() > 0">
+					c.id IN
+					<foreach collection="collegeIds" item="collegeId" open="(" separator="," close=")">
+						#{collegeId}
+					</foreach>
+				</when>
+				<otherwise>
+					 combs.id IN
+					<foreach collection="combinationIds" item="combinationId" open="(" separator="," close=")">
+						#{combinationId}
+					</foreach>
+					<if test="affiliationIds != null and affiliationIds.size() > 0">
+						AND b.id IN 
+						<foreach collection="affiliationIds" item="boardId" open="(" separator="," close=")">
+							#{boardId}
+						</foreach>
+					</if>
+					<if test="yoeFrom >= 0 and yoeTo > 0">
+						AND (YEAR(CURDATE()) - c.yearofEst) BETWEEN #{yoeFrom} AND #{yoeTo}
+					</if>
+					<if test="admCutOffFrom >= 0 and admCutOffTo > 0">
+						AND csd.lastCutOff BETWEEN #{admCutOffFrom} AND #{admCutOffTo}
+					</if>
+					<if test="feeFrom >= 0 and feeTo > 0">
+						AND c.id IN (
+										SELECT innerQuery.id FROM (
+											SELECT College.id, MIN(fees) AS minFees FROM College 
+											INNER JOIN CollegeCourseFeeSeats ON CollegeCourseFeeSeats.collegeId = College.id
+											INNER JOIN Reservation ON Reservation.id = CollegeCourseFeeSeats.reservationId 
+											WHERE CollegeCourseFeeSeats.streamId = #{streamId}
+											GROUP BY College.id
+											) innerQuery
+										WHERE innerQuery.minFees BETWEEN #{feeFrom} AND #{feeTo}
+									)
+					</if>
+					<if test="studentPassFrom >= 0 and studentPassTo > 0">
+						AND ((csd.noStudentsPassed / csd.noStudents) * 100) BETWEEN #{studentPassFrom} AND #{studentPassTo}
+					</if>
+					<if test="activities != null and activities.size() > 0">
+						AND ca.name IN
+						<foreach collection="activities" item="activity" open="(" separator="," close=")">
+							#{activity}
+						</foreach>
+					</if>
+					<if test="infrastructures != null and infrastructures.size() > 0">
+						AND ci.name IN
+						<foreach collection="infrastructures" item="infrastructure" open="(" separator="," close=")">
+							#{infrastructure}
+						</foreach>
+					</if>
+					<if test="reservationIds != null and reservationIds.size() > 0">
+						AND res.id IN
+						<foreach collection="reservationIds" item="reservationId" open="(" separator="," close=")">
+							#{reservationId}
+						</foreach>
+					</if>
+					<if test="zone != null and zone != ''">
+						AND c.zone = #{zone}
+					</if>
+					<if test="coachingFacility != null">
+						AND coachingFacility = #{coachingFacility}
+					</if>
+					<!-- AND
+					<choose>
+						<when test="cityIds == null or cityIds.size() == 0">
+							sd.id = #{studentId}
+						</when>
+						<otherwise>
+							c.cityId IN
+							<foreach collection="cityIds" item="cityId" open="(" separator="," close=")">
+								#{cityId}
+							</foreach>
+						</otherwise>
+					</choose> -->
+					<if test="locality != null and locality != ''">
+						AND c.locality = #{locality}
+					</if>
+				</otherwise>
+			</choose>
+		</where>
+		
+		<!-- Start Sasedeve edited by Mrutyunjaya on date 17-04-2017 -->
+		
+		
+		AND c.cityId=#{PCityId} AND c.isActive = 1
+			<!-- END Sasedeve edited by Mrutyunjaya on date 17-04-2017 -->
+		GROUP BY c.id
+		<if test="collegeIds != null and collegeIds.size() > 0">
+			,comb.id, s.id, b.id
+		</if>
+	</select>
+	
+	<select id="getCollegeDetailsByIds" parameterType="java.util.Map" resultMap="collegeResult">
+		SELECT c.id, c.name AS collegeName, c.collegeType, c.address, c.zone, c.website, c.addFormSubmDate, c.sexPref,
+<!-- 		(CASE WHEN (c.addFormSubmDate IS NOT NULL) THEN DATE_FORMAT(c.addFormSubmDate, '%d %b %Y') ELSE '-' END) AS addFormSubmDate, -->
+		(CASE WHEN (c.addFormSubmAddr IS NOT NULL) THEN c.addFormSubmAddr ELSE '-' END) AS addFormSubmAddr, 
+		YEAR(CURDATE()) - c.yearofEst AS ageOfTheInstitute,
+		GROUP_CONCAT(DISTINCT s.name SEPARATOR ', ') AS availableStreams, GROUP_CONCAT(DISTINCT comb.name SEPARATOR ', ') AS availableCombinations, csd.noStudents, csd.lastCutOff, 
+		ROUND(csd.noStudentsPassed / csd.noStudents * 100, 2) AS passPercent, csd.noTeachingStaff, csd.applicationFormFees, MIN(ccfs.fees) fees, ccfs.seats,
+		ca.name AS activity, (CASE WHEN c.id = ca.collegeId THEN 'Yes' ELSE 'No' END) AS activityExist, ca.id AS activityId,
+		ci.name AS infra, (CASE WHEN c.id = ci.collegeId THEN 'Yes' ELSE 'No' END) AS  infraExist, ci.count, ci.capacity, ci.id AS infraId
+		FROM College c
+		INNER JOIN CollegeStreamDetails csd ON csd.collegeId = c.id AND csd.streamId = #{streamId}
+		INNER JOIN CollegeStreamDetails csdt ON csdt.collegeId = c.id
+		LEFT JOIN Streams s ON s.id = csdt.streamId
+		LEFT JOIN CollegeStreamCombination csc ON csc.collegeId = c.id
+		LEFT JOIN Combination comb ON comb.streamId = csc.streamId AND comb.id = csc.combinationId
+		LEFT JOIN CollegeCourseFeeSeats ccfs ON ccfs.collegeId = csd.collegeId AND ccfs.streamId = csd.streamId
+		LEFT JOIN CollegeActivities ca ON ca.collegeId = c.id
+		LEFT JOIN CollegeInfra ci ON ci.collegeId = c.id
+		WHERE c.id IN
+		<foreach collection="collegeIds" item="collegeId" open="(" separator="," close=")">
+			#{collegeId}
+		</foreach>
+		GROUP BY c.id, ca.id, ci.id
+		ORDER BY collegeName, infra, activity
+	</select>
+	
+	<select id="getCollegeDetailsByStreamId" parameterType="int" resultMap="resultMap">
+		SELECT DISTINCT c.id, c.name FROM College c
+		INNER JOIN CollegeStreamCombination csc ON csc.collegeId = c.id
+		WHERE csc.streamId = #{streamId}
+	</select>
+	
+	<select id="getCollegeDetailsByCombinationId" parameterType="int" resultMap="resultMap">
+		SELECT DISTINCT c.id, c.name FROM College c
+		INNER JOIN CollegeStreamCombination csc ON csc.collegeId = c.id
+		WHERE csc.combinationId = #{combinationId}
+	</select>
+	
+	<select id="getCollegeDetailsByBoardId" parameterType="int" resultMap="resultMap">
+		SELECT DISTINCT c.id, c.name 
+		FROM College c
+		INNER JOIN CollegeBoardMapping cbm ON cbm.collegeId = c.id 
+		INNER JOIN Board b ON b.id = cbm.boardId
+		WHERE b.id = #{affiliatedToBoardId}
+	</select>
+	
+	<select id="getCollegeDetailsByCityId" parameterMap="paramMap" resultMap="resultMap">
+		SELECT DISTINCT id, name FROM College 
+		WHERE cityId = #{cityId}
+		<if test="locality != null and locality != ''">
+			AND locality = #{locality}
+		</if>
+	</select>
+	
+	<select id="getCollegeZones" resultType="String">
+		SELECT DISTINCT UPPER(zone) FROM College
+	</select>
+</mapper>

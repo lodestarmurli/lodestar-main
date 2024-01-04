@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentCollegeParameters">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.studentparameter.StudentCollegeParametersDTO"></parameterMap>
+    <parameterMap id="paramMap1" type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.BoardListStudentID"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.studentparameter.StudentCollegeParametersDTO"></resultMap>
+	
+	<resultMap id="studentCollegeParamMap" type="com.lodestar.edupath.datatransferobject.dto.studentparameter.StudentCollegeParametersDTO">
+		<id property="id" column="id"/>
+		<result property="address" column="address"/>
+		<result property="studentId" column="studentId"/>
+		<result property="selectedParameters" column="selectedParameters"/>
+		<collection property="collegeParams" column="collegeParamId" ofType="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersDTO" resultMap="collegeParamValueMap"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersDTO" id="collegeParamValueMap">
+		<id property="id" column="collegeParamId"/>
+		<result property="parameter" column="parameter"/>
+		<result property="description" column="description"/>
+		<result property="filterDisplayName" column="filterDisplayName"/>
+		<result property="paramName" column="paramName"/>
+		<result property="displayOrder" column="displayOrder"/>
+		<result property="isRangeParam" column="isRangeParam"/>
+		<collection property="values" column="parameterId" resultMap="paramValueMap" ofType="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.collegeparameter.CollegeParametersValuesDTO" id="paramValueMap">
+		<id property="id" column="valueId"/>
+		<result property="displayValue" column="displayValue"/>
+		<result property="actualValue" column="actualValue"/>
+		<result property="parameterId" column="parameterId"/>
+	</resultMap>
+	
+	<select id="getStudentCollegeParametersDetails" parameterMap="paramMap" resultMap="SelectAllResult">
+	   Select * from StudentCollegeParameters 
+	</select>
+	
+	<insert id="addStudentCollegeParametersDetail"  parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO StudentCollegeParameters (studentId, address, selectedParameters)
+		VALUES (#{studentId}, #{address}, #{selectedParameters})
+		
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<select id="getStudentCollegeParametersDetailsByStudentId" parameterMap="paramMap1" resultMap="studentCollegeParamMap">
+		<!-- BEGIN Sasedeve Added by Mrutyunjaya on Date 06-05-2017 -->
+		
+		
+		
+		 <!--Start Original code -->
+	<!--	 SELECT sp.id, sp.address, sp.studentId, sp.selectedParameters, cp.id AS collegeParamId, cp.parameter, cp.description, cp.filterDisplayName, 
+		cp.paramName, cp.isRangeParam, cpv.id as valueId, cpv.displayValue, cpv.actualValue, cpv.parameterId
+		FROM StudentCollegeParameters sp 
+		INNER JOIN CollegeParameters cp ON FIND_IN_SET(cp.id, replace(sp.selectedParameters,', ', ','))
+		INNER JOIN CollegeParametersValues cpv ON cpv.parameterId = cp.id
+		WHERE studentId = #{studentId}
+		ORDER BY cp.displayOrder, cpv.displayOrder -->
+		  <!--END Original code -->
+		  
+		  <!--start Changes code -->
+		  
+		SELECT sp.id, sp.address, sp.studentId, sp.selectedParameters, cp.id AS collegeParamId, cp.parameter, cp.description, cp.filterDisplayName, 
+		cp.paramName, cp.isRangeParam, cpv.id as valueId, cpv.displayValue, cpv.actualValue, cpv.parameterId
+		FROM StudentCollegeParameters sp 
+		INNER JOIN CollegeParameters cp ON FIND_IN_SET(cp.id, replace(sp.selectedParameters,', ', ','))
+		INNER JOIN CollegeParametersValues cpv ON cpv.parameterId = cp.id
+		<if test="boardId != null and boardId.size() > 0">
+		and cpv.actualValue NOT IN 
+		<foreach collection="boardId" item="collegeId" open="(" separator="," close=")">
+			#{collegeId}
+		</foreach>
+		</if>
+		WHERE studentId = #{StudentID}
+		ORDER BY cp.displayOrder, cpv.displayOrder
+		  
+		  <!--END Changes code -->
+		 
+		
+		
+		 <!-- END Sasedeve Added by Mrutyunjaya on Date 06-05-2017 -->
+	</select>
+	
+	<update id="updateStudentCollegeParametersByStudentId" parameterMap="paramMap">
+	   UPDATE StudentCollegeParameters
+	   SET
+	   address = #{address},
+	   selectedParameters = #{selectedParameters}
+	   WHERE studentId = #{studentId}
+	</update>
+	
+	<!-- 
+	<delete id="deleteUserDetailById" parameterMap="paramMap">
+	   
+	</delete>
+	
+	<update id="updateUserDetailById" parameterMap="paramMap">
+	   
+	</update>
+	 -->
+</mapper>

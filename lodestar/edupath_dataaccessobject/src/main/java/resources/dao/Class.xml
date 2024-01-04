@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Class">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.ClassDTO" id="classResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.ClassDTO" id="classParam"/>
+	 
+	<select id="getAllClassNameWithId" parameterMap="classParam" resultMap="classResult">
+		select * from Class order by name * 1 ASC
+	</select>
+	
+	<select id="getClassByName" parameterMap="classParam" resultMap="classResult">
+		select * from Class where name like #{name}
+	</select>
+	
+</mapper>

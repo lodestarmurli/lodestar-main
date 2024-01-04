@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WishListCareerFitment">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.WishListCareerFitmentDTO"></parameterMap>
+    <resultMap id="SelectAllResultCODTO" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.ClusterOccupationDTO"></resultMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.careerFitment.WishListCareerFitmentDTO">
+	<association property="occupation"  javaType="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO">
+		    <id property="id" column="occupationId"/>
+		    <result property="name" column="name"/>
+		    <result property="industryId" column="indId"/>
+		    <result property="industryName" column="industryName"/>
+		    <result property="rollOverContent" column="rollOverContent"/>
+		    <result property="image" column="image"/>
+		    <result property="description" column="description"/>
+		    
+		    
+		    <result column="requiredAbility" property="requiredAbility" />
+		    <result column="requiredRAISEC" property="requiredRAISEC" />
+		    
+		 
+		</association></resultMap>
+	
+ 
+	<insert id="insertWishListCareerFitment" parameterMap="paramMap">
+	    INSERT INTO WishListCareerFitment (studentId , optionA, optionB, clusterId, occupationId ) VALUES 
+	    (#{studentId}, #{optionA}, #{optionB},  #{clusterId}, #{occupationId})
+	</insert>
+	
+	 	
+	 <select id ="getWishListCareerFitmentByStudentId" parameterMap="paramMap"  resultMap="SelectAllResultCODTO"> 
+		SELECT w.id,
+		if(w.occupationId != 0 || w.occupationId != null, true,false) as isOccupation,
+		if(w.clusterId != 0 || w.clusterId != null, true,false) as iscluster,
+		if(w.occupationId != 0 || w.occupationId != null, w.occupationId,0) as occupationId,
+		if(w.clusterId != 0 || w.clusterId != null, w.clusterId,0) as clusterId,
+		if(w.occupationId != 0 || w.occupationId != null, o.name,c.name) as name,
+		w.optionA,w.optionB,
+		if(w.occupationId != 0 || w.occupationId != null, o.rollOverContent,c.rollOverContent) as rollOverContent
+		from WishListCareerFitment w
+		LEFT JOIN Cluster c on c.id= w.clusterId
+		LEFT JOIN Occupation o on w.occupationId = o.id 
+		  
+		WHERE studentId=#{studentId} and optionA=#{optionA} and optionB=#{optionB}
+		ORDER BY w.id asc;
+	 </select>
+	 
+	<delete id="deleteWishListCareerFitmentById" parameterType="int">
+		DELETE FROM WishListCareerFitment Where id=#{id}  
+	</delete>
+	
+	<delete id="deleteWishListCareerFitmentByOccId"  parameterMap="paramMap" >
+		DELETE FROM WishListCareerFitment Where studentId=#{studentId} and occupationId=#{occupationId}
+	</delete>
+	
+	<delete id="deleteWishListCareerFitmentByClusterId"  parameterMap="paramMap" >
+		DELETE FROM WishListCareerFitment where studentId=#{studentId} and clusterId=#{clusterId}
+	</delete>
+	
+	
+	 <delete id="deleteOptionAWishListCareerFitmentByStudentId" parameterType="int">
+		DELETE FROM WishListCareerFitment Where studentId=#{studentId} 
+		and optionA=1
+	</delete>
+	 
+	 <delete id="deleteOptionBWishListCareerFitmentByStudentId" parameterType="int">
+		DELETE FROM WishListCareerFitment Where studentId=#{studentId} 
+		and optionB=1
+	</delete>
+	 
+	 <select id ="getAllWishListCareerFitmentByStudentId" parameterMap="paramMap"  resultMap="SelectAllResultCODTO"> 
+		SELECT w.id,
+		if(w.occupationId != 0 || w.occupationId != null, true,false) as isOccupation,
+		if(w.clusterId != 0 || w.clusterId != null, true,false) as iscluster,
+		if(w.occupationId != 0 || w.occupationId != null, w.occupationId,0) as occupationId,
+		if(w.clusterId != 0 || w.clusterId != null, w.clusterId,0) as clusterId,
+		if(w.occupationId != 0 || w.occupationId != null, o.name,c.name) as name,
+		w.optionA,w.optionB,
+		if(w.occupationId != 0 || w.occupationId != null, o.rollOverContent,c.rollOverContent) as rollOverContent
+		from WishListCareerFitment w
+		LEFT JOIN Cluster c on c.id= w.clusterId
+		LEFT JOIN Occupation o on w.occupationId = o.id 
+		  
+		WHERE studentId=#{studentId} 
+		ORDER BY w.id asc;
+	 </select>
+	  
+	 
+</mapper>

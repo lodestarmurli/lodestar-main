@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TutorialRank">
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialRankDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialRankDTO"></resultMap>
+	
+	<select id="getTutorialRankByTutorialId" parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT tr.year, LEAST(tr.classroom, tr.correspondance) AS classroom
+		FROM TutorialRank tr
+		LEFT OUTER JOIN TutorialRank tr1 ON tr.year <![CDATA[<]]> tr1.year AND tr1.tutorialId = tr.tutorialId AND tr1.examId = tr.examId
+		WHERE tr.tutorialId = #{tutorialId}
+		AND tr1.id is NULL
+		GROUP BY tr.tutorialId
+	</select>
+</mapper>

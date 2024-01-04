@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OccupationRelatedOccupation">
+
+	<resultMap id="SelectAllOccResult" type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO"></resultMap>
+	
+	<select id="getRelatedOccupationDetails" parameterType="int" resultMap="SelectAllOccResult">
+	  	SELECT o.id, o.name, o.rollOverContent, oim.industryId
+	  	FROM OccupationRelatedOccupation orc
+		JOIN Occupation o on o.id = orc.relatedOccupationId
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id and oim.isPrimary = 1
+		WHERE orc.occupationId = #{id}
+	</select>
+	
+</mapper>

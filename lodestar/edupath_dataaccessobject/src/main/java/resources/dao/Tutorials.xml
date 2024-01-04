@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Tutorials">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialsDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialsDTO"></resultMap>
+	<resultMap id="tutorialFilterResult" type="com.lodestar.edupath.datatransferobject.dto.tutorialsearch.TutorialSearchVO"/>
+	
+	<resultMap id="tutorialCombResult" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialCombinationVO">
+		<id property="id" column="tutorialId"/>
+		<result property="name" column="name"/>
+		<result property="centersInIndia" column="centersInIndia"/>
+		<result property="centersInCity" column="centersInCity"/>
+		<result property="yearOfEst" column="yearOfEst"/>
+		<result property="programNames" column="programNames"/>
+		<result property="admissionCriteria" column="admissionCriteria"/>
+		<result property="ageOfCenter" column="ageOfCenter"/>
+		<result property="noOfFaculty" column="noOfFaculty"/>
+		<result property="timings" column="timings"/>
+		<result property="address" column="address"/>
+		<result property="contactNumbers" column="contactNumbers"/>
+		<collection property="examTutorialList" column="examId" ofType="com.lodestar.edupath.datatransferobject.dto.tutorial.ExamTutorialVO" resultMap="tutExaMappResult"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.tutorial.ExamTutorialVO" id="tutExaMappResult">
+		<id property="id" column="examId"/>
+		<result property="name" column="examName"/>
+		<result property="noOfStudentsEnroll" column="noOfStudentsEnroll"/>
+		<result property="noOfStudentsAchived" column="noOfStudentsAchived"/>
+		<result property="throughPutRatio" column="throughPutRatio"/>
+	</resultMap>
+		
+		
+	<select id="getAllTutorials"  resultMap="SelectAllResult">
+		SELECT DISTINCT id, name FROM Tutorials ORDER BY name
+	</select>
+	
+	<select id="getTutorialsDetailsById" parameterMap="paramMap" resultMap="tutorialCombResult">
+		SELECT t.id, t.name, t.centerAllIndia AS centersInIndia, tutCount.tutCityCount AS centersInCity,
+		group_concat(distinct tp.programName SEPARATOR ', ') AS programNames, t.yearOfEst AS yearOfEst,
+		tem.admissionCriteria, (tem.noClassEnroll + tem.noCorresEnroll) noOfStudentsEnroll,
+		(tem.clearClass + tem.clearCorres) AS noOfStudentsAchived,
+		ROUND(((tem.clearClass + tem.clearCorres) / (tem.noClassEnroll + tem.noCorresEnroll) * 100) , 2) AS throughPutRatio,
+		ee.examName, ee.id AS examId, tr.classroom, YEAR(CURDATE()) - tcc.yearOfEst AS ageOfCenter, tcc.noOfFaculty, tcc.timings,
+		tcc.address, tcc.contactNumbers
+		FROM Tutorials t
+		LEFT JOIN TutorialCityCenters tcc ON tcc.tutorialId = t.id
+		LEFT JOIN TutorialExamMapping tem ON tem.tutorialId = t.id
+		LEFT JOIN EntranceExams ee ON ee.id = tem.examId
+		LEFT JOIN TutorialProgram tp ON tp.tutorialId = tem.tutorialId
+		LEFT JOIN TutorialRank tr ON tr.tutorialId = t.id AND tr.examId = tem.examId
+		LEFT JOIN (
+		    SELECT COUNT(tc.id) as tutCityCount, tc.tutorialId
+		    FROM TutorialCityCenters tc
+		    JOIN StudentDetails sd ON sd.cityId = tc.cityId
+		    WHERE sd.id = #{studentId} AND tc.tutorialId = #{id}
+		  ) AS tutCount
+		ON tutCount.tutorialId = tcc.tutorialId
+		WHERE t.id = #{id}
+		<if test="tutorialCityCentersId > 0">
+			AND tcc.id = #{tutorialCityCentersId}
+		</if> 
+		<!-- AND tr1.id is NULL -->
+		group by t.id, t.name, t.centerAllIndia, t.yearOfEst, tem.admissionCriteria, ee.examName, tem.id, tr.tutorialId, tr.examId;
+	</select>
+	
+	<select id="getTutorialsByFilter" parameterType="java.util.Map" resultMap="tutorialFilterResult">
+		SELECT 
+		<choose>
+			<when test="getTotalCount">
+				t.id AS tutorialId
+			</when>
+			<when test="!getTotalCount">
+				t.id AS tutorialId, t.name, t.centerAllIndia, t.yearOfEst AS yearOfEst, GROUP_CONCAT(distinct tp.programName SEPARATOR ', ') AS programNames,
+				tem.admissionCriteria, (tem.noClassEnroll + tem.noCorresEnroll) noOfStudentsEnroll, (tem.clearClass + tem.clearCorres) AS noOfStudentsClear,
+				ROUND((tem.clearClass + tem.clearCorres) / (tem.noClassEnroll + tem.noCorresEnroll) * 100, 2) AS throughPutRatio, GROUP_CONCAT(distinct ee.examName SEPARATOR ', ') as examNames, 
+				LEAST(tr.classroom, tr.correspondance) AS classroom , tcc.id AS tutorialCenterId, YEAR(CURDATE()) - tcc.yearOfEst AS ageOfCenter, tcc.noOffEnrollments, tcc.noOfFaculty, tcc.timings,
+				tcc.address, c.name AS cityName, tcc.locality, tcc.contactNumbers,
+				<choose>
+					<when test="cityIds != null and cityIds.size() > 0">
+						COUNT(distinct tcc.id)
+					</when>
+					<otherwise>
+						tutCount.tutCityCount
+					</otherwise>
+				</choose> AS noOfCentersInCity
+			</when>
+		</choose>
+		FROM Tutorials t
+		INNER JOIN TutorialExamMapping tem ON tem.tutorialId = t.id
+		INNER JOIN TutorialProgram tp ON tp.tutorialId = tem.tutorialId AND tp.examId = tem.examId
+		INNER JOIN TutorialCityCenters tcc ON tcc.tutorialId = t.id
+		INNER JOIN TutorialRank tr ON tr.tutorialId = tem.tutorialId AND tr.examId = tem.examId
+		<!-- Left join to get max year highest rank -->
+		LEFT OUTER JOIN TutorialRank tr1 ON tr.year <![CDATA[<]]> tr1.year and tr1.tutorialId = tr.tutorialId and tr1.examId = tr.examId
+		LEFT JOIN TutorialExamMapping temAll ON temAll.tutorialId = t.id
+		LEFT JOIN EntranceExams ee ON ee.id = temAll.examId
+		LEFT JOIN City c ON c.id = tcc.cityId
+		<if test="cityIds == null or cityIds.size() == 0">
+			LEFT JOIN (
+					   SELECT COUNT(tc.id) as tutCityCount, tutorialId
+					   FROM TutorialCityCenters tc
+					   JOIN StudentDetails sd ON sd.cityId = tc.cityId
+					   WHERE sd.id = #{studentId}
+					   ) AS tutCount ON tutCount.tutorialId = tcc.tutorialId
+		</if>
+		<where>
+			tr1.id is NULL
+			<if test="examId > 0">
+				AND tem.examId = #{examId}
+			</if>
+			<if test="cityIds != null and cityIds.size() > 0">
+				AND tcc.cityId IN
+				<foreach collection="cityIds" item="cityId" open="(" separator="," close=")">
+					#{cityId}
+				</foreach>
+			</if>
+			<if test="locality != null and locality != ''">
+				AND tcc.locality = #{locality}
+			</if>
+			<if test="tutorialIds != null and tutorialIds.size() > 0">
+				AND tcc.tutorialId IN
+				<foreach collection="tutorialIds" item="tutId" open="(" separator="," close=")">
+					#{tutId}
+				</foreach>
+			</if>
+		</where>
+		GROUP BY t.id, t.name, t.yearOfEst, tr.tutorialId, tr.examId
+		<if test="tutorialIds != null and tutorialIds.size() > 0">
+			, tcc.id
+		</if>
+	</select>
+	
+	<select id="getTutorialsByExamId" parameterType="int" resultMap="SelectAllResult">
+		SELECT DISTINCT t.id, t.name FROM Tutorials t
+		INNER JOIN TutorialExamMapping tem
+		ON tem.tutorialId = t.id
+		WHERE tem.examId = #{examId}
+	</select>
+	
+	<select id="getTutorialsByCityId" parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT DISTINCT t.id, t.name FROM Tutorials t
+		INNER JOIN TutorialCityCenters tcc
+		ON tcc.tutorialId = t.id
+		WHERE tcc.cityId = #{cityId}
+		<if test="locality != null and locality != ''">
+			AND tcc.locality = #{locality}
+		</if>
+	</select>
+</mapper>

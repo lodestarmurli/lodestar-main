@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+    
+  <description>JSTL 1.1 functions library</description>
+  <display-name>JSTL functions</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>utils</short-name>
+  <uri>http://netvalence/framework/web/utils</uri>
+
+  <function>
+    <description>
+      Escapes characters that could be interpreted as XML markup.
+    </description>
+    <name>replaceXMLEntities</name>
+    <function-class>com.lodestar.edupath.datatransferobject.util.CommonUtil</function-class>
+    <function-signature>java.lang.String replaceXMLEntities(java.lang.String)</function-signature>
+    <example>
+      ${utils:replaceXMLEntities(param)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      Escapes characters that could be interpreted as XML markup.
+    </description>
+    <name>replaceBackXMLEntities</name>
+    <function-class>com.lodestar.edupath.datatransferobject.util.CommonUtil</function-class>
+    <function-signature>java.lang.String replaceBackXMLEntities(java.lang.String)</function-signature>
+    <example>
+      ${utils:replaceBackXMLEntities(param)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      Escapes characters that could be interpreted as JSON.
+    </description>
+    <name>replaceJSONEntities</name>
+    <function-class>com.lodestar.edupath.datatransferobject.util.CommonUtil</function-class>
+    <function-signature>java.lang.String replaceJSONEntities(java.lang.String)</function-signature>
+    <example>
+      ${utils:replaceJSONEntities(param)}
+    </example>
+  </function>  
+   
+  <function>
+    <description>
+      Get formatted double value.
+    </description>
+    <name>getFormatedDouble</name>
+    <function-class>com.lodestar.edupath.datatransferobject.util.CommonUtil</function-class>
+    <function-signature>java.lang.String getFormatedDouble(double)</function-signature>
+    <example>
+      ${utils:getFormatedDouble(doubleValue)}
+    </example>
+  </function>
+
+  <function>
+    <description>
+      Formats the time as a readable format according to the displayFormat
+    </description>
+    <name>convertTimeAsString</name>
+    <function-class>com.lodestar.edupath.datatransferobject.util.TimeUtil</function-class>
+    <function-signature>java.lang.String convertTimeAsString(long, java.lang.String)</function-signature>
+    <example>
+      ${utils:convertTimeAsString(longValue, dateformat)}
+    </example>
+  </function>
+</taglib>

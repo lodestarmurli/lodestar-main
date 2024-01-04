@@ -1,0 +1,58 @@
+{
+  "sheets": [{
+    "sheetname": "Occupations",
+    "tables": [
+      {
+        "tablename": "OccupationAbilityMapping",
+		"uniquecolumnidentifiers": "occupationId",
+        "columns": [
+          {
+     		 "tablecolumnname": "occupationId",
+              "excelcolumnname": "Occupation",
+              "lookuptablename": "Occupation",
+              "lookupcolumnname": "name",
+              "lookupfetchcolumn": "id",
+              "allownull": "false",
+              "datatype": "numeric"
+          },
+          {
+			 "tablecolumnname": "RA",
+			 "excelcolumnname": "ra",
+			 "allownull": "false",
+			 "datatype": "varchar",
+			 "isdelimited": "false"
+          },
+          {
+			 "tablecolumnname": "VA",
+			 "excelcolumnname": "va",
+			 "allownull": "false",
+			 "datatype": "varchar",
+			 "isdelimited": "false"
+          },
+          {
+			 "tablecolumnname": "SA",
+			 "excelcolumnname": "sa",
+			 "allownull": "false",
+			 "datatype": "varchar",
+			 "isdelimited": "false"
+          },
+          {
+			 "tablecolumnname": "NA",
+			 "excelcolumnname": "na",
+			 "allownull": "false",
+			 "datatype": "varchar",
+			 "isdelimited": "false"
+          },
+          {
+			 "tablecolumnname": "MA",
+			 "excelcolumnname": "ma",
+			 "allownull": "false",
+			 "datatype": "varchar",
+			 "isdelimited": "false"
+          }
+        ]
+	  }
+	]
+  }  
+  ]
+}				

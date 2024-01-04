@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserDetail">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.role.UserDetailDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.role.UserDetailDTO"></resultMap>
+	
+	<select id="getUserDetailsByLoginId" parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT u.*, rt.weight AS roleWeight, rt.id as roleTypeId FROM UserDetail u
+		INNER JOIN UserRole ur ON ur.id = u.roleId
+		INNER JOIN RoleType rt ON rt.id = ur.roleTypeId
+		WHERE u.loginId = #{loginId} AND u.isActive = 'Y'
+	</select>
+	
+	<select id="getUserDetailsByLoginIdAndID" parameterMap="paramMap" resultMap="SelectAllResult">
+	   SELECT u.*, rt.weight AS roleWeight FROM UserDetail u
+		INNER JOIN UserRole ur ON ur.id = u.roleId
+		INNER JOIN RoleType rt ON rt.id = ur.roleTypeId
+		WHERE  (u.loginId = #{loginId} AND u.isActive = #{isActive}) AND u.id != #{id}
+	</select>
+	
+	<insert id="addUserDetail"  parameterType="com.lodestar.edupath.datatransferobject.dto.role.UserDetailDTO" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO UserDetail(loginId, password, roleId, isActive, userType, createdOn)
+		VALUES ( #{loginId}, #{password},#{roleId}, #{isActive}, #{userType}, #{createdOn})
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<select id="getUserDetailsByIdAndRoleId" parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT * FROM UserDetail 
+		WHERE id= #{id} AND roleId = #{roleId}
+	</select>
+	
+	<delete id="deleteUserDetailById" parameterMap="paramMap">
+	    DELETE from UserDetail where id = #{id}
+	</delete>
+	
+	<delete id="deleteUserDetailsById" parameterType="int">
+		DELETE FROM UserDetail where id = #{id};
+	</delete>
+	
+	<delete id="deleteUserDetailsByloginId" parameterMap="paramMap">
+		DELETE FROM UserDetail where loginId = #{loginId};
+	</delete>
+	
+	<update id="updateUserDetailById" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE UserDetail 
+	    SET
+	    loginId = #{loginId}, 
+	    isActive = #{isActive},
+	    updatedOn = #{updatedOn}
+	    where id = #{id}
+	</update>
+	<select id="getMaxIdValue" resultType="int">
+		SELECT MAX(id) as id FROM UserDetail;
+	</select>
+	
+	<update id="updatePasswordForUserDetailById" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		UPDATE UserDetail SET  updatedOn = #{updatedOn}
+		<if test="password != null and password != ''">,password=#{password}</if> 
+		WHERE id=#{id}
+	</update>
+
+	<select id="getStudentDetailsBySchool" parameterType="java.util.Map" resultMap="SelectAllResult">
+		SELECT u.* 
+		FROM UserDetail u
+		JOIN StudentDetails sd on sd.userId = u.id
+		WHERE sd.schoolId = #{schoolId};
+	</select>
+	
+	<select id="tempQuery" parameterType="java.util.Map" resultMap="SelectAllResult">
+		SELECT u.* 
+		FROM UserDetail u
+		JOIN StudentDetails sd on sd.userId = u.id 
+		WHERE u.id = 224
+	</select>
+	
+	<update id="updateUserDetailIsActiveById" parameterMap="paramMap">
+		UPDATE UserDetail SET isActive = #{isActive}, updatedOn=#{updatedOn}, isArchive=0 WHERE id = #{id}
+	</update>
+	
+	<update id="updateUserDetailIsArchiveById" parameterMap="paramMap">
+		UPDATE UserDetail SET isArchive=1 WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WishList">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.student.WishListDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.student.WishListDTO"></resultMap>
+	
+	<resultMap id="SelectAllWithOccupation" type="com.lodestar.edupath.datatransferobject.dto.student.WishListDTO">
+	    <id column="id" property="id"/>
+	    <result property="studentId" column="studentId"/>
+	    <association property="occupation"  javaType="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO">
+		    <id property="id" column="occupationId"/>
+		    <result property="name" column="name"/>
+		    <result property="industryId" column="indId"/>
+		    <result property="industryName" column="industryName"/>
+		    <result property="rollOverContent" column="rollOverContent"/>
+		    <result property="image" column="image"/>
+		    <result property="description" column="description"/>
+		    
+		   <!--  START Sasedeve  by Mrutyunjaya on date 07-04-2017 -->
+		    
+		    <result column="requiredAbility" property="requiredAbility" />
+		    <result column="requiredRAISEC" property="requiredRAISEC" />
+		    <!-- END Sasedeve  by Mrutyunjaya on date 07-04-2017 -->
+		    
+		 
+		</association>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.summaryreport.OccupationIndustryVO" id="occupationIndustryResult">
+		<id property="studentId" column="studentId"/>
+		<collection property="occupations" column="occupationId" ofType="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO" resultMap="occupationResult"/>
+		<collection property="industries" column="industryId" ofType="com.lodestar.edupath.datatransferobject.dto.occupation.IndustryDTO" resultMap="industryResult"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO" id="occupationResult">
+		<id property="id" column="occupationId"/>
+		<id property="name" column="occupationName"/>
+	</resultMap>
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.occupation.IndustryDTO" id="industryResult">
+		<id property="id" column="industryId"/>
+		<id property="name" column="industryName"/>
+	</resultMap>
+	
+	<select id="getWishListByStudent" parameterType="int" resultMap="SelectAllWithOccupation">
+		<!-- START Sasedeve  by Mrutyunjaya on date 07-04-2017 -->
+		
+		
+		<!--Start Original Query -->
+		
+	<!--SELECT w.*, i.name as industryName, o.id as occupationId, oim.industryId as indId, o.name, o.rollOverContent
+		FROM WishList w
+		JOIN Occupation o on o.id = w.occupationId
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Industry i on i.id = w.occIndustryId
+		WHERE studentId = #{id}
+		ORDER By i.name, o.name -->
+		
+		<!-- END Original Query -->
+		
+		
+		<!-- Start New Query -->
+		SELECT w.*, i.name as industryName, o.id as occupationId, oim.industryId as indId, o.name, o.rollOverContent,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM WishList w
+		JOIN Occupation o on o.id = w.occupationId
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Industry i on i.id = w.occIndustryId
+		LEFT JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE studentId = #{id}
+		GROUP BY o.id ORDER By i.name, o.name
+		
+		<!-- End new Query -->
+		
+		
+	<!-- END Sasedeve  by Mrutyunjaya on date 07-04-2017	 -->
+		
+	</select>
+	
+	<insert id="insertWishList" parameterMap="paramMap">
+	    INSERT into WishList (studentId, occupationId, occIndustryId, isSystemRecommended) values (#{studentId}, #{occupationId}, #{occIndustryId}, #{isSystemRecommended})
+	</insert>
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM WishList WHERE id = #{id}	    
+	</delete>
+
+	<delete id="deleteByOccupationId" parameterMap="paramMap">
+	    DELETE FROM WishList 
+	    WHERE 
+	    occupationId = #{occupationId}
+	    AND occIndustryId = #{occIndustryId} 
+	    AND studentId = #{studentId}
+	</delete>
+
+	<select id="getWishListByUserId" parameterType="int" resultMap="SelectAllWithOccupation">
+	
+	
+	<!-- START Sasedeve  by Mrutyunjaya on date 26-04-2017 -->
+		
+		
+		<!--Start Original Query -->
+	
+	 <!--	SELECT w.*, i.name as industryName, o.id as occupationId, i.id as indId, o.name, o.rollOverContent, o.image
+		FROM WishList w
+		JOIN Occupation o on o.id = w.occupationId
+		JOIN Industry i on i.id = w.occIndustryId
+    	JOIN StudentDetails sd on sd.id = w.studentId
+		AND sd.userId = #{id}
+		ORDER By i.name, o.name  --> 
+		
+		<!-- END Original Query -->
+		
+		
+		<!-- Start New Query -->
+		
+		SELECT w.*, i.name as industryName, o.id as occupationId, oim.industryId as indId, o.name, o.rollOverContent,o.image,
+		CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM WishList w
+		JOIN Occupation o on o.id = w.occupationId
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Industry i on i.id = w.occIndustryId
+		LEFT JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		WHERE studentId = (Select id from StudentDetails where userId=#{id})
+		GROUP BY o.id ORDER By i.name, o.name
+		
+		
+		<!-- End new Query -->
+		
+		
+	<!-- END Sasedeve  by Mrutyunjaya on date 26-04-2017	 -->
+		
+		
+		
+	</select>	
+	
+
+	
+	
+	
+	
+	<select id="getStudentOccsNIndsByStudentId" parameterType="int" resultMap="occupationIndustryResult">
+		SELECT wl.studentId, oc.id AS occupationId, oc.name AS occupationName, ind.id AS industryId, ind.name AS industryName
+		FROM WishList wl
+		INNER JOIN Occupation oc ON oc.id = wl.occupationId
+		INNER JOIN Industry ind ON ind.id = wl.occIndustryId
+		WHERE studentId = #{studentId}
+	</select>
+</mapper>

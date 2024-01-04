@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TutorialCityCenters">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialCityCentersDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialCityCentersDTO"></resultMap>
+	
+	<resultMap id="tutorialCityCombResult" type="com.lodestar.edupath.datatransferobject.dto.tutorial.TutorialCityCentersVO"/>
+	
+	<select id="getAllTutorialCityCenters"  resultMap="SelectAllResult">
+		SELECT id, cityId, locality FROM TutorialCityCenters
+	</select>
+	
+	<select id="getTutorialCentersByTutorialId" parameterType="java.util.Map" resultMap="tutorialCityCombResult">
+		SELECT tcc.id AS tutorialCenterId, MAX(tr.year) AS year, LEAST(tr.classroom , tr.correspondance) AS highestRank, t.id AS tutorialId, t.name AS tutorialName, tcc.yearofEst, tcc.noOffEnrollments, tcc.noOfFaculty,
+		tcc.timings, tcc.address ,tcc.contactNumbers ,GROUP_CONCAT(DISTINCT tp.programName) AS courses, GROUP_CONCAT(DISTINCT ee.examName) as examNames
+		FROM TutorialCityCenters tcc
+		LEFT JOIN Tutorials t ON t.id = tcc.tutorialId
+		LEFT JOIN TutorialProgram tp ON tp.tutorialId = tcc.tutorialId
+		LEFT JOIN TutorialExamMapping tem ON tem.tutorialId = tcc.tutorialId
+		LEFT JOIN EntranceExams ee ON ee.id = tem.examId
+		LEFT JOIN TutorialRank tr ON tr.tutorialId = tem.tutorialId AND tr.examId = tem.examId
+		WHERE
+		tcc.tutorialId IN
+		<foreach collection="tutorialIds" item="tutorialId" open="(" separator="," close=")">
+			#{tutorialId}
+		</foreach>
+		AND tem.examId = #{examId}
+		GROUP BY tcc.id , t.id, t.name , tcc.yearofEst, tcc.noOffEnrollments, tcc.noOfFaculty;
+	</select>
+	
+</mapper>

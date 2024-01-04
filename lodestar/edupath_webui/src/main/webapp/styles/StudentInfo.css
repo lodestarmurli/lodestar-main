@@ -1,0 +1,51 @@
+.heading {
+	font-family: Open Sans;
+	font-size: 9pt;
+	color: #0871bb;
+	font-style: normal;
+	text-align: left;
+	line-height: 10.8pt;
+	letter-spacing: 0em;
+}
+
+.label_text{
+	font-family: Open Sans;
+	font-weight: 600;
+	font-family: Open Sans;
+	font-size: 8pt;
+	color: #626363;
+	font-style: normal;
+	text-align: left;
+	line-height: 14pt;
+	letter-spacing: 0em;
+	word-wrap: break-word;
+}
+
+.normal_text{
+	font-family: Open Sans;
+	font-size: 8pt;
+	color: #626363;
+	font-style: normal;
+	text-align: left;
+	line-height: 14pt;
+	letter-spacing: 0em;
+	word-wrap: break-word;
+}
+
+.rows{
+	margin-top: 10px;
+}
+
+
+
+	.modal-body .form-horizontal .col-sm-2,
+.modal-body .form-horizontal .col-sm-10 {
+    width: 100%
+}
+
+.modal-body .form-horizontal .control-label {
+    text-align: left;
+}
+.modal-body .form-horizontal .col-sm-offset-2 {
+    margin-left: 15px;
+}

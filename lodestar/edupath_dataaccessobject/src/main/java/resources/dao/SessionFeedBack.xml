@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SessionFeedBack">
+	
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.sessionfeedback.SessionFeedBackFormQuestionDTO" id="resultMap"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.sessionfeedback.SessionFeedBackAnswerDTO" id="paramMap"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.sessionfeedback.SessionFeedBackAnswerDTO" id="FeedBackAnswer"/>
+	<resultMap id="UserDetails" type="com.lodestar.edupath.datatransferobject.dto.role.UserDetailDTO"/>
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.sessionfeedback.SessionFeedBackStatusDTO" id="CountFeedBack"/>
+	
+	<select id="SessionOneFeedBackQuestion" parameterType="int" resultMap="resultMap">
+		SELECT * FROM SessionFeedBackQuestionParent WHERE ForSession=#{session}
+		ORDER BY questionOrder
+	</select>
+	
+	<insert id="insertsessionfeedback" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SessionFeedBackAnswers (studentId, questionNo, answer,Forsession) VALUES (#{studentId}, #{questionNo}, #{answer},#{Forsession}) 
+	</insert>
+	
+	
+	
+	<select id="CountSessionOneFeedBack" parameterType="int" resultMap="CountFeedBack">
+		SELECT count(id) as SessiononefeedbackCount FROM SessionFeedBackAnswers WHERE studentId=#{studentid} AND Forsession=1
+		
+	</select>
+	
+	
+	<select id="CountSessionTwoFeedBack" parameterType="int" resultMap="CountFeedBack">
+		SELECT count(id) as SessiontwofeedbackCount FROM SessionFeedBackAnswers WHERE studentId=#{studentid} AND Forsession=2
+	</select>
+	
+	<select id="GEtuserdetailbyuserid" parameterType="int" resultMap="UserDetails">
+		SELECT * FROM UserDetail 
+		WHERE id= #{userId}
+	</select>
+	
+	<select id="GetDeatils" parameterType="int" resultMap="FeedBackAnswer">
+		SELECT *  FROM SessionFeedBackAnswers WHERE studentId = #{studentId} AND questionNo = #{questionNo} AND Forsession = #{Forsession}  
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,42 @@
+{
+    "sheets": [
+        {
+            "sheetname": "reservation data",
+            "tables": [
+                {
+                    "tablename": "CollegeStreamCombination",
+                    "uniquecolumnidentifiers": "collegeId, streamId, combinationId",
+                    "columns": [
+                        {
+                            "tablecolumnname": "collegeId",
+                            "excelcolumnname": "CollegeName",
+							"lookuptablename": "College",
+							"lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+						{
+                            "tablecolumnname": "combinationId",
+                            "excelcolumnname": "Combination",
+							"lookuptablename": "Combination",
+							"lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "StreamId",
+                            "excelcolumnname": "Stream",
+                            "lookuptablename": "Streams",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

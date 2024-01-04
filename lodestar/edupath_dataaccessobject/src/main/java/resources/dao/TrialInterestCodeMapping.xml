@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TrialInterestCodeMapping">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.TrialInterestCodeMappingDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.TrialInterestCodeMappingDTO"></resultMap>
+	<!--  ================Start Sasedeve edited by Mrutyunjaya on Date 1-04-2017==================================  -->
+	<select id="getTrialInterest_10" parameterMap="paramMap" resultType="String">
+		SELECT raisecCode FROM TrialInterestCodeMapping where isClass10=1
+	</select>
+	
+	<select id="getTrialInterest_11" parameterMap="paramMap" resultType="String">
+		SELECT raisecCode FROM TrialInterestCodeMapping where isClass10=0
+	</select>
+	
+	<select id="getTrialIntestCodeByRaisecCode_10" parameterType="String" resultMap="SelectAllResult">
+		SELECT * FROM TrialInterestCodeMapping where raisecCode = #{raisecCode} and isClass10=1
+	</select>
+	
+	<select id="getTrialIntestCodeByRaisecCode_11" parameterType="String" resultMap="SelectAllResult">
+		SELECT * FROM TrialInterestCodeMapping where raisecCode = #{raisecCode} and isClass10=0
+	</select>
+	
+	<!--  ================END Sasedeve edited by Mrutyunjaya on Date 1-04-2017================================== -->
+</mapper>

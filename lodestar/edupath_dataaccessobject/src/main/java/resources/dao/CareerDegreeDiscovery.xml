@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CareerDegreeDiscovery">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.engineeringSelector.EngineeringSelectorDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.engineeringSelector.EngineeringSelectorDTO"></resultMap>
+	
+	<parameterMap id="paramMapCDDStream" type="com.lodestar.edupath.datatransferobject.dto.programTest.CareerDegreeDiscovery.CDDStreamDTO"></parameterMap>
+	<resultMap id="SelectAllResultCDDStream" type="com.lodestar.edupath.datatransferobject.dto.programTest.CareerDegreeDiscovery.CDDStreamDTO"></resultMap>
+	 
+	<parameterMap id="paramMapCDDResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.CareerDegreeDiscovery.CareerDegreeDiscoveryResultDTO"></parameterMap>
+	<resultMap id="SelectAllResultCDDResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.CareerDegreeDiscovery.CareerDegreeDiscoveryResultDTO"></resultMap>
+	 
+ 
+	<insert id="insertOrUpdateEngineeringSelectorResult" parameterMap="paramMap">
+	    INSERT INTO EngineeringSelector (studentId , raisecCode, favSubPriorityList, shortlistOcc, shortlistOccWithFavSub, finalList, set1,set2) VALUES 
+	    (#{studentId}, #{raisecCode}, #{favSubPriorityList},  #{shortlistOcc}, #{shortlistOccWithFavSub}, #{finalList}, #{set1}, #{set2})
+  		ON DUPLICATE KEY UPDATE  raisecCode = #{raisecCode}, favSubPriorityList = #{favSubPriorityList},  shortlistOcc = #{shortlistOcc},  shortlistOccWithFavSub = #{shortlistOccWithFavSub}, finalList = #{finalList}, set1= #{set1}, set2= #{set2}
+	</insert>
+	
+	 	
+	 <select id ="getStudentCGTCCompletedList"  resultType="int"> 
+	 SELECT studentId  
+	  FROM StudentCGTResult 
+	  WHERE 
+	  studentId IS NOT NULL AND 
+	  personalityCode IS NOT NULL AND 
+	  score IS NOT NULL AND 
+	  occupationIds IS NOT NULL AND 
+	  aptitudeComplete IS NOT NULL AND 
+	  remainigTime IS NOT NULL AND 
+	  appScore IS NOT NULL AND 
+	  ssFactor IS NOT NULL
+      order by  studentId DESC
+      limit 0 , 500
+	  
+	 </select>
+	 
+	 <insert id="insertCDDStream" parameterMap="paramMapCDDStream" useGeneratedKeys="true" keyProperty="studentId"  keyColumn="studentId">
+	   INSERT INTO CDDStream(studentId, classId, stream) VALUES
+	    (#{studentId}, #{classId}, #{stream})
+  		
+	</insert>
+	
+	 	
+	 <select id ="getCDDStream"  resultMap="SelectAllResultCDDStream"> 
+	 SELECT * 
+	  FROM CDDStream 
+	  WHERE 
+	  studentId = #{studentId}
+	  
+	 </select>
+	 
+	  <insert id="insertOrUpdateCDDResult" parameterMap="paramMapCDDResult" useGeneratedKeys="true" keyProperty="studentId"  keyColumn="studentId">
+	   INSERT INTO CareerDegreeDiscoveryResult(studentId, personalityCode, finalOcc,occOne,occTwo) VALUES (#{studentId}, #{personalityCode}, #{finalOcc}, #{occOne}, #{occTwo})
+	   ON DUPLICATE KEY UPDATE personalityCode =  #{personalityCode}, finalOcc= #{finalOcc}, occOne=#{occOne}, occTwo=#{occTwo}
+  		
+	</insert>
+	
+	 	
+	 <select id ="getCDDResult"  resultMap="SelectAllResultCDDResult"> 
+	 SELECT * 
+	  FROM CareerDegreeDiscoveryResult 
+	  WHERE 
+	  studentId = #{studentId}
+	  
+	 </select>
+	 
+	 
+	
+	
+</mapper>

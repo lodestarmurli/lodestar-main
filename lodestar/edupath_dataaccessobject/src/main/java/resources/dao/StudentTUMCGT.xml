@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentTUMCGT">
+
+<parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.student.TumCgtResultDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.student.TumCgtResultDTO"></resultMap>
+	
+	<update id="updatetumcgt" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	    UPDATE TumCgtResult
+	    SET
+	    TUM = #{TUMResult}
+	    WHERE studentId = #{studentId} 
+	</update>
+	
+	<insert id="inserttumcgt"  parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	  INSERT INTO TumCgtResult (studentId, TUM) 
+	  VALUES (#{studentId}, #{TUMResult})
+	</insert>
+	
+	<update id="updateTUMCGTAptitude" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	    UPDATE TumCgtResult
+	    SET
+	    AptitudeTest  = #{AptitudeResult}
+	    WHERE studentId = #{studentId} 
+	</update>
+	
+	<insert id="insertTUMCGTinterset"  parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	  INSERT INTO TumCgtResult (studentId, InterestTest) 
+	  VALUES (#{studentId}, #{InterestResult})
+	</insert>
+	
+	<update id="updateTUMCGTinterset" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	    UPDATE TumCgtResult
+	    SET
+	    InterestTest  = #{InterestResult}
+	    WHERE studentId = #{studentId} 
+	</update>
+	
+	<insert id="insertTUMCGTAptitude"  parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	  INSERT INTO TumCgtResult (studentId, AptitudeTest) 
+	  VALUES (#{studentId}, #{AptitudeResult})
+	</insert>
+	<select id="getTUMCGTById" parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT tcr.studentId as studentId, tcr.TUM as TUMResult, tcr.InterestTest as InterestResult, tcr.AptitudeTest as AptitudeResult  
+		FROM TumCgtResult tcr WHERE studentId = #{studentId} AND TUM = 1
+	</select>
+
+</mapper>

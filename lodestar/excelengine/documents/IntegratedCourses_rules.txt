@@ -1,0 +1,108 @@
+{
+    "sheets": [
+        {
+            "sheetname": "Special Courses",
+            "tables": [
+                {
+                    "tablename": "IntegratedCourse",
+                    "uniquecolumnidentifiers": "programName,institute",
+                    "columns": [
+                        {
+                            "tablecolumnname": "programName",
+                            "excelcolumnname": "Program Name",
+                            "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "description",
+                            "excelcolumnname": "Description",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "institute",
+                            "excelcolumnname": "Institute",
+                             "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "location",
+                            "excelcolumnname": "Location",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "eligibility",
+                            "excelcolumnname": "Eligibility",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "entrance",
+                            "excelcolumnname": "Entrance",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "selectionProcess",
+                            "excelcolumnname": "Selection Process",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "noOfSeats",
+                            "excelcolumnname": "number of seats",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "feeStructure",
+                            "excelcolumnname": "fee structure",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "programType",
+                            "excelcolumnname": "Type of program",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "courseDuration",
+                            "excelcolumnname": "Duration (years)",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sheetname": "OccupationCourseMapping",
+            "tables": [
+                {
+                    "tablename": "IntegratedCourseOccupationMapping",
+                    "uniquecolumnidentifiers": "OccupationId,IntegratedCourseId",
+                    "columns": [
+						{
+                            "tablecolumnname": "OccupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "IntegratedCourseId",
+                            "excelcolumnname": "IntegratedCourse,Institute",
+							"isdelimited": "false",
+                            "lookuptablename": "IntegratedCourse",
+                            "lookupcolumnname": "programName,institute",
+                            "lookupfetchcolumn": "id",
+							"ismulticolumnlookup": "true",
+                            "allownull": "false",
+                            "datatype": "numeric"							
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

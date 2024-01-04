@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Area">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.tags.AreaDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.tags.AreaDTO"></resultMap>
+	
+	<select id="getAreaDetailsByInterests" parameterMap="paramMap" resultMap="SelectAllResult">
+	  select * from Area where CategoryId = (select id from Category where name = 'Interests');
+	</select>
+	
+	<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.tags.CategoryDTO"
+		id="categoryMap">
+		<id property="id" column="CategoryId" />
+		<result property="name" column="categoryName" />
+		<result property="catType" column="catType" />
+	</resultMap>
+
+	<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.tags.SubCategoryDTO" id="subCategoryParamMap">
+		<id property="id" column="subCategoryId" />
+		<result property="name" column="subCategoryName" />
+		<result property="categoryId" column="categoryId" />
+	</resultMap>
+
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.tags.AreaDTO"
+		id="areaMap">
+		<id property="id" column="id" />
+		<result property="name" column="areaName" />
+		<result property="categoryId" column="categoryId" />
+		<result property="subCategoryId" column="subCategoryId" />
+		
+		<association property="subCategoryDTO" column="categoryId"
+			javaType="com.lodestar.edupath.datatransferobject.dto.tags.SubCategoryDTO"
+			resultMap="subCategoryParamMap" />
+		 <association property="categoryDTO" column="categoryId"
+			javaType="com.lodestar.edupath.datatransferobject.dto.tags.CategoryDTO"
+			resultMap="categoryMap" /> 
+	</resultMap>
+
+	<select id="getDetailsByCategoryName" parameterType="java.util.Map"
+		resultMap="areaMap">
+		SELECT a.id as id, a.name as areaName, a.categoryId as categoryId, a.subCategoryId as subCategoryId, 
+		s.name as subCategoryName,  c.name as categoryName, c.catType as catType
+		FROM Category c
+		JOIN SubCategory s ON s.categoryId = c.id
+		JOIN Area a ON a.categoryId = c.id AND a.subCategoryId =s.id
+		WHERE c.name = #{categoryName}
+	</select>
+</mapper>

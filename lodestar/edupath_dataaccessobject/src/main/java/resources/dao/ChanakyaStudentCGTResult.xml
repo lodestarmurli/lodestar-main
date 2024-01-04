@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DHStudentCGTResult">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTResultDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTResultDTO"></resultMap>
+	<resultMap id="SelectAllResultDHStudentCGT" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentDetailsDTO"></resultMap>
+	
+	<insert id="insertDHStudentCGTResult" parameterMap="paramMap" keyProperty="studentId"  keyColumn="studentId">
+	    INSERT INTO DHStudentCGTResult (studentId, aptitudeComplete) VALUES (#{studentId}, #{aptitudeComplete})
+	</insert>
+	
+	<select id="getDHStudentCGTResultBYDHID" parameterType="String" resultMap="SelectAllResultDHStudentCGT">
+	  SELECT scgt.aptitudeComplete, dhs.* 
+	  from DHStudentDetails dhs
+	  left join DHStudentCGTResult scgt on scgt.studentId=dhs.id 
+	  where dhs.DHID = #{DHID}
+	</select>
+	
+	<select id="getDHStudentCGTResultByStudentId" parameterType="int" resultMap="SelectAllResult">
+	  SELECT * FROM  DHStudentCGTResult WHERE studentId = #{id}
+	</select>
+	
+	<select id="getDHStudentCGTResult" parameterType="int" resultMap="SelectAllResult">
+	  SELECT * FROM  StudentCGTResult WHERE studentId = #{id}
+	</select>
+	
+	<insert id="insertOrUpdateStudentCGTResult" parameterMap="paramMap">
+	    INSERT INTO DHStudentCGTResult (personalityCode, score, appScore, occupationIds, studentId, aptitudeComplete,  ssFactor) VALUES (#{personalityCode}, #{score}, #{appScore}, #{occupationIds}, #{studentId}, #{aptitudeComplete}, #{ssFactor})
+  		ON DUPLICATE KEY UPDATE personalityCode = #{personalityCode}, score = #{score}, appScore = #{appScore}, occupationIds = #{occupationIds}, aptitudeComplete = #{aptitudeComplete},  ssFactor = #{ssFactor}
+	</insert>
+	
+	<insert id="insertOrUpdateDHStudentCGTOccResult" parameterMap="paramMap">
+	    INSERT INTO DHStudentCGTResult (personalityCode, score, occupationIds, studentId, aptitudeComplete,  ssFactor) VALUES (#{personalityCode}, #{score}, #{occupationIds}, #{studentId}, #{aptitudeComplete}, #{ssFactor})
+  		ON DUPLICATE KEY UPDATE personalityCode = #{personalityCode}, score = #{score}, appScore = #{appScore}, occupationIds = #{occupationIds}, ssFactor = #{ssFactor}
+	</insert>
+	
+	<delete id="deleteStudentCGTResultByStudentId" parameterType="int">
+		DELETE FROM DHStudentCGTResult WHERE studentId = #{studentId}
+	</delete>	
+	
+	
+	<select id="getStudentCGTResultUserID" parameterType="int" resultMap="SelectAllResult">
+	  SELECT * FROM  DHStudentCGTResult WHERE studentId = (Select id from StudentDetails where userId=#{studentId})
+	</select>
+	
+	
+	<update id="updateDhstudentCGTResultToken" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE DHStudentCGTResult 
+	    SET
+	    occId1 = #{occId1}, occId2 = #{occId2}, token1 = #{token1}, token2 = #{token2}, pdfToken = #{pdfToken}  where studentId = #{studentId}
+	</update>
+	
+	
+	
+	<select id="getStudentCGTResultByToken" parameterType="String" resultMap="SelectAllResult">
+	  SELECT * From DHStudentCGTResult 
+      where token1 = #{token} or  token2 = #{token}
+	</select>	
+	
+	
+</mapper>

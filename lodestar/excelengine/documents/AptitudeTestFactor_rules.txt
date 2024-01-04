@@ -1,0 +1,124 @@
+{
+    "sheets": [
+        {
+            "sheetname": "AptitudeTestFactor",
+            "tables": [
+                {
+                    "tablename": "AptitudeTestFactor",
+                    "uniquecolumnidentifiers": "OccupationId",
+                    "columns": [
+						{
+                            "tablecolumnname": "OccupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",							
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "RA_DI",
+                            "excelcolumnname": "RA_DI",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "RA_ID",
+                            "excelcolumnname": "RA_ID",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "RA_AC",
+                            "excelcolumnname": "RA_AC",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "RA_NA",
+                            "excelcolumnname": "RA_NA",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "NA_DI",
+                            "excelcolumnname": "NA_DI",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "NA_ID",
+                            "excelcolumnname": "NA_ID",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "NA_AC",
+                            "excelcolumnname": "NA_AC",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "NA_NA",
+                            "excelcolumnname": "NA_NA",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "VA_DI",
+                            "excelcolumnname": "VA_DI",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "VA_ID",
+                            "excelcolumnname": "VA_ID",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "VA_AC",
+                            "excelcolumnname": "VA_AC",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "VA_NA",
+                            "excelcolumnname": "VA_NA",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "SA_DI",
+                            "excelcolumnname": "SA_DI",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "SA_ID",
+                            "excelcolumnname": "SA_ID",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "SA_AC",
+                            "excelcolumnname": "SA_AC",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "SA_NA",
+                            "excelcolumnname": "SA_NA",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "MA_DI",
+                            "excelcolumnname": "MA_DI",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "MA_ID",
+                            "excelcolumnname": "MA_ID",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "MA_AC",
+                            "excelcolumnname": "MA_AC",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "MA_NA",
+                            "excelcolumnname": "MA_NA",
+                            "datatype": "varchar"
+                        }						
+                    ]
+                }
+            ]
+        }
+    ]
+}

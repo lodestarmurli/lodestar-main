@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShortListCourse">
+
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.ShortListCourseDTO" id="shortListCourseResult"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.ShortListCourseDTO" id="shortListCourseParam"/>
+	
+	<insert id="insertShortListCourse" useGeneratedKeys="true" keyProperty="id" parameterMap="shortListCourseParam">
+	 	 INSERT INTO ShortListCourse (studentId, integratedCourseId, occupationId, occIndustryId)
+	 	  VALUES (#{studentId}, #{integratedCourseId}, #{occupationId}, #{occIndustryId})
+	</insert>
+	
+	<select id="getCountForInsertCourse" parameterMap="shortListCourseParam" resultType="java.lang.Integer">
+		 SELECT COUNT(id) FROM ShortListCourse WHERE integratedCourseId = #{integratedCourseId} AND studentId = #{studentId}
+	</select>
+	
+	<delete id="deleteCourseByCourseIdNStudentId" parameterMap="shortListCourseParam">
+		DELETE FROM ShortListCourse WHERE studentId = #{studentId} AND integratedCourseId =#{integratedCourseId}
+	</delete>
+
+	<delete id="deleteCourseByStudentId" parameterMap="shortListCourseParam">
+		DELETE FROM ShortListCourse WHERE studentId = #{studentId}
+	</delete>
+	
+	<select id="getCountForIntegratedCourse" parameterMap="shortListCourseParam" resultType="java.lang.Integer">
+		 SELECT COUNT(id) as id FROM ShortListCourse WHERE studentId = #{studentId} 
+		 AND occupationId IN
+		 <foreach collection="occIdsList" close=")" open="(" item="item" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="getShortListCourseCount"  parameterType="int" resultType="java.lang.Integer">
+		 SELECT COUNT(id) FROM ShortListCourse WHERE studentId = #{studentId}
+	</select>
+</mapper>

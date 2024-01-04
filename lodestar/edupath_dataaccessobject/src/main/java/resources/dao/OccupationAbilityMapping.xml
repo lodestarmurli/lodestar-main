@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OccupationAbilityMapping">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationAbilityMappingDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationAbilityMappingDTO"></resultMap>
+	
+	<select id="getAllOccupationAbility" parameterMap="paramMap" resultMap="SelectAllResult">
+	    SELECT * FROM OccupationAbilityMapping
+	    WHERE occupationId in
+	    <foreach collection="occupationIds" open="(" close=")" separator="," item="occId">
+	    	#{occId}
+	    </foreach>
+	</select>
+
+	
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SubAdmin">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.SubAdminDTO" id="SubAdminResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.SubAdminDTO" id="SubAdminParam"/>
+	 
+	 <select id="getAllSubAdmin" parameterMap="SubAdminParam" resultMap="SubAdminResult">
+	       SELECT * FROM SubAdmin
+	 </select>
+	 
+	 <select id="getAllSubAdminById" parameterMap="SubAdminParam" resultMap="SubAdminResult">
+	     SELECT * FROM SubAdmin where id = #{id}
+	 </select>
+	 
+	 <insert id="insertSubAdminDetails" useGeneratedKeys="true" keyProperty="id" parameterMap="SubAdminParam">
+	 	 INSERT INTO SubAdmin (name, contactNumber, emailId, userId) VALUES (#{name}, #{contactNumber}, #{emailId}, #{userId})
+	 </insert>
+	 
+	 <update id="updateSubAdmin" parameterMap="SubAdminParam">
+	    UPDATE SubAdmin 
+	    SET
+	    name = #{name},
+	    contactNumber = #{contactNumber},
+	    emailId = #{emailId},
+	    userId = #{userId}
+	    WHERE id = #{id}
+	 </update>
+	 
+	 <delete id="deleteSubAdminById" parameterMap="SubAdminParam">
+	    DELETE FROM SubAdmin  WHERE id = ${id}
+	 </delete>
+	 
+	 <select id="getSubadminDetailsByUserId" parameterType="int" resultMap="SubAdminResult">
+	 	SELECT sa.*, ur.roleTypeId FROM SubAdmin sa
+		INNER JOIN UserDetail u ON u.id = sa.userId
+		INNER JOIN UserRole ur ON ur.id = u.roleId
+		WHERE sa.userId = #{id}
+	 </select>
+	 
+	 <select id="getSubAdminByEmailId" parameterMap="SubAdminParam" resultMap="SubAdminResult">
+		SELECT * FROM SubAdmin WHERE emailId = #{emailId}
+	 </select>
+</mapper>

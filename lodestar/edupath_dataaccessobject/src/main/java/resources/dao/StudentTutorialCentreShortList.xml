@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentTutorialCentreShortList">
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.StudentTutorialCentreShortListDTO" id="resultMap"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.StudentTutorialCentreShortListDTO" id="paramMap"/>
+	
+	<insert id="insertShortListTutorialCenters" parameterMap="paramMap" useGeneratedKeys="true">
+		INSERT INTO StudentTutorialCentreShortList (studentId, tutorialId, tutorialCityCentersId)
+		VALUES (#{studentId}, #{tutorialId}, #{tutorialCityCentersId})
+	</insert>
+	
+	<select id="getShortListedTutorialCentersByStudentId" parameterType="int" resultMap="resultMap">
+		
+		
+		
+		<!-- Start SASEDEVE Edited By Mrutyunjaya on Date 03-06-2017 -->
+		
+		
+		<!-- Start Original Code -->
+		<!-- SELECT stcs.*, t.name AS tutorialName, tcc.locality,c.name AS cityName, tcc.address AS tutorialCenterAddress
+		FROM StudentTutorialCentreShortList stcs
+		INNER JOIN TutorialCityCenters tcc ON tcc.id = stcs.tutorialCityCentersId AND tcc.tutorialId = stcs.tutorialId
+		INNER JOIN Tutorials t ON t.id = tcc.tutorialId
+		INNER JOIN City c ON c.id = tcc.cityId
+		WHERE stcs.studentId = #{studentId}; -->
+		
+		
+		<!-- END Original Code -->
+		
+		<!-- Start Changes Code -->
+		
+		
+		SELECT stcs.*, t.name AS tutorialName, tcc.locality, tcc.contactNumbers as contactno,tcc.timings as timeslots, c.name AS cityName, tcc.address AS tutorialCenterAddress
+		FROM StudentTutorialCentreShortList stcs
+		INNER JOIN TutorialCityCenters tcc ON tcc.id = stcs.tutorialCityCentersId AND tcc.tutorialId = stcs.tutorialId
+		INNER JOIN Tutorials t ON t.id = tcc.tutorialId
+		INNER JOIN City c ON c.id = tcc.cityId
+		WHERE stcs.studentId = #{studentId};
+		
+		
+		
+		<!-- END Changes Code -->
+		
+		
+		<!-- END SASEDEVE Edited By Mrutyunjaya on Date 03-06-2017 -->
+		
+	</select>
+	
+	<delete id="deleteShortListedTutorialCentersById" parameterType="int">
+		DELETE FROM StudentTutorialCentreShortList WHERE id=#{id}
+	</delete>
+	
+	<select id="getAllByStudentId" parameterType="int" resultMap="resultMap">
+		SELECT * FROM StudentTutorialCentreShortList WHERE studentId = #{studentId}
+	</select>
+	
+</mapper>

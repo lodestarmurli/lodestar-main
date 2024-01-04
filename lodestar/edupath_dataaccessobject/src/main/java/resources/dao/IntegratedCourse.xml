@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="IntegratedCourse">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.IntegratedCourseDTO" id="integratedCourseResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.IntegratedCourseDTO" id="integratedCourseParam"/>
+	 
+	 <select id="getIntegratedCourseByOccId" parameterType="int" resultMap="integratedCourseResult">
+		SELECT ic.* , o.name AS occupationName FROM IntegratedCourse ic
+		JOIN IntegratedCourseOccupationMapping icom ON icom.integratedCourseId = ic.id
+		JOIN Occupation o ON o.id = icom.occupationId
+		WHERE icom.occupationId = #{occupationId} AND ic.isActive = true
+		ORDER BY ic.programType, ic.programName
+	</select>
+	
+	<select id="getShortListIntegratedCourseByStudentId" parameterType="int" resultMap="integratedCourseResult">
+		SELECT ic.*, slc.occupationId AS occupationId FROM IntegratedCourse ic
+		INNER JOIN ShortListCourse slc ON slc.integratedCourseId = ic.id
+		WHERE slc.studentId = #{studentId} 
+		ORDER BY ic.programName
+	</select>
+	
+	 <select id="getAllIntegratedCourse" resultMap="integratedCourseResult">
+		SELECT DISTINCT id, programName, institute
+		FROM IntegratedCourse 
+		ORDER BY programName
+	</select>
+	
+	 <select id="getIntegratedCourseById" parameterType="int" resultMap="integratedCourseResult">
+		SELECT * FROM IntegratedCourse WHERE id = #{id}
+	</select>
+	
+	<select id="getIntegratedCourseByInstitute" parameterMap="integratedCourseParam"  resultMap="integratedCourseResult">
+		SELECT * FROM IntegratedCourse WHERE institute = #{institute}
+	</select>
+	
+	 <select id="getAllIntegratedCourseCountByoccId" resultType="java.lang.Integer" parameterType="java.util.List">
+		SELECT count(id) as id FROM IntegratedCourseOccupationMapping 
+		WHERE occupationId 
+		IN
+		<foreach collection="list" close=")" open="(" item="item" separator=",">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

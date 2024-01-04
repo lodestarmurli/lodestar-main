@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RiasecStreamSelector">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.RiasecStreamSelectorDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.RiasecStreamSelectorDTO"></resultMap>
+	
+	<resultMap id="SelectAllOCCResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorOccupationDTO"></resultMap>
+	
+	<parameterMap id="StreamSelectorResultparamMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorResultDTO"></parameterMap>
+	<resultMap id="StreamSelectorResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorResultDTO"></resultMap>
+	
+	<parameterMap id="StreamSelectorStudentparamMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorStudentDTO"></parameterMap>
+	<resultMap id="StreamSelectorStudentResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorStudentDTO"></resultMap>
+	
+	<parameterMap id="StreamSelectorDescriptionparamMap" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorDescriptionDTO"></parameterMap>
+	<resultMap id="StreamSelectorDescriptionResult" type="com.lodestar.edupath.datatransferobject.dto.programTest.streamselector.StreamSelectorDescriptionDTO"></resultMap>
+	
+	
+	<select id="getStreamByRiasecCode" parameterType="String" resultMap="SelectAllResult">
+	   select * from RiasecStreamSelector where riasecCode like #{riasecCode}
+	</select>
+
+	<select id="getStreamSelectorOcc" parameterType="String" resultMap="SelectAllOCCResult">
+	   select * from StreamSelectOroccupation where riasecCode like #{riasecCode}
+	</select>
+	
+	
+	<insert id="insertOrUpdateStreamSelectorResult" parameterMap="StreamSelectorResultparamMap">
+	    INSERT INTO StreamSelectorResult (studentId, streamFitment, streamOccupation ) VALUES (#{studentId}, #{streamFitment}, #{streamOccupation} )
+  		ON DUPLICATE KEY UPDATE studentId = #{studentId}, streamFitment = #{streamFitment}, streamOccupation = #{streamOccupation} 
+	</insert>
+	
+	<select id="getStreamSelectorResult" parameterType="int" resultMap="StreamSelectorResult">
+	   select * from StreamSelectorResult where studentId like #{studentId}
+	</select>
+	
+	
+	
+	<insert id="insertStreamSelectorStudent" parameterMap="StreamSelectorStudentparamMap">
+	    INSERT INTO StreamSelectorStudent (ParentEmailID, StudentEmailID, StudentRegisterTime, LDID, StudentID, ParentContactNo, StudentContactNo ) 
+	    VALUES (#{ParentEmailID}, #{StudentEmailID}, NOW(), #{LDID}, #{StudentID}, #{ParentContactNo}, #{StudentContactNo} ) 
+	</insert>
+	
+
+	<select id="getStreamSelectorDescription" parameterType="String" resultMap="StreamSelectorDescriptionResult">
+	   select * from StreamSelectorDescription where stream like #{stream}
+	</select>
+	
+</mapper>

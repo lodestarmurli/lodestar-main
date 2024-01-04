@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EduPath">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.path.EduPathDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.path.EduPathDTO"></resultMap>
+	<resultMap id="CountResult" type="com.lodestar.edupath.datatransferobject.dto.path.EdupathCountDTO"></resultMap>
+	
+	
+	<resultMap id="streamResult" type="com.lodestar.edupath.datatransferobject.dto.elective.StreamsDTO">
+	</resultMap>
+	
+	<select id="getEduPathDetailByIds" parameterMap="paramMap" resultMap="SelectAllResult">
+	  	SELECT ed.* FROM EduPath ed
+		WHERE ed.occupationId = #{occupationId}
+	</select>
+
+	<select id="getCountsForPUStreamByIndustry" parameterType="int" resultMap="CountResult">
+		SELECT count(ed.id) jobCount, streamId, COALESCE(sc.name, 'Any') name, 'C' as type
+		FROM EduPath ed
+		JOIN EduPathPUStreams  edpu on ed.id = edpu.edupathId
+		LEFT JOIN Streams sc on sc.id = edpu.streamId
+		WHERE ed.industryId = #{id} AND type = 'C' AND streamId != -1
+		GROUP BY edpu.streamId
+		
+		UNION
+		
+		SELECT count(ed.id) jobCount,  streamId, COALESCE(sp.name, 'Any') name, 'P' as type
+		FROM EduPath edu
+		JOIN EduPathPUStreams ed on ed.edupathId = edu.id
+		LEFT JOIN Streams sp on sp.id = ed.streamId
+		WHERE edu.industryId = #{id} AND type = 'P'
+		GROUP BY ed.streamId
+		
+		
+	</select>
+	
+	<select id="getDegreeByIndustry" parameterType="int" resultMap="CountResult">
+		SELECT *
+		FROM EduPathDegrees epd
+		JOIN EduPath epc on epc.id = epd.edupathId
+		WHERE epc.industryId = #{id}
+	</select>
+	
+	<select id="getDegreeSpecializationByIndustry" parameterType="int" resultMap="CountResult">
+		SELECT *
+		FROM EduPathDegreeSpecialization epds
+		JOIN EduPath epc on epc.id = epds.edupathId
+		WHERE epc.industryId = #{id}
+	</select>	
+
+	<select id="eduPathStreamsByIds" parameterType="com.lodestar.edupath.datatransferobject.dto.elective.StreamsDTO" resultMap="streamResult">
+	    SELECT * FROM Streams
+	    WHERE id IN
+	     <foreach collection="idsList" close=")" open="(" item="item" separator=",">
+	       #{item}
+	  	 </foreach> 
+	</select>
+	
+</mapper>

@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StudentDetails">
+
+	<parameterMap id="paramMap"
+		type="com.lodestar.edupath.datatransferobject.dto.student.StudentDetailsDTO"></parameterMap>
+	<resultMap id="SelectAllResult"
+		type="com.lodestar.edupath.datatransferobject.dto.student.StudentDetailsDTO"></resultMap>
+	<parameterMap id="paramMap1"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTDTO"></parameterMap>
+	<resultMap id="SelectAllResult1"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentCGTDTO"></resultMap>
+	<parameterMap id="paramMap2"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentDetailsDTO"></parameterMap>
+	<resultMap id="SelectAllResult3"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentDetailsDTO"></resultMap>
+
+	<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.student.StudentDetailsDTO"
+		id="SummaryResult">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="cityId" column="cityId" />
+		<result property="classId" column="classId" />
+		<result property="schoolId" column="schoolId" />
+		<result property="contactNumber" column="contactNumber" />
+		<result property="fathername" column="fathername" />
+		<result property="fatheremailId" column="fatheremailId" />
+		<result property="computerFacility" column="computerFacility" />
+		<result property="userId" column="userId" />
+		<result property="gender" column="gender" />
+		<result property="roleTypeId" column="roleTypeId" />
+		<result property="facilitatorId" column="facilitatorId" />
+		<result property="schoolName" column="schoolName" />
+		<result property="className" column="className" />
+		<result property="session1Date" column="session1Date" />
+		<result property="session2Date" column="session2Date" />
+		<result property="session3Date" column="session3Date" />
+		<result property="loginId" column="loginId" />
+		<result property="className" column="className" />
+		<result property="venue" column="venue" />
+
+		<!--Start Sasedeve Edited by Vyankatesh on date:- 30-01-2017 -->
+		<result property="dueAmount" column="dueAmount" />
+		<result property="agreedAmount" column="agreedAmount" />
+		<result property="paidAmount" column="paidAmount" />
+
+		<result property="studentemailId" column="studentEmailId" />
+		<result property="studentcontactNumber"
+			column="studentContactno" />
+		<result property="motheremailId" column="motherEmailId" />
+		<result property="mothercontactno" column="motherContactno" />
+		<result property="motherName" column="motherName" />
+		<result property="fatherName" column="extrafatherName" />
+		<result property="fatherEmailId" column="extrafatherEmailId" />
+		<result property="fathercontactno" column="fatherContactno" />
+		<result property="cityName" column="cityName" />
+
+
+		<!--End Sasedeve Edited by Vyankatesh on date:- 30-01-2017 -->
+
+		<result property="password" column="password" />
+		<result property="facilitatorName" column="facilitatorName" />
+
+		<result property="completedStudent" column="completedStudent" />
+		<result property="personalityCode" column="personalityCode" />
+
+		<!-- start by bharath on 18-9-2019 -->
+		<result property="studentContact" column="studentContact" />
+		<result property="fatherContact" column="fatherContact" />
+		<result property="motherContact" column="motherContact" />
+		<!-- start by bharath on 18-9-2019 -->
+
+		<!-- start by bharath on 15-10-2019 -->
+		<result property="session1FaciCompletedDate"
+			column="session1FaciCompletedDate" />
+		<result property="session2FaciCompletedDate"
+			column="session2FaciCompletedDate" />
+		<result property="session3FaciCompletedDate"
+			column="session3FaciCompletedDate" />
+		<result property="reportGeneratedDate"
+			column="reportGeneratedDate" />
+		<!-- start by bharath on 15-10-2019 -->
+
+		<!--<result property="facilitatorEmailId" column="facilitatorEmailId"/> -->
+		<result property="studentType" column="studentType" />
+		<result property="testTaken" column="testTaken" />
+		<result property="section" column="section" />
+		<result property="schoolCode" column="schoolCode" />
+		<result property="otherSchool" column="otherSchool" />
+		<result property="isActive" column="isActive" />
+		<association property="seDetailsDTO" column="studentId"
+			javaType="com.lodestar.edupath.datatransferobject.dto.session.SessionScheduleDetailsDTO"
+			resultMap="sessionScheduleMap" />
+
+		<collection property="studentCGTList"
+			ofType="com.lodestar.edupath.datatransferobject.dto.student.StudentCGTForEvalDTO"
+			resultMap="studentCGTResult" />
+		<collection property="studentTUMList"
+			ofType="com.lodestar.edupath.datatransferobject.dto.StudentTUMDTO"
+			resultMap="studentTUMResult" />
+		<collection property="tumcgtList"
+			ofType="com.lodestar.edupath.datatransferobject.dto.student.TumCgtResultDTO"
+			resultMap="studentTUMCGTResult" />
+	</resultMap>
+
+	<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.session.SessionScheduleDetailsDTO"
+		id="sessionScheduleMap">
+		<id property="id" column="sessionScheduleId" />
+		<result property="studentId" column="studentId" />
+		<result property="facilitatorId" column="facilitatorId" />
+		<result property="session1Date" column="session1Date" />
+		<result property="session2Date" column="session2Date" />
+		<result property="session3Date" column="session3Date" />
+		<result property="preSessionCompleted"
+			column="preSessionCompleted" />
+		<result property="session1FaciCompleted"
+			column="session1FaciCompleted" />
+		<result property="session2FaciCompleted"
+			column="session2FaciCompleted" />
+		<result property="session3FaciCompleted"
+			column="session3FaciCompleted" />
+		<result property="reportGenerated" column="reportGenerated" />
+		<result property="session1Reminder" column="session1Reminder" />
+		<result property="session2Reminder" column="session2Reminder" />
+		<result property="session3Reminder" column="session3Reminder" />
+		<result property="venue" column="venue" />
+	</resultMap>
+
+	<resultMap id="studentCGTResult"
+		type="com.lodestar.edupath.datatransferobject.dto.student.StudentCGTForEvalDTO">
+		<result property="questionId" column="questionId" />
+	</resultMap>
+	<resultMap id="studentTUMCGTResult"
+		type="com.lodestar.edupath.datatransferobject.dto.student.TumCgtResultDTO">
+		<result property="TUMResult" column="TUMResult" />
+		<result property="InterestResult" column="InterestResult" />
+		<result property="AptitudeResult" column="AptitudeResult" />
+	</resultMap>
+
+	<resultMap id="studentTUMResult"
+		type="com.lodestar.edupath.datatransferobject.dto.StudentTUMDTO">
+		<result property="questionSlNo" column="questionSlNo" />
+		<result property="answer" column="answer" />
+	</resultMap>
+
+	<parameterMap id="TrialStudentExtraDetail"
+		type="com.lodestar.edupath.datatransferobject.dto.TrialStudentExtraDetailDTO"></parameterMap>
+	<resultMap id="TrialStudentExtraDetailResultMap"
+		type="com.lodestar.edupath.datatransferobject.dto.TrialStudentExtraDetailDTO">
+
+	</resultMap>
+
+
+	<select id="getStundentDetailsByStudentId" parameterType="int"
+		resultMap="SelectAllResult">
+
+		<!-- Start Sasedeve Edited By Mrutyunjaya on Date 20-06-2017 -->
+
+		<!-- Start Original Code -->
+
+
+		<!-- SELECT st.*, ur.roleTypeId FROM StudentDetails st INNER JOIN UserDetail 
+			u ON u.id = st.userId INNER JOIN UserRole ur ON ur.id = u.roleId WHERE st.id 
+			= #{id} -->
+
+		<!-- End Original Code -->
+
+
+
+
+
+		<!-- Start Chnages Code -->
+
+
+		SELECT st.*, ur.roleTypeId,py.* FROM StudentDetails st
+		INNER JOIN
+		UserDetail u ON u.id = st.userId
+		INNER JOIN UserRole ur ON ur.id =
+		u.roleId
+		LEFT JOIN Payment py ON py.studentId = st.id
+		WHERE st.id =
+		#{id}
+
+		<!-- End Changes Code -->
+
+
+		<!-- End Sasedeve Edited By Mrutyunjaya on Date 20-06-2017 -->
+
+	</select>
+
+
+	<select id="getStudentId" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT st.id FROM StudentDetails st
+		WHERE st.userId = #{id}
+	</select>
+
+
+	<select id="getStundentDetailsByUsersIdforCDDBulk"
+		parameterType="int" resultMap="SelectAllResult">
+		SELECT st.*, tse.*
+		FROM StudentDetails st
+		LEFT JOIN TrialstudentextraDetail tse ON tse.studentId = st.id
+		WHERE st.userId = #{id}
+		AND st.source = 'CAREERDEGREEDISCOVERY_TRAIL'
+		AND st.id IN (
+		SELECT scr.studentId
+		FROM StudentCGTResult scr
+		WHERE scr.aptitudeComplete = 'COMPLETED'
+		);
+	</select>
+
+
+
+	<select id="getStundentDetailsByUserId" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT st.*, ur.roleTypeId FROM StudentDetails st
+		INNER JOIN
+		UserDetail u ON u.id = st.userId
+		INNER JOIN UserRole ur ON ur.id =
+		u.roleId
+		WHERE st.userId = #{id}
+	</select>
+
+	<select id="getStundentDetailsAndSessionByUserId"
+		parameterType="int" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName,
+		scl.code AS schoolCode, sc.id as sessionScheduleId, sc.studentId as
+		studentId, sc.facilitatorId as facilitatorId,
+		sc.session1Date as
+		session1Date, sc.session2Date as session2Date,
+		sc.session3Date as
+		session3Date,
+		sc.preSessionCompleted, sc.session1FaciCompleted,
+		sc.session2FaciCompleted, sc.session3FaciCompleted,
+		sc.reportGenerated,
+		ud.loginId, ud.password, ud.isActive
+		FROM
+		StudentDetails st
+		INNER JOIN SessionScheduleDetails sc ON sc.studentId
+		= st.id
+		INNER JOIN School scl ON scl.id = st.schoolId
+		INNER JOIN
+		UserDetail ud ON ud.id = st.userId
+		ORDER BY sc.session1Date DESC
+	</select>
+
+	<!-- Start Sasedeve Edited by Vyankatesh on date:- 30-01-2017 -->
+
+	<!-- Start Original code -->
+	<select id="getStundentDetailsForSummaryForExcel"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName, scl.code AS schoolCode, sc.id as
+		sessionScheduleId, sc.studentId as
+		studentId, sc.facilitatorId as
+		facilitatorId,
+		sc.session1Date as session1Date, sc.session2Date as
+		session2Date,
+		sc.session3Date as session3Date,
+		sc.preSessionCompleted,
+		sc.session1FaciCompleted, sc.session2FaciCompleted,
+		sc.session3FaciCompleted, sc.reportGenerated,
+		ud.loginId, ud.password,
+		ud.isActive
+		FROM StudentDetails st
+		INNER JOIN SessionScheduleDetails sc
+		ON sc.studentId = st.id
+		INNER JOIN School scl ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId
+		WHERE 1=1
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session3Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR st.otherSchool like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY sc.session1Date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- End Original code -->
+
+	<!-- Start Change code -->
+
+	<!-- start by bharath 3/7/2019 -->
+
+	<!-- start update by bharath on 17/9/2019 -->
+
+	<select id="getStundentDetailsForSummary"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName, scl.code AS schoolCode,
+		ud.loginId, ud.password, ud.isActive
+		FROM StudentDetails st
+		INNER JOIN
+		School scl ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id =
+		st.userId AND ud.isActive='Y' AND ud.isArchive=0
+		WHERE 1=1 and
+		st.studentType="FULL" and st.completedStudent=0
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR st.otherSchool like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY st.name ASC
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="getStundentDetailsForSummaryById"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName, scl.code AS schoolCode, sc.id as
+		sessionScheduleId, sc.studentId as
+		studentId, sc.facilitatorId as facilitatorId, fd.name as facilitatorName,
+		sc.session1Date as session1Date, sc.session2Date as session2Date,
+		sc.session3Date as session3Date, sc.venue as venue,
+		sc.preSessionCompleted, sc.session1FaciCompleted,
+		sc.session2FaciCompleted, sc.session3FaciCompleted,
+		sc.reportGenerated,
+		ud.loginId, ud.password, ud.isActive, py.dueAmount
+		FROM StudentDetails st
+		INNER JOIN SessionScheduleDetails sc ON sc.studentId = st.id
+		INNER JOIN School scl ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId AND ud.isActive='Y' AND
+		ud.isArchive=0
+		LEFT JOIN FacilitatorDetails fd ON fd.id = sc.facilitatorId
+		LEFT JOIN Payment py ON py.studentId = st.id
+		WHERE ud.id= #{UserId}
+	</select>
+
+	<!-- end update by bharath on 17/9/2019 -->
+	<!-- end by bharath 3/7/2019 -->
+
+	<!-- start by bharath 10/9/2019 -->
+	<select id="getCompletedStundentDetailsForSummary"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName, scl.code AS schoolCode,
+		ud.loginId, ud.password, ud.isActive
+		FROM StudentDetails st
+		INNER JOIN
+		School scl ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id =
+		st.userId AND ud.isActive='Y' AND ud.isArchive=0
+		WHERE 1=1 and
+		st.completedStudent=1 and st.studentType = "FULL"
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR st.otherSchool like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY st.name ASC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getCompletedStundentDetailsSummaryCount"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(st.id) FROM StudentDetails st
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = st.id
+		INNER JOIN School scl
+		ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId
+		AND ud.isActive='Y' AND ud.isArchive=0
+		LEFT JOIN Payment py ON
+		py.studentId = st.id
+		WHERE 1=1 and st.completedStudent=1 and
+		st.studentType = "FULL"
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			<!-- OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern} 
+				OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern} OR DATE_FORMAT(sc.session3Date, 
+				'%d-%b-%Y %H:%i') like #{pattern} -->
+			OR st.otherSchool like #{pattern}
+			<!-- OR sc.venue like #{pattern} OR py.dueAmount like #{pattern} -->
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY st.name ASC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- end by bharath 11/9/2019 -->
+
+	<!-- start by bharath 12/9/2019 -->
+	<select id="getTrailStundentDetailsForSummary"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.* , scl.name as schoolName, scl.code AS schoolCode,
+		ud.loginId, ud.password, ud.isActive,
+		if(scgt.cnt_Answers &lt; 60 || scgt.cnt_Answers is null, "NO", "YES") as personalityCode
+		FROM StudentDetails st
+		LEFT JOIN School scl ON scl.id = st.schoolId
+		LEFT JOIN UserDetail ud ON
+		ud.id = st.userId
+		LEFT JOIN (select count(studentID) as cnt_Answers , studentId from
+		StudentCGT group by studentId ) scgt on scgt.studentId=st.id
+		WHERE
+		st.studentType = "TRIAL" AND ud.isActive='Y' AND ud.isArchive=0
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR st.otherSchool like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				GROUP BY st.id
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				GROUP BY st.id
+				ORDER BY st.name ASC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getTrailStundentDetailsSummaryCount"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(st.id)
+		FROM StudentDetails st
+		LEFT JOIN School scl ON scl.id = st.schoolId
+		LEFT
+		JOIN UserDetail ud ON ud.id = st.userId
+		LEFT JOIN (select count(studentID) as cnt_Answers , studentId from
+		StudentCGT group by studentId ) scgt on scgt.studentId=st.id
+		WHERE
+		st.studentType = "TRIAL" AND ud.isActive='Y' AND ud.isArchive=0
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR st.otherSchool like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY st.name ASC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- end by bharath 12/9/2019 -->
+
+	<!-- start of backup code by bharath 3/7/2019 -->
+
+	<!--Start Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+
+	<!--<select id="getStundentDetailsForSummary" parameterType="java.util.Map" 
+		resultMap="SummaryResult"> SELECT st.*, scl.name as schoolName, scl.code 
+		AS schoolCode, sc.id as sessionScheduleId, sc.studentId as studentId, sc.facilitatorId 
+		as facilitatorId, sc.session1Date as session1Date, sc.session2Date as session2Date, 
+		sc.session3Date as session3Date, sc.venue as venue, sc.preSessionCompleted, 
+		sc.session1FaciCompleted, sc.session2FaciCompleted, sc.session3FaciCompleted, 
+		sc.reportGenerated, ud.loginId, ud.password, ud.isActive, py.dueAmount FROM 
+		StudentDetails st INNER JOIN SessionScheduleDetails sc ON sc.studentId = 
+		st.id INNER JOIN School scl ON scl.id = st.schoolId INNER JOIN UserDetail 
+		ud ON ud.id = st.userId AND ud.isActive='Y' AND ud.isArchive=0 LEFT JOIN 
+		Payment py ON py.studentId = st.id WHERE 1=1 <if test="searchValue != null"> 
+		<bind name="pattern" value="'%' + searchValue + '%'" /> AND ( st.name like 
+		#{pattern} OR st.studentType like #{pattern} OR st.fatheremailId like #{pattern} 
+		OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR ud.loginId 
+		like #{pattern} OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern} 
+		OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern} OR DATE_FORMAT(sc.session3Date, 
+		'%d-%b-%Y %H:%i') like #{pattern} OR st.otherSchool like #{pattern} OR sc.venue 
+		like #{pattern} OR py.dueAmount like #{pattern} ) </if> <choose> <when test="orderBy 
+		!= null and orderColumn != null"> ORDER BY ${orderColumn} ${orderBy} </when> 
+		<otherwise> ORDER BY sc.session1Date DESC </otherwise> </choose> </select> -->
+	<!-- End Change code -->
+
+	<!-- End Sasedeve Edited by Vyankatesh on date:- 30-01-2017 -->
+
+
+	<!-- end of backup code by bharath 3/7/2019 -->
+
+	<!-- Start Sasedeve Edited by Mrutyunjaya on date:- 25-07-2018 -->
+
+	<select id="getStundentDetailsForSummaryArchive"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, scl.name as schoolName, scl.code AS schoolCode, sc.id as
+		sessionScheduleId, sc.studentId as
+		studentId, sc.facilitatorId as
+		facilitatorId,
+		sc.session1Date as session1Date, sc.session2Date as
+		session2Date,
+		sc.session3Date as session3Date, sc.venue as venue,
+		sc.preSessionCompleted, sc.session1FaciCompleted,
+		sc.session2FaciCompleted, sc.session3FaciCompleted,
+		sc.reportGenerated,
+		ud.loginId, ud.password, ud.isActive, py.dueAmount
+		FROM StudentDetails st
+		INNER JOIN SessionScheduleDetails sc ON
+		sc.studentId = st.id
+		INNER JOIN School scl ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId AND (ud.isActive='N' OR
+		ud.isArchive=1)
+		LEFT JOIN Payment py ON py.studentId = st.id
+		WHERE 1=1
+		<!--END Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+		<!-- Start Edited by vyankatesh on 4-2-2017 -->
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session3Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR st.otherSchool like #{pattern}
+			OR sc.venue like #{pattern}
+			OR py.dueAmount like #{pattern}
+			)
+		</if>
+
+		<!-- End Edited by vyankatesh on 4-2-2017 -->
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY sc.session1Date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="getStundentDetailsSummaryCountArchive"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(st.id) FROM StudentDetails st
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = st.id
+		INNER JOIN School scl
+		ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId
+		AND (ud.isActive='N' OR ud.isArchive=1)
+		LEFT JOIN Payment py ON
+		py.studentId = st.id
+		WHERE 1=1
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session3Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR st.otherSchool like #{pattern}
+			OR sc.venue like #{pattern}
+			OR py.dueAmount like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY sc.session1Date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- start update by bharath on 17/9/2019 -->
+	<select id="getStundentDetailsSummaryCount"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(st.id) FROM StudentDetails st
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = st.id
+		INNER JOIN School scl
+		ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId
+		AND ud.isActive='Y' AND ud.isArchive=0
+		LEFT JOIN Payment py ON
+		py.studentId = st.id
+		WHERE 1=1 and st.studentType="FULL" and
+		st.completedStudent=0
+		<if test="searchValue != null">
+			<bind name="pattern" value="'%' + searchValue + '%'" />
+			AND ( st.name like #{pattern} OR st.studentType like #{pattern} OR
+			st.fatheremailId like #{pattern}
+			OR st.fatheremailId like #{pattern} OR scl.name like #{pattern} OR
+			ud.loginId like #{pattern}
+			OR DATE_FORMAT(sc.session1Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session2Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR DATE_FORMAT(sc.session3Date, '%d-%b-%Y %H:%i') like #{pattern}
+			OR st.otherSchool like #{pattern}
+			OR sc.venue like #{pattern}
+			OR py.dueAmount like #{pattern}
+			)
+		</if>
+		<choose>
+			<when test="orderBy != null and orderColumn != null">
+				ORDER BY ${orderColumn} ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY sc.session1Date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- end update by bharath on 17/9/2019 -->
+
+	<!-- End Sasedeve Edited by Mrutyunjaya on date:- 25-07-2018 -->
+
+	<insert id="insertSStudentDetail" parameterMap="paramMap"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO StudentDetails (name,
+		cityId, classId, schoolId, contactNumber, fathername, fatheremailId,
+		computerFacility, userId, gender, studentType, source, section,
+		testTaken, otherSchool)
+		VALUES (#{name}, #{cityId}, #{classId},
+		#{schoolId}, #{contactNumber}, #{fathername}, #{fatheremailId},
+		#{computerFacility}, #{userId}, #{gender}, #{studentType}, #{source},
+		#{section}, #{testTaken}, #{otherSchool})
+	</insert>
+
+	<select id="getStudentDetailById" parameterType="int"
+		resultMap="SummaryResult">
+		SELECT st.*,ted.*, sc.id
+		as sessionScheduleId, sc.studentId
+		as studentId,
+		sc.facilitatorId as facilitatorId,
+		sc.session1Date as
+		session1Date, sc.session2Date as session2Date, sc.session3Date as
+		session3Date,
+		sc.session1FaciCompleted as session1FaciCompleted,
+		sc.session2FaciCompleted as session2FaciCompleted,
+		sc.session3FaciCompleted as session3FaciCompleted,
+		sc.venue,py.paidAmount,py.agreedAmount
+		FROM StudentDetails st
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = st.id
+		LEFT JOIN Payment py ON py.studentId = st.id
+		LEFT JOIN
+		TrialstudentextraDetail ted ON ted.studentId = st.id
+
+		WHERE st.id = #{id}
+	</select>
+
+	<delete id="deleteStudentById" parameterType="int">
+		DELETE FROM
+		StudentDetails WHERE id = #{id}
+	</delete>
+
+	<update id="updateStudentById" parameterMap="paramMap">
+		UPDATE StudentDetails
+		SET name = #{name}, cityId = #{cityId}, classId = #{classId}, schoolId =
+		#{schoolId},
+		contactNumber = #{contactNumber}, fathername
+		=#{fathername}, fatheremailId = #{fatheremailId},
+		computerFacility
+		=#{computerFacility}, gender = #{gender}, studentType =
+		#{studentType}, section = #{section}, testTaken = #{testTaken},
+		otherSchool = #{otherSchool}
+		<if test="source != null">
+			,source = #{source}
+		</if>
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="getAllStundentDetailsByFaherEmailId"
+		parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT * FROM StudentDetails WHERE
+		fatheremailId = #{fatheremailId}
+	</select>
+
+	<!-- start by bharath 6/7/2019 -->
+	<!-- start update by bharath on 18/9/2019 -->
+	<select id="getAllStundentDetailsByFacilitatorId"
+		parameterMap="paramMap" resultMap="SummaryResult">
+		SELECT s.id, u.loginId, s.name,
+		s.fatheremailId,s.fathername, s.contactNumber, tse.studentContactno as
+		studentContact, tse.fatherContactno as fatherContact,
+		tse.motherContactno as motherContact , s.cityId, s.userId , sch.name
+		AS schoolName, sch.code AS schoolCode, s.session1Date, s.session2Date,
+		s.session3Date, s.venue,
+		if(tcr.TUM is null || tcr.TUM="",0,tcr.TUM) as TUMResult,
+		if(tcr.InterestTest is null || tcr.InterestTest="",0,tcr.InterestTest) as InterestResult,
+		if(tcr.AptitudeTest is null || tcr.AptitudeTest="",0,tcr.AptitudeTest)
+		as AptitudeResult,
+		py.dueAmount,py.agreedAmount, c.name as cityName
+		FROM(
+		SELECT sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date, ssd.venue
+		FROM StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id =
+		ssd.studentId
+		WHERE ssd.facilitatorId = (SELECT id FROM FacilitatorDetails WHERE userId =
+		#{id})
+		AND ssd.reportGenerated = 0
+		) s JOIN School sch ON s.schoolId = sch.id
+		LEFT JOIN TumCgtResult tcr on tcr.studentId = s.id
+		LEFT JOIN Payment py ON py.studentId = s.id
+		LEFT JOIN City c ON c.id = s.cityId
+		LEFT JOIN TrialstudentextraDetail tse ON tse.studentId = s.id
+		JOIN UserDetail u ON u.id = s.userId AND u.isActive='Y' AND u.isArchive=0
+	</select>
+	<!-- end update by bharath on 18/9/2019 -->
+	<!-- start by bharath 6/7/2019 -->
+
+
+	<!-- start backup code by bharath 6/7/2019 -->
+
+	<!--Srart Sasedeve Edited by vyankatesh on 30-01-2017 LEFT JOIN TrialstudentextraDetail 
+		ted ON ted.studentId = st.id -->
+	<!--start ChangesCode -->
+	<!--start vyankatesh 26-4-2017 cityname added -->
+	<!--Start Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+
+	<!--<select id="getAllStundentDetailsByFacilitatorId" parameterMap="paramMap" 
+		resultMap="SummaryResult"> SELECT s.id, u.loginId, s.name, s.fatheremailId,s.fathername, 
+		s.contactNumber, s.cityId, s.userId , sch.name AS schoolName, sch.code AS 
+		schoolCode, s.session1Date, s.session2Date, s.session3Date, s.venue, stum.questionSlNo, 
+		scgt.questionId, py.dueAmount,py.agreedAmount, c.name as cityName FROM( SELECT 
+		sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date, ssd.venue FROM 
+		StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id = ssd.studentId 
+		WHERE ssd.facilitatorId = (SELECT id FROM FacilitatorDetails WHERE userId 
+		= #{id}) AND ssd.reportGenerated = 0 ) s JOIN School sch ON s.schoolId = 
+		sch.id LEFT JOIN StudentTUM stum ON stum.studentId = s.id and stum.questionSlNo 
+		in (1,2,3) LEFT JOIN StudentCGT scgt ON scgt.studentId = s.id LEFT JOIN Payment 
+		py ON py.studentId = s.id LEFT JOIN City c ON c.id = s.cityId LEFT JOIN CGTQuestioneries 
+		cgtq ON cgtq.id = scgt.questionId and cgtq.section = #{section} JOIN UserDetail 
+		u ON u.id = s.userId AND u.isActive='Y' AND u.isArchive=0 </select> -->
+	<!--END Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+	<!-- END backup code by bharath 6/7/2019 -->
+
+	<!--End ChangesCode INNER JOIN FacilitatorDetails rd ON rd.id = (SELECT 
+		id FROM FacilitatorDetails WHERE userId = #{id}) , rd.name AS facilitatorName 
+		,rd.emailId AS facilitatorEmailId -->
+	<!--End ChangesCode -->
+	<!--start OriginalCode -->
+	<!-- <select id="getAllStundentDetailsByFacilitatorId" parameterMap="paramMap" 
+		resultMap="SummaryResult"> SELECT s.id, u.loginId, s.name, s.fatheremailId, 
+		s.contactNumber, s.cityId, s.userId , sch.name AS schoolName, sch.code AS 
+		schoolCode, s.session1Date, s.session2Date, s.session3Date, stum.questionSlNo, 
+		scgt.questionId FROM( SELECT sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date 
+		FROM StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id = ssd.studentId 
+		WHERE ssd.facilitatorId = (SELECT id FROM FacilitatorDetails WHERE userId 
+		= #{id}) AND ssd.reportGenerated = 0 ) s JOIN School sch ON s.schoolId = 
+		sch.id LEFT JOIN StudentTUM stum ON stum.studentId = s.id and stum.questionSlNo 
+		in (1,2,3) LEFT JOIN StudentCGT scgt ON scgt.studentId = s.id LEFT JOIN CGTQuestioneries 
+		cgtq ON cgtq.id = scgt.questionId and cgtq.section = #{section} JOIN UserDetail 
+		u ON u.id = s.userId </select> -->
+	<!--End OriginalCode -->
+	<!--End Sasedeve Edited by vyankatesh on 30-01-2017 -->
+	<!--start vyankatesh 26-4-2017 cityname added -->
+	<!--Start Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+
+	<select id="getAllStundentDetailsByDate" parameterMap="paramMap"
+		resultMap="SummaryResult">
+		SELECT s.id, u.loginId, s.name, s.fatheremailId, s.contactNumber, sch.name
+		AS schoolName, sch.code AS schoolCode, s.session1Date, s.session2Date,
+		s.session3Date, stum.questionSlNo, scgt.questionId ,s.venue,
+		py.dueAmount, c.name as cityName
+		FROM(
+		SELECT sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date, ssd.venue
+		FROM StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id =
+		ssd.studentId
+		WHERE ssd.facilitatorId = (SELECT id FROM FacilitatorDetails WHERE userId =
+		#{id})
+		AND ((SELECT cast(ssd.session1Date as date)= #{selectedDate}) OR (SELECT
+		cast(ssd.session2Date as date) = #{selectedDate}) OR (SELECT
+		cast(ssd.session3Date as date) = #{selectedDate}))
+		) s JOIN School sch ON s.schoolId = sch.id
+		LEFT JOIN StudentTUM stum ON stum.studentId = s.id and stum.questionSlNo
+		in (1,2,3)
+		LEFT JOIN StudentCGT scgt ON scgt.studentId = s.id
+		LEFT JOIN Payment py ON py.studentId = s.id
+		LEFT JOIN City c ON c.id = s.cityId
+		LEFT JOIN CGTQuestioneries cgtq ON cgtq.id = scgt.questionId and
+		cgtq.section = #{section}
+		JOIN UserDetail u ON u.id = s.userId AND u.isActive='Y' AND u.isArchive=0
+		ORDER BY name
+	</select>
+
+	<!--END Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+	<!--Start added sd.schoolId by bharath on 21-05-2019 -->
+	<select id="getStudentInfoDetailsById" parameterType="int"
+		resultMap="SummaryResult">
+		SELECT sd.id, sd.name, s.name as schoolName, c.name as className,
+		st.questionSlNo, st.answer,sd.schoolId
+		FROM StudentDetails sd
+		JOIN School s on sd.schoolId = s.id
+		JOIN Class c on sd.classId = c.id
+		JOIN StudentTUM st on sd.id = st.studentId
+		WHERE sd.id = #{id};
+	</select>
+	<!--end added sd.schoolId by bharath on 21-05-2019 -->
+	<select id="getAllStudentDetailsBySearchValue"
+		parameterType="java.util.Map" resultMap="SummaryResult">
+		SELECT st.*, ud.loginId as loginId, scl.name as schoolName, scl.code
+		AS schoolCode, cs.name as className, sc.id as sessionScheduleId,
+		sc.studentId as
+		studentId, sc.facilitatorId as facilitatorId,
+		sc.session1Date as session1Date, sc.session2Date as session2Date,
+		sc.session3Date as session3Date,
+		sc.session1FaciCompleted as
+		session1FaciCompleted, sc.venue
+		FROM StudentDetails st
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = st.id
+		INNER JOIN School scl
+		ON scl.id = st.schoolId
+		INNER JOIN UserDetail ud ON ud.id = st.userId
+		INNER JOIN Class cs ON cs.id = st.classId
+		<if test="null != searchValue and searchValue != ''">
+			WHERE st.id in (${searchValue})
+		</if>
+		ORDER BY sc.session1Date DESC
+	</select>
+
+	<select id="getStundentDetailsByUsersId" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT st.*, tse.* FROM StudentDetails st
+		LEFT JOIN
+		TrialstudentextraDetail tse ON tse.studentId = st.id
+		WHERE st.userId =
+		#{id}
+	</select>
+
+	<!--start vyankatesh 26-4-2017 cityname added -->
+
+	<!--Start Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+	<!--Start updated by bharath on 30-10-2019 -->
+	<select id="getStundentDetailsByStudentLoginId"
+		parameterMap="paramMap" resultMap="SummaryResult">
+		SELECT s.id, u.loginId, s.name,
+		s.fatheremailId, s.contactNumber, tse.studentContactno as
+		studentContact, tse.fatherContactno as fatherContact,
+		tse.motherContactno as motherContact , s.userId, s.cityId , sch.name
+		AS schoolName, sch.code AS schoolCode, s.session1Date, s.session2Date,
+		s.session3Date,s.venue, py.dueAmount, c.name as cityName,
+		if(tcr.TUM is null || tcr.TUM="",0,tcr.TUM) as TUMResult,
+		if(tcr.InterestTest is null || tcr.InterestTest="",0,tcr.InterestTest) as InterestResult,
+		if(tcr.AptitudeTest is null || tcr.AptitudeTest="",0,tcr.AptitudeTest)
+		as AptitudeResult
+		FROM(
+		SELECT sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date,ssd.venue
+		FROM StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id =
+		ssd.studentId
+		WHERE ssd.studentId = (SELECT sd.id FROM StudentDetails sd JOIN UserDetail
+		u ON u.id = sd.userId WHERE u.loginId = #{loginId})
+		)s
+		JOIN School sch ON s.schoolId = sch.id
+		LEFT JOIN TumCgtResult tcr on tcr.studentId = s.id
+		LEFT JOIN Payment py ON py.studentId = s.id
+		LEFT JOIN City c ON c.id = s.cityId
+		LEFT JOIN TrialstudentextraDetail tse ON tse.studentId = s.id
+
+		JOIN UserDetail u ON u.id = s.userId;
+	</select>
+	<!--End updated by bharath on 30-10-2019 -->
+	<!--END Sasedeve Edited by Mrutyunjaya on 24-07-2018 -->
+
+	<select id="getAllStudentDetails" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT * FROM StudentDetails st
+	</select>
+
+	<select id="getStudentDetailsByStudentId" parameterType="int"
+		resultMap="SummaryResult">
+		SELECT sd.*, ud.loginId as loginId, scl.name as schoolName,
+		scl.code AS schoolCode, cs.name as className, sc.id as
+		sessionScheduleId, sc.studentId as studentId,
+		sc.facilitatorId as facilitatorId, rd.name AS facilitatorName, sc.session1Date as
+		session1Date, sc.session2Date as session2Date,
+		sc.session3Date as session3Date
+		FROM StudentDetails sd
+		INNER JOIN
+		SessionScheduleDetails sc ON sc.studentId = sd.id
+		INNER JOIN School scl
+		ON scl.id = sd.schoolId
+		INNER JOIN UserDetail ud ON ud.id = sd.userId
+		INNER JOIN FacilitatorDetails rd ON rd.id = sc.facilitatorId
+		INNER JOIN
+		Class cs ON cs.id = sd.classId
+		WHERE sd.id = #{studentId}
+		ORDER BY
+		sc.session1Date DESC
+	</select>
+
+	<select id="getStundentDetailsForReviewByFacilitatorId"
+		parameterMap="paramMap" resultMap="SummaryResult">
+		SELECT s.id, u.loginId, s.name,
+		s.fatheremailId, s.contactNumber, s.cityId, s.userId , sch.name AS
+		schoolName, sch.code AS schoolCode,
+		s.session1Date, s.session2Date,
+		s.session3Date
+		FROM
+		(
+		SELECT sd.*, ssd.session1Date, ssd.session2Date, ssd.session3Date
+		FROM StudentDetails sd JOIN SessionScheduleDetails ssd ON sd.id =
+		ssd.studentId
+		WHERE ssd.sentForReview = #{sentForReview} AND reportGenerated =
+		#{reportGenerated}
+		) s
+		JOIN School sch ON s.schoolId = sch.id
+		JOIN UserDetail u ON u.id =
+		s.userId
+	</select>
+	<!-- Start Sasedeve Edited By Mrutyunjaya On Date 21-07-2017 -->
+	<select id="getFeedbackDetails" parameterMap="paramMap"
+		resultMap="SelectAllResult">
+		SELECT sd.id, sd.name, ud.loginId, ud1.loginId AS facilitatorLoginId,
+		fd.name AS facilitatorName, sd.gender, s.name AS schoolName, s.code AS
+		schoolCode, c.name AS className,
+		<if test="feedbackType == 'parent'">
+			pff.answer, pffq.question,
+			pffq.questionNo,DATE_FORMAT(ssd.parentFeedback,'%d-%m-%Y %H:%m') as
+			feedbackdate
+		</if>
+		<if test="feedbackType == 'student'">
+			sff.answer, sffq.question,
+			sffq.questionNo,DATE_FORMAT(ssd.studentFeedback,'%d-%m-%Y %H:%m') as
+			feedbackdate
+		</if>
+
+		<if test="feedbackType == 'parent2'">
+			sfba.answer, sfbqp.question,
+			sfbqp.questionNo,DATE_FORMAT(sfba.Createdon,'%d-%m-%Y %H:%m') as
+			feedbackdate
+		</if>
+		<if test="feedbackType == 'parent3'">
+			sfba.answer, sfbqp.question,
+			sfbqp.questionNo,DATE_FORMAT(sfba.Createdon,'%d-%m-%Y %H:%m') as
+			feedbackdate
+		</if>
+
+
+		FROM SessionScheduleDetails ssd
+		JOIN StudentDetails sd ON sd.id =
+		ssd.studentId
+		JOIN UserDetail ud ON ud.id = sd.userId
+		JOIN
+		FacilitatorDetails fd ON fd.id = ssd.facilitatorId
+		JOIN UserDetail ud1
+		ON ud1.id = fd.userId
+		JOIN School s ON s.id = sd.schoolId
+		JOIN Class c
+		ON c.id = sd.classId
+		<if test="feedbackType == 'parent'">
+			JOIN ParentFeedbackForm pff ON pff.studentId =
+			ssd.studentId
+			JOIN ParentFeedbackFormQuestion pffq ON pffq.questionNo
+			= pff.questionNo
+		</if>
+
+		<if test="feedbackType == 'parent2'">
+			JOIN SessionFeedBackAnswers sfba ON sfba.studentId =
+			ssd.studentId AND sfba.Forsession=1
+			JOIN SessionFeedBackQuestionParent
+			sfbqp ON sfbqp.questionNo = sfba.questionNo AND sfbqp.ForSession=1
+		</if>
+
+		<if test="feedbackType == 'parent3'">
+			JOIN SessionFeedBackAnswers sfba ON sfba.studentId =
+			ssd.studentId AND sfba.Forsession=2
+			JOIN SessionFeedBackQuestionParent
+			sfbqp ON sfbqp.questionNo = sfba.questionNo AND sfbqp.ForSession=2
+		</if>
+
+
+		<if test="feedbackType == 'student'">
+			JOIN StudentFeedbackForm sff ON sff.studentId =
+			ssd.studentId
+			JOIN StudentFeedbackFormQuestion sffq ON sffq.questionNo
+			= sff.questionNo
+		</if>
+		WHERE
+		<if test="feedbackType == 'student'">
+			studentFeedback between #{feedbackFromDate} AND
+			#{feedbackToDate}
+		</if>
+		<if test="feedbackType == 'parent'">
+			parentFeedback between #{feedbackFromDate} AND
+			#{feedbackToDate}
+		</if>
+
+		<if test="feedbackType == 'parent2'">
+			sfba.Createdon between #{feedbackFromDate} AND
+			#{feedbackToDate}
+		</if>
+
+		<if test="feedbackType == 'parent3'">
+			sfba.Createdon between #{feedbackFromDate} AND
+			#{feedbackToDate}
+		</if>
+
+		<if test="facilitatorId > 0">
+			AND facilitatorId = #{facilitatorId}
+		</if>
+		ORDER BY ssd.studentId
+		<if test="feedbackType == 'parent'">
+			, pffq.questionNo
+		</if>
+
+		<if test="feedbackType == 'parent2'">
+			, sfbqp.questionNo
+		</if>
+
+		<if test="feedbackType == 'parent3'">
+			, sfbqp.questionNo
+		</if>
+
+
+		<if test="feedbackType == 'student'">
+			, sffq.questionNo
+		</if>
+	</select>
+
+
+	<!-- END Sasedeve Edited By Mrutyunjaya On Date 21-07-2017 -->
+
+	<select id="isExistBySchoolId" parameterType="int"
+		resultType="int">
+		SELECT COUNT(id) FROM StudentDetails WHERE schoolId =
+		#{schoolId}
+	</select>
+
+	<select id="getStudentForInterestBulk"
+		resultMap="SelectAllResult">
+
+
+
+		<!-- Start SASEDEVE EDITED By Mrutyunjaya on date 25-05-2017 -->
+
+
+		<!--START Original Code -->
+
+
+		<!-- SELECT stu.*, ud.loginId FROM StudentDetails stu JOIN UserDetail ud 
+			ON ud.id = stu.userId WHERE ud.isActive = 'Y' -->
+		<!--END Original Code -->
+
+
+		<!--START Changes Code -->
+
+		SELECT stu.*, ud.loginId,ted.* FROM StudentDetails stu
+		JOIN UserDetail
+		ud ON ud.id = stu.userId
+		LEFT JOIN TrialstudentextraDetail ted ON ted.studentId = stu.id
+		WHERE
+		ud.isActive = 'Y'
+
+		<!--END Changes Code -->
+
+		<!-- END SASEDEVE EDITED By Mrutyunjaya on date 25-05-2017 -->
+
+	</select>
+
+	<select id="getStudentForTrailReportById"
+		resultMap="SelectAllResult" parameterType="int">
+		SELECT stu.*, cls.name AS
+		className, sch.name AS schoolName , sch.code AS schoolCode FROM
+		StudentDetails stu
+		JOIN School sch ON sch.id = stu.schoolId
+		JOIN Class cls ON cls.id = stu.classId
+		WHERE stu.id = #{id}
+	</select>
+
+	<insert id="addTrialStudentExtraDetail"
+		parameterMap="TrialStudentExtraDetail" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO TrialstudentextraDetail (studentId,
+		studentEmailId, studentContactno, motherEmailId, motherContactno,
+		motherName, extrafatherEmailId, extrafatherName, fatherContactno)
+		VALUES (#{studentId}, #{studentemailId}, #{studentcontactNumber},
+		#{motheremailId}, #{mothercontactno}, #{motherName}, #{fatherEmailId},
+		#{fatherName}, #{fathercontactno})
+	</insert>
+
+	<select id="gellALLStudentIDFromTrislExtraStudent"
+		resultMap="TrialStudentExtraDetailResultMap">
+		SELECT studentId FROM TrialstudentextraDetail;
+	</select>
+
+	<update id="updateTrialExtraStudentById"
+		parameterMap="TrialStudentExtraDetail">
+		UPDATE TrialstudentextraDetail
+		SET studentEmailId = #{studentemailId}, studentContactno =
+		#{studentcontactNumber}, motherEmailId = #{motheremailId},
+		motherContactno = #{mothercontactno},
+		motherName = #{motherName},
+		extrafatherEmailId =#{fatherEmailId}, extrafatherName = #{fatherName},
+		fatherContactno =#{fathercontactno}
+
+		WHERE studentId = #{studentId}
+	</update>
+
+	<!-- Start SASEDEVE EDITED By Mrutyunjaya on date 31-07-2018 -->
+
+	<select id="ListOFArchiveStudentID" parameterType="String"
+		resultMap="SelectAllResult">
+		SELECT sd.* from SessionScheduleDetails ssd
+		JOIN
+		StudentDetails sd on sd.id=ssd.studentId
+		JOIN UserDetail ud on
+		ud.id=sd.userId and (ud.isActive='Y' OR ud.isArchive=0)
+		where ssd.
+		session1FaciCompleted=0 and date(ssd.session1Date) &lt;
+		DATE_SUB(NOW(), INTERVAL 29 DAY)
+	</select>
+
+
+	<!-- END SASEDEVE EDITED By Mrutyunjaya on date 31-07-2018 -->
+
+	<!-- start by bharath on 22/9/2019 -->
+	<update id="completeStudentService" parameterMap="paramMap">
+		update
+		StudentDetails as st,
+		(select studentId from SessionScheduleDetails
+		where DATEDIFF(CURDATE(), reportGeneratedDate) > 30) as sc
+		SET
+		st.completedStudent = 1
+		where
+		st.id = sc.studentId
+	</update>
+	<!-- end by bharath on 22/9/2019 -->
+
+
+	<!-- start by bharath on 11/10/2019 -->
+	<select id="getStundentDetailsByLoginId" parameterMap="paramMap"
+		resultMap="SummaryResult">
+		<!-- SELECT st.*, scl.name as schoolName, scl.code AS schoolCode, -->
+		<!-- ud.loginId, ud.password, ud.isActive -->
+		<!-- FROM StudentDetails st -->
+		<!-- INNER JOIN School scl ON scl.id = st.schoolId -->
+		<!-- INNER JOIN UserDetail ud ON ud.id = st.userId AND ud.isActive='Y' 
+			AND ud.isArchive=0 -->
+		<!-- WHERE ud.loginId = #{studentLoginId} -->
+		<!-- ORDER BY st.name ASC -->
+
+		SELECT st.*, scl.name AS schoolName, scl.code AS schoolCode,
+		ud.loginId, ud.password, ud.isActive
+		FROM StudentDetails st
+		INNER JOIN
+		UserDetail ud ON ud.id = st.userId AND ud.isActive = 'Y' AND
+		ud.isArchive = 0
+		LEFT JOIN School scl ON scl.id = st.schoolId
+		WHERE
+		ud.loginId = #{studentLoginId}
+		ORDER BY st.name ASC;
+
+	</select>
+	<!-- end by bharath on 11/10/2019 -->
+
+	<!-- start by bharath on 12/10/2019 -->
+	<select id="getStundentDetailsByReportGenerated"
+		parameterMap="paramMap" resultMap="SummaryResult">
+		SELECT ud.loginId as loginId, sd.*,fd.name as facilitatorName,ssd.*
+		from SessionScheduleDetails ssd
+		left join StudentDetails sd on sd.id=ssd.studentId
+		left join FacilitatorDetails fd on fd.id=ssd.facilitatorId
+		Left join UserDetail ud on ud.id=sd.userId
+		where
+		ssd.session1FaciCompleted=1 and
+		ssd.session2FaciCompleted=1 and
+		ssd.session3FaciCompleted=1 and
+		ssd.reportGenerated=1 and
+		ssd.reportGeneratedDate != "null"
+		and DATEDIFF(CURDATE(), reportGeneratedDate) &lt; 30
+
+		ORDER BY sd.name ASC
+	</select>
+	<!-- end by bharath on 12/10/2019 -->
+
+	<insert id="insertDHStudentCGTAnswer" parameterMap="paramMap1"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO DHStudentCGT (studentId, questionNo, answer)
+		VALUES (#{studentId}, #{questionIdStr}, #{answer})
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID ()
+		</selectKey>
+	</insert>
+	<insert id="insertStudentDetail" parameterMap="paramMap2"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DHStudentDetails
+		(name, DHID, cityId, className, school, contactNumber, fathername,
+		fatheremailId, gender)
+		VALUES (#{name}, #{DHID}, #{cityId},
+		#{classStr}, #{schoolName}, #{contactNumber}, #{fathername},
+		#{fatheremailId}, #{gender} )
+	</insert>
+
+	<update id="updateStudentClass" parameterMap="paramMap">
+		UPDATE
+		StudentDetails
+		SET classId = #{classId}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EducationLevel">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.EducationLevelDTO" id="educationLevelResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.EducationLevelDTO" id="educationLevelParam"/>
+	 
+	<select id="getAllEducationLevelNameWithId" parameterMap="educationLevelParam" resultMap="educationLevelResult">
+		SELECT id, name, orderNo FROM EducationLevel ORDER BY orderNo
+	</select>
+	
+</mapper>

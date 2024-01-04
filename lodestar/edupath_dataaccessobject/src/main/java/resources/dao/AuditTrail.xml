@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuditTrail">
+	
+	<resultMap id="auditResult" type="com.lodestar.edupath.datatransferobject.dto.AuditLoggerDTO"></resultMap>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.AuditLoggerDTO" id="auditParams"></parameterMap>
+  	
+	<insert id="insertAuditDetails" parameterMap="auditParams" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO AuditTrail (module, message, performedBy, actionTime) 
+	    VALUES (#{module}, #{message}, #{performedBy}, #{actionTime})
+	</insert>
+	
+	<select id="getAllAuditDetails" resultMap="auditResult">
+		SELECT * FROM AuditTrail ORDER BY actionTime desc
+	</select>
+	
+	<select id="getAuditDetailByDate" resultMap="auditResult" parameterMap="auditParams">
+		SELECT * FROM AuditTrail 
+		WHERE
+		<if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
+			actionTime BETWEEN #{fromDate} AND #{toDate}
+		</if>
+		<if test="moduleNameSet != null and moduleNameSet != ''">
+			AND module IN 
+			<foreach collection="moduleNameSet" item="module" open="(" separator="," close=")">
+				#{module}
+			</foreach>
+		</if>
+		
+		<if test="performedBySet != null and performedBySet != ''">
+			AND performedBy IN 
+			<foreach collection="performedBySet" item="performedBy" open="(" separator="," close=")">
+				#{performedBy}
+			</foreach>
+		</if>
+		
+		ORDER BY actionTime desc
+	</select>
+	
+	<select id="getAuditDetailByDateWithModule" resultMap="auditResult" parameterMap="auditParams">
+		SELECT * FROM AuditTrail 
+		WHERE
+		<if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
+		  actionTime BETWEEN #{fromDate} AND #{toDate}
+		</if>
+		<if test="module != null and module != ''">
+			AND module = #{module}
+		</if>
+		ORDER BY actionTime desc
+	</select>
+	
+	<select id="getModuleName" resultMap="auditResult" parameterMap="auditParams">
+	  SELECT DISTINCT module from AuditTrail
+	</select>
+	
+</mapper>

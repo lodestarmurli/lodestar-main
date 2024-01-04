@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EduPathDegrees">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.path.EduPathDegreesDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.path.EduPathDegreesDTO"></resultMap>
+	
+	<select id="getEduPathDegreesByIds" parameterMap="paramMap" resultMap="SelectAllResult">
+	  	SELECT * FROM EduPathDegrees WHERE eduPathId = #{eduPathId}
+	</select>
+	<select id="getEdupathDegreesByEdupathIds" parameterType="java.util.Map" resultMap="SelectAllResult">
+	  	SELECT * FROM EduPathDegrees WHERE eduPathId in (${edupathIds})
+	</select>
+	
+</mapper>

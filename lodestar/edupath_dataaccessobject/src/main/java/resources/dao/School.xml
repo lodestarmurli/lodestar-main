@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="School">
+
+	<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.SchoolDTO"
+		id="schoolResult" />
+		
+	<parameterMap
+		type="com.lodestar.edupath.datatransferobject.dto.SchoolDTO"
+		id="schoolParam" />
+		
+		<resultMap
+		type="com.lodestar.edupath.datatransferobject.dto.schoolreport.SchoolReportDTO"
+		id="schoolReportResult" >
+		<result property="loginId" column="loginId" />
+		<result property="name" column="name" />
+		<result property="classLable" column="classLable" />
+		<result property="stream" column="stream" />
+		<result property="career1" column="career1" />
+		<result property="career2" column="career2" />
+		<result property="ugDegreePlanA" column="ugDegreePlanA" />
+		<result property="ugDegreePlanB" column="ugDegreePlanB" />
+		<result property="elective" column="elective" />
+		<result property="examRecommendations" column="examRecommendations" />
+		</resultMap>
+		
+		
+		<parameterMap
+		type="com.lodestar.edupath.datatransferobject.dto.schoolreport.SchoolReportDTO"
+		id="schoolReportParam" />
+
+	<select id="getAllSchoolNameWithId" parameterMap="schoolParam"
+		resultMap="schoolResult">
+		<!-- SELECT id, name, code,cityId FROM School ORDER BY name -->
+
+		SELECT sd.*,sc.cityId from School sd LEFT JOIN SchoolCity sc on
+		sc.schoolId=sd.id order by sd.name asc
+	</select>
+
+	<select id="getAllSchool" parameterMap="schoolParam"
+		resultMap="schoolResult">
+		SELECT s.*, count(sd.id) AS studentCount
+		FROM School s
+		LEFT
+		JOIN StudentDetails sd on sd.schoolId = s.id
+		WHERE s.code != '-1' AND
+		s.name !='Other'
+		GROUP BY name order by s.name
+	</select>
+
+	<select id="getSchoolById" parameterType="int"
+		resultMap="schoolResult">
+		<!-- SELECT * FROM School WHERE id = #{id} -->
+		SELECT sd.*,sc.cityId from School sd LEFT JOIN SchoolCity sc on
+		sc.schoolId=sd.id where sd.id = #{id}
+	</select>
+
+	<select id="isSchoolExist" parameterMap="schoolParam"
+		resultType="int">
+		SELECT COUNT(id) FROM School WHERE id != #{id} AND name =
+		#{name}
+	</select>
+
+	<insert id="insertSchoolDetails" parameterMap="schoolParam"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO School (name, code,
+		logopath, displaylogo)
+		VALUES (#{name}, #{code}, #{logopath},
+		#{displaylogo})
+	</insert>
+
+	<update id="updateSchoolDetails" parameterMap="schoolParam">
+		UPDATE
+		School,SchoolCity SET School.name = #{name},SchoolCity.cityId =
+		#{cityId}, logopath = #{logopath}, School.displaylogo= #{displaylogo}
+		WHERE SchoolCity.schoolId = School.id AND School.id = #{id}
+	</update>
+	<update id="updateSchoolDetailsWOPath"
+		parameterMap="schoolParam">
+		UPDATE School,SchoolCity SET School.name =
+		#{name},SchoolCity.cityId = #{cityId}, School.displaylogo=
+		#{displaylogo} WHERE SchoolCity.schoolId = School.id AND School.id =
+		#{id}
+	</update>
+
+	<delete id="deleteSchoolDetails" parameterType="int">
+		DELETE FROM
+		School WHERE id = #{id}
+	</delete>
+	<insert id="insertSchoolMappingCity" parameterMap="schoolParam"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SchoolCity (schoolId,
+		cityId)
+		VALUES (#{schoolId}, #{cityId})
+	</insert>
+	<!-- start by bharath on 23-10-2019 -->
+	<select id="getReportBySchoolId" parameterMap="schoolReportParam"
+		resultMap="schoolReportResult">
+		select ud.loginId as loginId, sd.name as name, c.name as classLable, str.name as stream,
+		 Max(CASE
+		WHEN es.priority = 1 then (select name from Occupation where id =
+		es.occupationId)
+		END
+		) career1,
+		Max(CASE
+		WHEN es.priority = 3 then (select name from Occupation where id =
+		es.occupationId)
+		END
+		) career2,
+
+
+		Max(CASE
+		WHEN es.priority = 1 then (select GROUP_CONCAT(distinct name) from
+		EduPathDegrees where eduPathId=es.eduPathId)
+		END
+		) ugDegreePlanA,
+		Max(CASE
+		WHEN es.priority = 3 then (select GROUP_CONCAT(distinct name) from
+		EduPathDegrees where eduPathId=es.eduPathId)
+
+		END
+		) ugDegreePlanB,
+
+	GROUP_CONCAT(distinct com.name) as elective,
+		GROUP_CONCAT(distinct ee.examName) as examRecommendations 
+
+		from UserDetail ud
+		left join StudentDetails sd on sd.userId=ud.id
+		left join SessionScheduleDetails ssd on ssd.studentId=sd.id
+		left join Class c on c.id= sd.classId
+		left join School sh on sh.id=sd.schoolId
+		left join EduPathShortList es on es.studentId= sd.id
+		left join Streams str on str.id= es.puStreamId
+		left join EduPathElectiveShortList eel on eel.studentId= sd.id
+		left join Combination com on com.id=eel.combinationId
+		left join EntranceExamsOccupationMapping eom on eom.occupationId=es.occupationId
+		left Join EntranceExams ee on ee.id=eom.entranceExamId
+		where
+		sh.id=#{id} and  year(ssd.session3FaciCompletedDate) =#{sessionDate}
+		group by ud.loginId
+	</select>
+	<!-- end by bharath on 23-10-2019 -->
+
+	<select id="getSchoolByName" parameterMap="schoolReportParam"
+		resultMap="schoolReportResult">
+	
+	SELECT * from School where name like #{name}
+		
+	</select>
+
+
+</mapper>

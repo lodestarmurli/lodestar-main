@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Occupation">
+
+	<parameterMap id="paramMap"
+		type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO"></parameterMap>
+	<resultMap id="SelectAllResult"
+		type="com.lodestar.edupath.datatransferobject.dto.occupation.OccupationDTO"></resultMap>
+	<parameterMap id="dhparamMap"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentDetailsDTO"></parameterMap>
+	<parameterMap id="chnkparamMap"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.chanakya.ChanakyaStudentDetailsDTO"></parameterMap>
+	<parameterMap id="clientparamMap"
+		type="com.lodestar.edupath.datatransferobject.dto.APIS.client.ClientStudentDetailsDTO"></parameterMap>
+
+
+	<select id="getOccupationDetails" parameterMap="paramMap"
+		resultMap="SelectAllResult">
+		SELECT * from Occupation order by name
+	</select>
+
+	<select id="getOccupationDetailsById" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT o.*, i.id as industryId, i.name as industryName
+		FROM Occupation o
+		LEFT JOIN OccupationIndustryMapping oim on
+		oim.occupationId = o.id and oim.isPrimary
+		LEFT JOIN Industry i on i.id
+		= oim.industryId
+		WHERE o.id = #{id}
+	</select>
+
+	<select id="getOccupationBasicDetailsById" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, o.rollOverContent, i.id as industryId, i.name AS
+		industryName
+		FROM Occupation o
+		LEFT JOIN OccupationIndustryMapping oim on oim.occupationId = o.id and
+		oim.isPrimary
+		LEFT JOIN Industry i on i.id = oim.industryId
+		WHERE o.id = #{id}
+	</select>
+
+	<select id="getAllOccupationGlossaryDetails"
+		resultMap="SelectAllResult">
+
+		<!-- START Sasedeve edited by Mrutyunjaya on date 04-05-2017 -->
+		<!-- START Changes code -->
+		SELECT o.id, o.name, o.rollOverContent, oim.industryId, oim.pathWayId,
+		p.name AS pathWayName, i.name AS industryName
+		, CONCAT_WS(', ', IF(ra =
+		1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na
+		= 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+		,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM Occupation o
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Pathway p ON p.id = oim.pathWayId
+		JOIN Industry i ON i.id =
+		oim.industryId
+		LEFT JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on
+		rco.occupationId = o.id
+		GROUP BY o.id, oim.industryId
+		ORDER BY
+		industryName, pathWayName, o.name
+		<!-- END Changes code -->
+		<!-- START Original code -->
+
+		<!-- SELECT o.id, o.name, o.rollOverContent, oim.industryId, oim.pathWayId, 
+			p.name AS pathWayName, i.name AS industryName FROM Occupation o JOIN OccupationIndustryMapping 
+			oim on oim.occupationId = o.id LEFT JOIN Pathway p ON p.id = oim.pathWayId 
+			JOIN Industry i ON i.id = oim.industryId ORDER BY industryName, pathWayName, 
+			o.name -->
+
+		<!-- END Original code -->
+		<!-- END Sasedeve edited by Mrutyunjaya on date 04-05-2017 -->
+
+
+	</select>
+
+	<select id="getOccupationCount" resultType="int">
+		SELECT COUNT(id) FROM
+		OccupationIndustryMapping
+	</select>
+
+	<update id="updateOccImage" parameterMap="paramMap">
+		UPDATE Occupation SET
+		image = #{image} WHERE id = #{id}
+	</update>
+
+	<select id="getOccupationNameAndId" parameterMap="paramMap"
+		resultMap="SelectAllResult">
+		SELECT DISTINCT id, name from Occupation order by name
+	</select>
+
+	<select id="getOccWithExamsByIndustryid" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, o.rollOverContent, o.description, eeom.entranceExamId,
+		i.name AS industryName FROM Occupation o
+		JOIN OccupationIndustryMapping
+		oim ON oim.occupationId = o.id
+		LEFT JOIN EntranceExamsOccupationMapping
+		eeom ON eeom.occupationId = o.id
+		JOIN Industry i ON i.id =
+		oim.industryId
+		WHERE oim.industryId = #{industryId};
+	</select>
+
+	<select id="getOccWithCourseByIndustryid" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, o.rollOverContent, o.description,
+		icom.integratedCourseId, i.name AS industryName FROM Occupation o
+		JOIN
+		OccupationIndustryMapping oim ON oim.occupationId = o.id
+		LEFT JOIN
+		IntegratedCourseOccupationMapping icom ON icom.occupationId = o.id
+		JOIN Industry i ON i.id = oim.industryId
+		WHERE oim.industryId =
+		#{industryId};
+	</select>
+
+	<select id="getOccupationName" parameterMap="paramMap"
+		resultMap="SelectAllResult">
+		SELECT id, name FROM Occupation ORDER BY name
+		<!-- WHERE name LIKE '%${name}%' -->
+	</select>
+
+	<select id="getOccDetailsByStudentId" parameterType="int"
+		resultMap="SelectAllResult">
+		SELECT o.name, o.id, esl.occIndustryId as insturyId
+		FROM
+		EduPathShortList esl
+		JOIN Occupation o ON o.id = esl.occupationId
+		WHERE
+		studentId = #{studentId}
+		ORDER BY esl.priority
+	</select>
+
+	<!-- start by bharath 20-03-2020 -->
+	<select id="getOccupationListForDH" parameterMap="paramMap"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, if(dor.rollOverContent="" || dor.rollOverContent is
+		null, o.rollOverContent,dor.rollOverContent) as rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		INNER
+		JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		left join DHOccupationRollover dor on dor.occupationId=o.id
+		WHERE 1=1
+
+
+		GROUP BY o.id
+		ORDER BY o.name
+	</select>
+	<select id="getOccupationForDHBasedOnStream"
+		parameterMap="dhparamMap" resultMap="SelectAllResult">
+
+		SELECT o.id, o.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		o.rollOverContent,dor.rollOverContent) as rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		LEFT JOIN OccupationStreamFitment osf on osf.raisecOccId=rco.id
+		left join DHOccupationRollover dor on dor.occupationId=o.id
+		WHERE
+		osf.raisecOccId !=0 and
+		<if test="stream == 1">
+			osf.science_Math = 1
+		</if>
+
+		<if test="stream == 2">
+			osf.science_Bio = 1
+		</if>
+
+		<if test="stream == 3">
+			osf.commerce_Math = 1
+		</if>
+
+		<if test="stream == 4">
+			osf.commerce_WOMath = 1
+		</if>
+
+		<if test="stream == 5">
+			osf.arts = 1
+		</if>
+		and o.id NOT IN (SELECT occid FROM EngineeringExceptionOccupation)
+		GROUP BY o.id
+		ORDER BY o.name
+	</select>
+
+	<select id="getOccupationForChanakyaBasedOnStream"
+		parameterMap="chnkparamMap" resultMap="SelectAllResult">
+
+		SELECT o.id, o.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		o.rollOverContent,dor.rollOverContent) as rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		LEFT JOIN OccupationStreamFitment osf on osf.raisecOccId=rco.id
+		left join DHOccupationRollover dor on dor.occupationId=o.id
+		WHERE
+		osf.raisecOccId !=0 and
+		<if test="stream == 1">
+			osf.science_Math = 1
+		</if>
+
+		<if test="stream == 2">
+			osf.science_Bio = 1
+		</if>
+
+		<if test="stream == 3">
+			osf.commerce_Math = 1
+		</if>
+
+		<if test="stream == 4">
+			osf.commerce_WOMath = 1
+		</if>
+
+		<if test="stream == 5">
+			osf.arts = 1
+		</if>
+
+		GROUP BY o.id
+		ORDER BY o.name
+	</select>
+
+	<select id="getOccupationForClientBasedOnStream"
+		parameterMap="clientparamMap" resultMap="SelectAllResult">
+
+		SELECT o.id, o.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		o.rollOverContent,dor.rollOverContent) as rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		LEFT JOIN OccupationStreamFitment osf on osf.raisecOccId=rco.id
+		left join DHOccupationRollover dor on dor.occupationId=o.id
+		WHERE
+		osf.raisecOccId !=0 and
+		<if test="stream == 1">
+			osf.science_Math = 1
+		</if>
+
+		<if test="stream == 2">
+			osf.science_Bio = 1
+		</if>
+
+		<if test="stream == 3">
+			osf.commerce_Math = 1
+		</if>
+
+		<if test="stream == 4">
+			osf.commerce_WOMath = 1
+		</if>
+
+		<if test="stream == 5">
+			osf.arts = 1
+		</if>
+		
+		GROUP BY o.id
+		ORDER BY o.name
+	</select>
+
+
+
+
+	<select id="getOccupationForTwelvePlusSCIENCE_MATH"
+		parameterType="String" resultMap="SelectAllResult">
+
+		select
+		oc.id, oc.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		oc.rollOverContent,dor.rollOverContent) as rollOverContent,
+		oc.description
+
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation oc
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = oc.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = oc.id
+
+
+		left join DHOccupationRollover dor on dor.occupationId=oc.id
+		left join
+		OccupationRAISETwelve ot on
+
+		substring_index(ot.science_Math, ',', 1) =oc.id or substring_index(substring_index(ot.science_Math,
+		',', 2), ',', -1 ) =oc.id
+
+		where raisecCode=#{raisecCode}
+		group by oc.id
+
+	</select>
+	<select id="getOccupationForTwelvePlusSCIENCE_WO_MATH"
+		parameterType="String" resultMap="SelectAllResult">
+
+		select
+		oc.id, oc.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		oc.rollOverContent,dor.rollOverContent) as rollOverContent,
+		oc.description
+
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation oc
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = oc.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = oc.id
+
+
+		left join DHOccupationRollover dor on dor.occupationId=oc.id
+		left join
+		OccupationRAISETwelve ot on
+
+		substring_index(ot.science_WOMath, ',', 1) =oc.id or substring_index(substring_index(ot.science_WOMath,
+		',', 2), ',', -1 ) =oc.id
+
+		where raisecCode=#{raisecCode}
+		group by oc.id
+
+	</select>
+	<select id="getOccupationForTwelvePlusCOMMERCE"
+		parameterType="String" resultMap="SelectAllResult">
+
+		select
+		oc.id, oc.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		oc.rollOverContent,dor.rollOverContent) as rollOverContent,
+		oc.description
+
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation oc
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = oc.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = oc.id
+
+
+		left join DHOccupationRollover dor on dor.occupationId=oc.id
+		left join
+		OccupationRAISETwelve ot on
+
+		substring_index(ot.commerce , ',', 1) =oc.id or substring_index(substring_index(ot.commerce ,
+		',', 2), ',', -1 ) =oc.id
+
+		where raisecCode=#{raisecCode}
+		group by oc.id
+
+	</select>
+	<select id="getOccupationForTwelvePlusARTS"
+		parameterType="String" resultMap="SelectAllResult">
+
+		select
+		oc.id, oc.name,
+		if(dor.rollOverContent="" || dor.rollOverContent is null,
+		oc.rollOverContent,dor.rollOverContent) as rollOverContent,
+		oc.description
+
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation oc
+		INNER JOIN OccupationAbilityMapping oam on
+		oam.occupationId = oc.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = oc.id
+
+
+		left join DHOccupationRollover dor on dor.occupationId=oc.id
+		left join
+		OccupationRAISETwelve ot on
+
+		substring_index(ot.Arts , ',', 1) =oc.id or substring_index(substring_index(ot.Arts , ',',
+		2), ',', -1 ) =oc.id
+
+		where raisecCode=#{raisecCode}
+		group by oc.id
+
+	</select>
+
+	<!-- start by bharath 02-04-2020 -->
+
+	<select id="getOccupationListForEngineeringS2WithException"
+		parameterMap="paramMap" resultMap="SelectAllResult">
+		SELECT o.id, o.name, if(dor.rollOverContent="" || dor.rollOverContent is
+		null, o.rollOverContent,dor.rollOverContent) as rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		INNER
+		JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		left join DHOccupationRollover dor on dor.occupationId=o.id
+		WHERE o.id not
+		IN (select occid from EngineeringExceptionOccupation )
+
+		GROUP BY o.id
+		ORDER BY o.name
+	</select>
+
+	<select id="getAllOccForCareerFitment"
+		parameterType="java.util.Map" resultMap="SelectAllResult">
+
+		SELECT distinct o.id, com.clusterId , o.name, o.rollOverContent,
+		o.description
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA', null), IF(sa
+		= 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1, 'MA', null))
+		requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode separator ',')
+		requiredRAISEC
+		FROM Occupation o
+		INNER JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		INNER JOIN RAISECCodeOccupation rco on rco.occupationId = o.id
+		inner join ClustOccupationMapping com on com.occupationId=o.id
+		WHERE o.id
+		NOT IN (SELECT occid FROM EngineeringExceptionOccupation )
+		<if test="clusterIds != null and clusterIds.size() > 0">
+			and com.clusterId NOT IN
+			<foreach collection="clusterIds" item="clusterId" open="("
+				separator="," close=")">
+				#{clusterIds}
+			</foreach>
+
+		</if>
+		<if test="occIds != null and occIds.size() > 0">
+			and o.id NOT IN
+			<foreach collection="occIds" item="occId" open="("
+				separator="," close=")">
+				#{occId}
+			</foreach>
+		</if>
+		GROUP BY o.id
+		ORDER BY o.id
+
+	</select>
+
+	<select id="getOccupationDeatilsByName" parameterType="String"
+		resultMap="SelectAllResult">
+		SELECT * FROM Occupation
+		WHERE name LIKE #{name}
+	</select>
+
+	<select id="getOccupationGlossaryForClusterOCC"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, o.rollOverContent
+		, CONCAT_WS(', ', IF(ra = 1, 'RA',
+		null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na = 1,
+		'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+		,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM Occupation o
+		LEFT JOIN OccupationAbilityMapping oam on oam.occupationId = o.id
+		left join ClustOccupationMapping cm on cm.occupationId=o.id
+		LEFT JOIN
+		RAISECCodeOccupation rco on rco.occupationId = o.id
+		where cm.uiDisplay>0
+		GROUP BY o.id
+		ORDER BY cm.uiDisplay
+
+	</select>
+
+	<select id="getAllCFOccupationGlossaryDetails"
+		resultMap="SelectAllResult">
+		SELECT o.id, o.name, o.rollOverContent, oim.industryId, oim.pathWayId,
+		p.name AS pathWayName, i.name AS industryName
+		, CONCAT_WS(', ', IF(ra =
+		1, 'RA', null), IF(va = 1, 'VA', null), IF(sa = 1, 'SA', null), IF(na
+		= 1, 'NA', null), IF(ma = 1, 'MA', null)) requiredAbility
+		,
+		GROUP_CONCAT(DISTINCT rco.raiseCode separator ',') requiredRAISEC
+		FROM Occupation o
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Pathway p ON p.id = oim.pathWayId
+		JOIN Industry i ON i.id =
+		oim.industryId
+		LEFT JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on
+		rco.occupationId = o.id
+		GROUP BY o.id, oim.industryId
+		ORDER BY
+		industryName, pathWayName, o.name
+
+	</select>
+
+	<select id="getSearchCFOccupationGlossaryDetails"
+		resultMap="SelectAllResult" parameterType="java.util.List">
+		SELECT distinct * from (SELECT o.id, o.name, o.rollOverContent,
+		oim.industryId, oim.pathWayId, p.name AS pathWayName, i.name AS
+		industryName
+		, CONCAT_WS(', ', IF(ra = 1, 'RA', null), IF(va = 1, 'VA',
+		null), IF(sa = 1, 'SA', null), IF(na = 1, 'NA', null), IF(ma = 1,
+		'MA', null)) requiredAbility
+		, GROUP_CONCAT(DISTINCT rco.raiseCode
+		separator ',') requiredRAISEC
+		FROM Occupation o
+		JOIN OccupationIndustryMapping oim on oim.occupationId = o.id
+		LEFT JOIN Pathway p ON p.id = oim.pathWayId
+		JOIN Industry i ON i.id =
+		oim.industryId
+		LEFT JOIN OccupationAbilityMapping oam on
+		oam.occupationId = o.id
+		LEFT JOIN RAISECCodeOccupation rco on
+		rco.occupationId = o.id
+		where
+		<foreach collection="list" item="item" separator="OR" close=""
+			open="">
+			o.name like '%${item}%'
+		</foreach>
+
+		GROUP BY o.id, oim.industryId
+		ORDER BY industryName, pathWayName
+		)x
+		ORDER BY name
+
+	</select>
+
+
+
+</mapper>

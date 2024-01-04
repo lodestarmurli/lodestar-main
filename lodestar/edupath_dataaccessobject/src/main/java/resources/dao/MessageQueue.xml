@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MessageQueue">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.MessageQueueDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.MessageQueueDTO"></resultMap>
+  	
+	<insert id="insertMessageQueue" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO MessageQueue(queuedTime, messageSubject, messageData, toAddress, status, retryCount, notifierType, notifiedTime, filePath)
+		values (#{queuedTime}, #{messageSubject}, #{messageData},  #{toAddress},#{status}, #{retryCount}, #{notifierType}, #{notifiedTime}, #{filePath})
+	</insert>
+	
+	<update id="updateMessageQueue" parameterMap="paramMap" >
+		UPDATE MessageQueue SET queuedTime = #{queuedTime} , messageSubject = #{messageSubject} , messageData = #{messageData}, toAddress = #{toAddress},
+			 status = #{status}, retryCount = #{retryCount}, notifierType = #{notifierType}, notifiedTime = #{notifiedTime}
+			 WHERE id = #{id}
+	</update>
+	
+	<select id="getMessageQueueById" parameterType="int" resultMap="SelectAllResult">
+		SELECT * FROM MessageQueue WHERE id = #{id}
+	</select>
+	
+	<select id="getAllInProgressMessages" parameterType="String" resultMap="SelectAllResult">
+		SELECT * FROM MessageQueue WHERE status = #{id}
+	</select>
+	
+	
+	<!-- START Sasedeve edited by Mrutyunjaya on Date 10-08-2017 -->
+	
+		
+	<insert id="insertMessageQueueFailed" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO MessageFailed(queuedTime, messageSubject, messageData, toAddress, status, notifierType, notifiedTime, filePath)
+		values (#{queuedTime}, #{messageSubject}, #{messageData},  #{toAddress},#{status},#{notifierType}, #{notifiedTime}, #{filePath})
+	</insert>
+	
+	
+	<select id="getMessageQueueFailed" parameterType="String" resultMap="SelectAllResult">
+		SELECT * FROM MessageFailed
+	</select>
+	
+	
+	<select id="getMessageQueueFailedbyid" parameterType="int" resultMap="SelectAllResult">
+		SELECT * FROM MessageFailed WHERE id=#{id}
+	</select>
+	
+	
+	<update id="updateMessageQueueFailedbyid" parameterMap="paramMap" >
+		UPDATE MessageFailed SET toAddress=#{toAddress},status=#{status},queuedTime=#{queuedTime} WHERE id=#{id}
+	</update>
+	
+	
+	<!-- END Sasedeve edited by Mrutyunjaya on Date 10-08-2017 -->
+	
+</mapper>

@@ -1,0 +1,30 @@
+{
+  "sheets": [{
+    "sheetname": "RaisecCode",
+    "tables": [
+      {
+        "tablename": "RAISECCodeOccupation",
+		"uniquecolumnidentifiers": "occupationId,raiseCode",
+        "columns": [
+          {
+     		 "tablecolumnname": "occupationId",
+              "excelcolumnname": "Occupation",
+              "lookuptablename": "Occupation",
+              "lookupcolumnname": "name",
+              "lookupfetchcolumn": "id",
+              "allownull": "false",
+              "datatype": "numeric"
+          },
+          {
+			 "tablecolumnname": "raiseCode",
+			 "excelcolumnname": "RAISECCode",
+			 "allownull": "true",
+			 "datatype": "varchar",
+			 "isdelimited": "true"
+          }
+        ]
+	  }
+	]
+  }  
+  ]
+}				

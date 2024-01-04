@@ -1,0 +1,120 @@
+{
+    "sheets": [
+        {
+            "sheetname": "EntranceExams",
+            "tables": [
+                {
+                    "tablename": "EntranceExams",
+                    "uniquecolumnidentifiers": "examName",
+                    "conditionfields":"examName",
+                    "updatefields":"examWhen,aboutExam,eligibility,subNMarks,monthOfExam,insititutesAcceptScore,noOfSeats,candidateAppearing,annualFee,ratio,examLevel",
+                    "columns": [
+                        {
+                            "tablecolumnname": "examName",
+                            "excelcolumnname": "Entrance-Exams",
+                            "allownull": "false",
+                            "allowduplicate": "true",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "examWhen",
+                            "excelcolumnname": "When",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "aboutExam",
+                            "excelcolumnname": "About test/exams",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "eligibility",
+                            "excelcolumnname": " Eligibility Criteria",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "subNMarks",
+                            "excelcolumnname": "Subjects & Marks details",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "monthOfExam",
+                            "excelcolumnname": "Month of exam",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "insititutesAcceptScore",
+                            "excelcolumnname": "List of Institute Accept scores",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "noOfSeats",
+                            "excelcolumnname": "number of seats",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "candidateAppearing",
+                            "excelcolumnname": "number of candidates appearing",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "annualFee",
+                            "excelcolumnname": "Fees for course",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "ratio",
+                            "excelcolumnname": "Ratio (seats/applicants)",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "examLevel",
+                            "excelcolumnname": "ExamLevel",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "isActive",
+                            "constantvalue": 1,
+                            "datatype": "numeric"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sheetname": "OccupationEntranceExamMapping",
+            "tables": [
+                {
+                    "tablename": "EntranceExamsOccupationMapping",
+                    "uniquecolumnidentifiers": "entranceExamId, occupationId",
+                    "columns": [
+                                 {
+                            "tablecolumnname": "occupationId",
+                            "excelcolumnname": "Occupation",
+                            "lookuptablename": "Occupation",
+                            "lookupcolumnname": "name",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric"
+                        },
+                        {
+                            "tablecolumnname": "required",
+                            "excelcolumnname": "Compulsory or preferable",
+                             "allownull": "false",
+                            "datatype": "varchar"
+                        },
+                        {
+                            "tablecolumnname": "entranceExamId",
+                            "excelcolumnname": "Entrance exam",
+                            "lookuptablename": "EntranceExams",
+                            "lookupcolumnname": "examName",
+                            "lookupfetchcolumn": "id",
+                            "allownull": "false",
+                            "datatype": "numeric",
+                            "isdelimited": "true"
+                        }       
+                    ]
+                }
+            ]
+        }
+    ]
+}

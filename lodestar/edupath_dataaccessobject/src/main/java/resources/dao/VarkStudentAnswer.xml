@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="VarkStudentAnswer">
+
+    <parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentAnswerDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentAnswerDTO"></resultMap>
+	
+	<parameterMap id="paramMapVSR" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentResultDTO"></parameterMap>
+	<resultMap id="SelectAllResultVSR" type="com.lodestar.edupath.datatransferobject.dto.vark.VarkStudentResultDTO"></resultMap>
+	 
+	 
+ 
+	<insert id="insertVarkStudentAnswer" parameterMap="paramMap">
+	    INSERT INTO VarkStudentAnswer (studentId, questionNo, answer ) VALUES 
+	    (  #{studentId}, #{questionNo},  #{answer}  )
+	</insert>
+
+	<select id="getNumberOfQuestionsAnswered" parameterType="int" resultMap="SelectAllResult">
+	    SELECT COUNT(DISTINCT questionNo)
+		FROM VarkStudentAnswer
+		WHERE studentId = #{studentId} 
+		GROUP BY studentId;
+	</select>
+	 	
+	 <select id ="getVarkStudentAnswerByStudentId" parameterType="int"  resultMap="SelectAllResult"> 
+	 SELECT * FROM VarkStudentAnswer WHERE studentId=#{studentId}
+	 </select>
+	 
+	 <delete id="deleteVarkStudentAnswer" parameterMap="paramMap" >
+		DELETE FROM VarkStudentAnswer WHERE studentId = #{studentId} AND questionNo = #{questionNo} AND answer = #{answer} 
+	 </delete>
+	 
+	 <insert id="insertOrUpdateVarkStudentResult" parameterMap="paramMapVSR">
+	    INSERT INTO VarkStudentResult (studentId, visual, aural, readWrite, kinesthetic ) VALUES ( #{studentId}, #{visual}, #{aural}, #{readWrite}, #{kinesthetic}  )
+	    ON DUPLICATE KEY UPDATE visual=#{visual}, aural=#{aural}, readWrite=#{readWrite}, kinesthetic=#{kinesthetic}
+	</insert>
+	
+	 	
+	 <select id ="getVarkStudentResultByStudentId" parameterType="int"  resultMap="SelectAllResultVSR"> 
+	 SELECT * FROM VarkStudentResult WHERE studentId=#{studentId}
+	 </select>
+	 
+	  <select id ="getVarkStudentResultBySchoolId" parameterMap="paramMapVSR"  resultMap="SelectAllResultVSR"> 
+		select vsr.*,sd.name, cl.name as classLable, ud.loginId as LDID
+		from VarkStudentResult vsr
+		left join StudentDetails sd on sd.id=vsr.studentId
+		left join UserDetail ud on ud.id=sd.userId
+		left join School sc on sc.id=sd.schoolId
+		left join Class cl on cl.id=sd.classId
+		left join VarkStudent vs on vs.studentId=sd.id
+		where sc.id= #{schoolId} and  year(vs.studentRegisterTime)=#{yearId} and vs.testTaken=1
+		group by ud.id
+		order by ud.id asc 
+
+	 </select>
+	 
+	 
+</mapper>

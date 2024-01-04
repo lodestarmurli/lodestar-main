@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DHStudentExtraDetails">
+
+
+	<parameterMap id="paramMap" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentExtraDetailDTO"></parameterMap>
+	<resultMap id="SelectAllResult" type="com.lodestar.edupath.datatransferobject.dto.APIS.dailyHunt.DHStudentExtraDetailDTO"></resultMap>
+	
+	<insert id="insertDHStudentExtraDetail" parameterMap="paramMap" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DHStudentExtraDetail (id, studentId, studentemailId, session1Date, session2Date, studentcontactNumber, motherName, motheremailId, mothercontactno, fatherName, fatherEmailId, fathercontactno, cityId, cityName, section, schoolName, schoolId)
+		VALUES ( #{id}, #{studentId}, #{studentemailId}, #{session1Date}, #{session2Date}, #{studentcontactNumber}, #{motherName}, #{motheremailId}, #{mothercontactno}, #{fatherName}, #{fatherEmailId}, #{fathercontactno}, #{cityId}, #{cityName}, #{section}, #{schoolName}, #{schoolId} )
+	</insert>
+	
+	
+	<select id="getDHStudentExtraDetailsByStudentID" parameterType="int" resultMap="SelectAllResult"> 
+	 SELECT * from DHStudentExtraDetail where studentId = #{studentId}
+	 </select>
+	 
+	 <select id="getDHStudentExtraDetailByID" parameterMap="paramMap" resultMap="SelectAllResult"> 
+	  SELECT * from DHStudentExtraDetail where id = #{id}
+	 </select>
+	 
+	 <update id="updateDHStudentType" parameterMap="paramMap">
+		UPDATE DHStudentExtraDetail 
+		SET studentType = #{studentType}
+		WHERE id = #{id}
+	</update> 
+	 
+	 <select id="getAllDHStudentExtraDetails" parameterMap="paramMap" resultMap="SelectAllResult"> 
+	  	SELECT sd.name, sed.* from DHStudentExtraDetail sed 
+ 		left join DHStudentDetails sd on sd.id=sed.studentId 
+		where sed.isConverted=0
+ 		Order By sed.id
+	 </select>
+	 
+	 <select id="getCompleteStudentDetailsByStudentId" parameterType="int"  resultMap="SelectAllResult"> 
+	   	 SELECT sd.name as name, sd.gender,
+		 sed.studentId,
+		 sed.session1Date
+		 ,sed.session2Date
+		 ,sed.studentcontactNumber
+		 ,sed.motherName
+		 ,sed.motheremailId
+		 ,sed.mothercontactno
+		 ,sed.fatherName
+		 ,sed.fatherEmailId
+		 ,sed.fathercontactno
+		 ,sed.cityName
+		 ,sed.section
+		 ,sed.schoolName
+		 ,sed.isConverted
+		 ,sed.studentemailId
+		 ,c.id as cityId, s.id as schoolId , cl.id as classId, sd.className
+		 from DHStudentExtraDetail sed 
+		 left join DHStudentDetails sd on sd.id=sed.studentId
+		 left join Class cl on cl.name=sd.className
+		 left join City c on c.name=sed.cityName
+		 left join School s on s.name=sed.schoolName
+		 where sd.id= #{studentId}
+		  
+	 </select>
+	 
+	 
+	 <update id="updateDHStudentConversion" parameterType="int" useGeneratedKeys="true" keyProperty="id"  keyColumn="id"> 
+	    UPDATE DHStudentExtraDetail 
+	    SET
+	    isConverted = 1 where studentId = #{dhStudentId}
+	</update>
+	 
+</mapper>

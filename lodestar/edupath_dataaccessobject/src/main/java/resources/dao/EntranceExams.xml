@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EntranceExams">
+
+	 <resultMap type="com.lodestar.edupath.datatransferobject.dto.EntranceExamsDTO" id="entranceExamsResult"/>
+	 <parameterMap type="com.lodestar.edupath.datatransferobject.dto.EntranceExamsDTO" id="entranceExamsParam"/>
+	 
+	 <select id="getEntranceExamsByOccId" parameterType="int" resultMap="entranceExamsResult">
+		SELECT ee.* , o.name AS occupationName , eeom.required AS required
+		FROM EntranceExams ee
+		JOIN EntranceExamsOccupationMapping eeom ON eeom.entranceExamId = ee.id
+		JOIN Occupation o ON o.id = eeom.occupationId
+		WHERE eeom.occupationId = #{occupationId} AND ee.isActive = true
+		ORDER BY ee.examLevel, ee.examName
+	</select>
+		
+	 <select id="getAllEntranceExams" resultMap="entranceExamsResult">
+		SELECT DISTINCT id, examName, examWhen 
+		FROM EntranceExams 
+		ORDER BY examName
+	</select>
+	
+	 <select id="getEntranceExamsById" parameterType="int" resultMap="entranceExamsResult">
+		SELECT * FROM EntranceExams WHERE id = #{id}
+	</select>
+	
+	 <select id="getEntranceExamsByWhen" parameterMap="entranceExamsParam"  resultMap="entranceExamsResult">
+		SELECT * FROM EntranceExams WHERE examWhen = #{examWhen}
+	</select>
+	
+	<select id="getShortListExamByStudentId" parameterType="int" resultMap="entranceExamsResult">
+		SELECT ee.*, sle.occupationId as occupationId FROM EntranceExams ee
+		INNER JOIN ShortListExams sle ON sle.entranceExamId = ee.id
+		WHERE sle.studentId = #{studentId} ORDER BY ee.examName
+	</select>
+	
+		
+	 <select id="getEntranceExamsCountByOccId" resultType="java.lang.Integer" parameterType="java.util.List">
+		SELECT count(id) as id FROM EntranceExamsOccupationMapping 
+		WHERE occupationId 
+		IN
+		<foreach collection="list" close=")" open="(" item="item" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<!--  Vyaankatesh 11-4-2017 Natonal exam-->
+	<select id="getEntranceExamsByOccIdNational" parameterType="int" resultMap="entranceExamsResult">
+		SELECT ee.* , o.name AS occupationName , eeom.required AS required
+		FROM EntranceExams ee
+		JOIN EntranceExamsOccupationMapping eeom ON eeom.entranceExamId = ee.id
+		JOIN Occupation o ON o.id = eeom.occupationId
+		WHERE eeom.occupationId = #{occupationId} AND ee.isActive = true AND  ee.examLevel ="National Exam"
+		ORDER BY ee.examLevel, ee.examName
+	</select>
+	<select id="getEntranceExamsByOccIdState" parameterType="int" resultMap="entranceExamsResult">
+	
+		SELECT ee.* , o.name AS occupationName , eeom.required AS required
+		FROM EntranceExams ee
+		JOIN EntranceExamsOccupationMapping eeom ON eeom.entranceExamId = ee.id
+		JOIN Occupation o ON o.id = eeom.occupationId
+		JOIN Examcitymapping ecm ON ecm.examId = ee.id
+		WHERE eeom.occupationId = #{occupationId} AND ee.isActive = true AND  ecm.cityId =#{cityId}
+		ORDER BY ee.examLevel, ee.examName
+	</select>
+	
+	
+	
+	
+</mapper>

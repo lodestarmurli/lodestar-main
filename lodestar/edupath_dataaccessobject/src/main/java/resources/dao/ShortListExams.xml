@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShortListExams">
+
+	<resultMap type="com.lodestar.edupath.datatransferobject.dto.ShortListExamsDTO" id="entranceExamsResult"/>
+	<parameterMap type="com.lodestar.edupath.datatransferobject.dto.ShortListExamsDTO" id="entranceExamsParam"/>
+	
+	<insert id="insertShortListExams" useGeneratedKeys="true" keyProperty="id" parameterMap="entranceExamsParam">
+	 	 INSERT INTO ShortListExams (studentId, entranceExamId, occupationId, occIndustryId)
+	 	  VALUES (#{studentId}, #{entranceExamId}, #{occupationId}, #{occIndustryId})
+	</insert>
+	
+	<select id="getCountForInsert" parameterMap="entranceExamsParam" resultType="java.lang.Integer">
+		 SELECT COUNT(id) FROM ShortListExams WHERE entranceExamId = #{entranceExamId} AND studentId = #{studentId}
+	</select>
+	
+	<delete id="deleteshortListExamByExamIdNStudentId" parameterMap="entranceExamsParam">
+		DELETE FROM ShortListExams WHERE studentId = #{studentId} AND entranceExamId = #{entranceExamId}
+	</delete>
+	
+	<delete id="deleteshortListExamByStudentId" parameterMap="entranceExamsParam">
+		DELETE FROM ShortListExams WHERE studentId = #{studentId}
+	</delete>
+	
+	<select id="getShortListExamsCountByoccId" parameterMap="entranceExamsParam" resultType="java.lang.Integer">
+		 SELECT COUNT(id) as id FROM ShortListExams WHERE studentId = #{studentId}
+		 AND occupationId IN
+		 <foreach collection="occIdsList" close=")" open="(" item="item" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="getShortListExamsCount"  parameterType="int" resultType="java.lang.Integer">
+		 SELECT COUNT(id) FROM ShortListExams WHERE studentId = #{studentId}
+	</select>
+	
+	<select id="getShortListExamsbyStudenId"   parameterMap="entranceExamsParam" resultType="string" >
+		 SELECT DISTINCT  cityId  FROM ShortListExams WHERE studentId = #{studentId}
+	</select>
+	
+	  <delete id="deletePriviousExamBycitynStudentId" parameterMap="entranceExamsParam">
+		DELETE FROM ShortListExams WHERE studentId = #{studentId}
+	</delete>
+	
+</mapper>

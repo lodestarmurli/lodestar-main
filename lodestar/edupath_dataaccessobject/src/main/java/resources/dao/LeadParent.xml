@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LeadParent">
+
+<parameterMap type="com.lodestar.edupath.datatransferobject.dto.LeadParentDTO" id="LeadParentparmap" />
+<parameterMap type="com.lodestar.edupath.datatransferobject.dto.student.VisitedDocument" id="DocummentListparam" />
+
+
+
+<resultMap type="com.lodestar.edupath.datatransferobject.dto.LeadParentDTO" id="LeadParentDetails"/>
+<resultMap type="com.lodestar.edupath.datatransferobject.dto.student.VisitedDocument" id="DocummentList"/>
+
+
+
+
+
+<resultMap type="com.lodestar.edupath.datatransferobject.dto.DocumentDTO" id="resdocument"/>
+<parameterMap type="com.lodestar.edupath.datatransferobject.dto.DocumentDTO" id="documentparam" />
+
+
+
+
+<insert id="InsertLeadParent" parameterMap="LeadParentparmap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO LeadParent(ParentEmailID,ParentName,StudentEmailID,ParentRegisterTime,ParentContactNo,StudentContactNo,Paymentid) VALUES(#{ParentEmailID},#{ParentName},#{StudentEmailID},NOW(),#{ParentContactNo},#{StudentContactNo},#{Paymentid})
+	<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+
+<update id="UpdateLeadToken" parameterMap="LeadParentparmap">
+		UPDATE LeadParent SET Token = #{Token} WHERE id = #{id}
+	</update>
+
+<select id="GetLeadDetails" parameterType="int" resultMap="LeadParentDetails">
+		SELECT * FROM LeadParent WHERE id = #{id}
+	</select>
+	
+	
+	<update id="UpdateLeadParentStudent" parameterMap="LeadParentparmap">
+		UPDATE LeadParent SET StudentRegister =1,StudentRegisterTime=NOW(),LDID= #{LDID},StudentID= #{StudentID} WHERE id = #{id}
+	</update>
+	
+	
+	
+	<update id="StudentTestTakenSIAT" parameterType="int">
+		UPDATE LeadParent SET StudentTestTaken =1,StudentTestTakenTime=NOW() WHERE id = #{leadparentid}
+	</update>
+	
+	<update id="LeadParentAppointmentBooking" parameterMap="LeadParentparmap">
+		UPDATE LeadParent SET ParentAppointmentBook =1,AppointmentDateTime=#{AppointmentDateTime} WHERE id = #{id}
+	</update>
+	
+	
+	<select id="LeadParentForReminderemail" resultMap="LeadParentDetails">
+		SELECT * FROM LeadParent WHERE StudentTestTaken=0 and ParentRegisterTime is not null
+	</select>
+	
+	<update id="LeadParentForReminderUpdateMailSent" parameterMap="LeadParentparmap">
+		UPDATE LeadParent SET isFivedaymailsent =#{isFivedaymailsent},isTendaymailsent=#{isTendaymailsent} WHERE id = #{id}
+	</update>
+	
+	
+	
+	<insert id="InsertNewLeadStudent" parameterMap="LeadParentparmap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO leadStudent(ParentEmailID,ParentName,StudentEmailID,StudentRegister,StudentRegisterTime,ParentContactNo,StudentContactNo,Paymentid,LDID,StudentID) VALUES(#{ParentEmailID},#{ParentName},#{StudentEmailID},1,NOW(),#{ParentContactNo},#{StudentContactNo},#{Paymentid},#{LDID},#{StudentID})
+	<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	<insert id="InsertNewLeadChild" parameterMap="LeadParentparmap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO LeadParent(ParentEmailID,ParentName,StudentEmailID,StudentRegister,StudentRegisterTime,ParentContactNo,StudentContactNo,Paymentid,LDID,StudentID) VALUES(#{ParentEmailID},#{ParentName},#{StudentEmailID},1,NOW(),#{ParentContactNo},#{StudentContactNo},#{Paymentid},#{LDID},#{StudentID})
+	<selectKey keyProperty="id" resultType="int" order="AFTER">
+		  SELECT LAST_INSERT_ID () 
+		</selectKey>
+	</insert>
+	
+	
+	
+	<select id="GetLeadStudent" parameterType="int" resultMap="LeadParentDetails">
+		SELECT * FROM leadStudent WHERE id = #{id}
+	</select>
+	
+	
+	<update id="LeadStudentTestTakenSIAT" parameterType="int">
+		UPDATE leadStudent SET StudentTestTaken =1,StudentTestTakenTime=NOW() WHERE id = #{leadparentid}
+	</update>
+	
+	<select id="GetListOccupationRead" parameterMap="DocummentListparam" resultMap="DocummentList">
+		SELECT * FROM VisitedDocument WHERE studentId = #{studentId}
+	</select>
+	
+	<select id="GetListDocument" parameterMap="documentparam" resultMap="resdocument">
+		SELECT oc.name as occupationName, ind.name as industryName, sub.name as subjectName 
+		from Document d 
+		left join Occupation oc on oc.id=d.occupationId 
+		left join Industry ind on ind.id=d.industryId 
+		left join Subject sub on sub.id=d.subjectId 
+		where d.id=#{id}
+	</select>
+	
+	<select id="GetTotalindustry" parameterType="int" resultType="int">
+		SELECT count(DISTINCT occIndustryId) as ct FROM WishList WHERE studentId=#{studentid}
+	</select>
+	
+	
+	<select id="GetTotalOccupation" parameterType="int" resultType="int">
+		SELECT count(DISTINCT occupationId) as ct FROM WishList WHERE studentId=#{studentid}
+	</select>
+	
+	
+</mapper>
